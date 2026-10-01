@@ -929,13 +929,7 @@ function renderAlternativePage(competitor){
       <div class="foot-copy">${p.name} is a trademark of its respective owner, used for comparison only. Prices are published 2026 figures.</div>
     </footer>
   </div>`;
-  const goDemo=async()=>{
-    try{
-      await api('ensure-demo');
-      await api('login',{body:{email:'demo@ledgerline.app',password:'demo'}});
-      location.href='/';
-    }catch(e){ location.href='/login?login=1'; }
-  };
+  const goDemo=()=>{ location.href='https://ledgerline-demo-chi.vercel.app'; };
   const goSignup=()=>{ location.href='/signup'; };
   $('#alt-login').onclick=()=>{ location.href='/login?login=1'; };
   $('#alt-signup').onclick=goSignup;
@@ -1359,16 +1353,7 @@ async function runApp(){
         <div class="foot-copy">© ${new Date().getFullYear()} Ledgerline · A Leon Link product · Jobber and Housecall Pro are trademarks of their respective owners, used for comparison only.</div>
       </footer>
     </div>`;
-    const goDemo = async()=>{
-      try{
-        await api('ensure-demo');
-        await api('login',{body:{email:'demo@ledgerline.app',password:'demo'}});
-        setS(await api('state'));
-        window._calMode='month';
-        window._calCursor=new Date();
-        navigate('dashboard',{replace:true});
-      }catch(e){ toastErr(e.message); }
-    };
+    const goDemo = ()=>{ location.href='https://ledgerline-demo-chi.vercel.app'; };
     const goSignup = async()=>{
       const email=$('#su-email')?.value.trim();
       const password=$('#su-pw')?.value;
