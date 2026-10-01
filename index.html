@@ -2609,9 +2609,20 @@ async function runApp(){
       </div>
 
       <div class="settings-card">
-        <h3>Reviews</h3>
-        <p class="faint">${S.billing?.entitlements?.emailReminders?'Send one-tap review requests after a job — the thing competitors charge $39/mo extra for.':'Review requests are on the Growth plan.'}</p>
+        <h3>Reviewline — the review funnel</h3>
+        <p class="faint">${S.billing?.entitlements?.reviewline?'Included on your plan. One-tap review requests run from the Requests screen; the Reviewline app adds the full review-gate funnel, QR kits and templates.':'Reviewline\u2019s full review-gate funnel is included on the <strong>Growth</strong> plan. One-tap review requests unlock at Starter.'}</p>
         <div class="field"><label>Google review link</label><input id="rv-link" value="${esc(S.reviews?.link||'')}" placeholder="https://g.page/r/…/review"></div>
+        <div class="btnrow" style="flex-wrap:wrap;margin-top:4px">
+          <a class="btn ghost" href="https://review.leonlink.net/app" target="_blank" rel="noopener">Open the Reviewline app ↗</a>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Proofline — before &amp; after photo reports</h3>
+        <p class="faint">${S.billing?.entitlements?.proofline?'Included on your plan. Attach before/after photos to any job and send a branded report your customer keeps.':'Proofline photo reports are included on the <strong>Growth</strong> plan — branded, shareable before/after reports for every job.'}</p>
+        <div class="btnrow" style="flex-wrap:wrap;margin-top:4px">
+          <a class="btn ghost" href="https://proofline.leonlink.net" target="_blank" rel="noopener">Open Proofline ↗</a>
+        </div>
       </div>
 
       <div class="settings-card">
