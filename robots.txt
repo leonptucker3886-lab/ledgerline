@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /p/
+Sitemap: https://app.leonlink.net/sitemap.xml
