@@ -656,7 +656,7 @@ function planCardHTML(key, opts={}){
   const cat=(st&&st.plans&&st.plans[key])||{};
   const names={good:{label:'Starter',tagline:'Cards from day one',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',value:'Card payments, estimates, invoices and schedule. Flat price, whole crew included.',perks:['Card payments on invoices','Estimates & invoices','Schedule & calendar','Unlimited customers']},
     better:{label:'Growth',tagline:'Your own customer portal',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',value:'Portal, reminders & review requests — no per-user fees, no add-ons.',perks:['Everything in Starter','Customer portal for clients','Email reminders','Review requests + cloud files']},
-    best:{label:'Command',tagline:'The whole Line',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',value:'SMS reminders + the entire suite — Ledgerline, Reviewline and Proofline — one saved no-show covers the year.',perks:['Everything in Growth','SMS reminders','Reviewline & Proofline included — the full Line','Unlimited crew seats','Priority features']}};
+    best:{label:'Command',tagline:'The whole Line',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',value:'SMS reminders + the entire suite — Ledgerline, Reviewline (the review-funnel app) and Proofline (photo proof reports) — one saved no-show covers the year.',perks:['Everything in Growth','SMS reminders','Reviewline + Proofline included — review-gate funnel, QR kits, photo reports, slide-to-compare','Unlimited crew seats','Priority features']}};
   const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
   // Keep display price from catalog names when API only has priceId
   if(!d.price) d.price = names[key]?.price;
@@ -849,7 +849,7 @@ function renderAlternativePage(competitor){
       theirPrice:'$167-187/mo', theirPriceNote:'Jobber Connect + 2 per-user fees ($19-29 each) for a 3-person crew, 2026 pricing',
       points:[
         ['Jobber charges per user. We never do.','$19-29 per user per month means hiring a helper costs as much as a tool subscription. Ledgerline includes your whole crew — owner, subs, family — for one flat price.'],
-        ['Review requests cost $39/mo extra at Jobber.','On Ledgerline, Google review requests are built in — email on Growth, email + SMS on Command. One saved review pays for a year.'],
+        ['Review requests cost $39/mo extra at Jobber.','On Ledgerline, review requests are built in — plus Reviewline\u2019s review-gate funnel and Proofline\u2019s photo reports on Command. One saved review pays for a year.'],
         ['Annual prepay is a leash.','Jobber pushes annual plans with a "discount" that is really 12 months of lock-in. Ledgerline runs 6-month terms. Cancel when the term ends. Export every customer, job, and invoice to CSV in one click.'],
         ['Built for 40-truck fleets, priced for you.','Sales pipelines, quoting automations, reporting suites — most solo operators open none of it. Ledgerline is book, show, get paid. That is the whole job.']
       ],
