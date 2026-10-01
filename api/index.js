@@ -6,6 +6,13 @@
 
 const crypto = require("crypto");
 
+/* ---------------- demo-tenant guard (production defense-in-depth) ----------------
+   The demo tenant (marked t:<id>:demo) is publicly logged into. These guards make sure
+   nothing on it can reach real Stripe / Twilio / Resend. The dedicated sandboxed demo
+   lives at ledgerline-demo-chi.vercel.app (DEMO_MODE build). */
+const DEMO_TENANT = "e1360f77-d688-4e73-bcde-5fbf680117d8";
+const isDemoTenant = tid => tid === DEMO_TENANT;
+
 /* ---------------- Neon HTTP SQL ---------------- */
 function neonHost() {
   const u = new URL(process.env.DATABASE_URL);
@@ -242,6 +249,7 @@ module.exports = async (req, res) => {
         for (const tid of await tenants()) {
           const biz = await tenantBusiness(tid);
           if ((biz.email || "").trim().toLowerCase() !== email) continue;
+          if (isDemoTenant(tid)) return err(res, 400, "This is the demo. The password is just 'demo'.");
           const secret = await tenantSecret(tid);
           const exp = Date.now() + 2 * 3600 * 1000;
           const token = crypto.createHmac("sha256", secret).update(`reset.${tid}.${exp}`).digest("hex");
@@ -315,6 +323,16 @@ module.exports = async (req, res) => {
         const inv = await getRecord("invoice", invoiceId);
         if (!inv || inv.tenantId !== tenantId) return err(res, 404, "Invoice not found.");
         if (inv.status === "paid") return err(res, 400, "Already paid.");
+        if (isDemoTenant(tenantId)) {
+          const dinv = await getRecord("invoice", invoiceId);
+          if (dinv && dinv.tenantId === tenantId && dinv.status !== "paid") {
+            dinv.status = "paid"; dinv.paidAt = Date.now(); dinv.paidMethod = "card";
+            await putRecord("invoice", dinv.id, dinv);
+          }
+          const origin2 = baseUrl(req);
+          const after2 = body.token ? `portal?t=${encodeURIComponent(String(body.token))}` : "invoices?paid=1";
+          return json(res, 200, { url: `${origin2}/${after2}`, demo: true });
+        }
         const sk = process.env.STRIPE_SECRET_KEY;
         if (!sk) return err(res, 500, "Card payments are not connected yet. Ask us for other ways to pay.", { contact: await tenantBusiness(tenantId) });
         const origin = baseUrl(req);
@@ -575,7 +593,7 @@ module.exports = async (req, res) => {
             est.status = est.status === "accepted" ? est.status : "sent";
             await putRecord("estimate", est.id, est);
             const business = await tenantBusiness(tenantId);
-            if (cust && cust.email) {
+            if (cust && cust.email && !isDemoTenant(tenantId)) {
               const link = `${baseUrl(req)}/portal?t=${cust.portalToken}`;
               await sendEmail(cust.email, `${business.name || "Your contractor"} sent you an estimate`, `<p>${business.name || "We"} sent you an estimate: <strong>${est.title || "Estimate"}</strong> — $${Number(est.total || 0).toFixed(2)}.</p><p>View and respond: <a href="${link}">${link}</a></p>`);
             }
@@ -587,13 +605,14 @@ module.exports = async (req, res) => {
             if (!cust || cust.tenantId !== tenantId) return err(res, 404, "Customer not found.");
             const business = await tenantBusiness(tenantId);
             const link = `${baseUrl(req)}/portal?t=${cust.portalToken}`;
-            if (cust.email) await sendEmail(cust.email, `Your ${business.name || "service"} portal`, `<p>Your customer portal: <a href="${link}">${link}</a></p>`);
+            if (cust.email && !isDemoTenant(tenantId)) await sendEmail(cust.email, `Your ${business.name || "service"} portal`, `<p>Your customer portal: <a href="${link}">${link}</a></p>`);
             return json(res, 200, { ok: true, link });
           }
 
           case "send-review": {
             const cust = await getRecord("customer", String(body.customerId || ""));
             if (!cust || cust.tenantId !== tenantId) return err(res, 404, "Customer not found.");
+            if (isDemoTenant(tenantId)) return json(res, 200, { ok: true, via: ["demo mode (nothing was actually sent)"] });
             const reviewsV = await getSetting(`t:${tenantId}:reviews`);
             const reviews = reviewsV ? JSON.parse(reviewsV) : {};
             const business = await tenantBusiness(tenantId);
@@ -672,6 +691,7 @@ module.exports = async (req, res) => {
           }
 
           case "change-password": {
+            if (isDemoTenant(tenantId)) return err(res, 400, "Passwords can't be changed in the demo.");
             const authV = await getSetting(`t:${tenantId}:auth`);
             const auth = authV ? JSON.parse(authV) : {};
             if (!auth.hash || hashPassword(String(body.currentPassword || ""), auth.salt) !== auth.hash) return err(res, 401, "Current password is wrong.");
@@ -708,6 +728,7 @@ module.exports = async (req, res) => {
           }
 
           case "subscribe": {
+            if (isDemoTenant(tenantId)) return err(res, 400, "Billing is disabled in the demo — every plan is already unlocked.");
             const sk = process.env.STRIPE_SECRET_KEY;
             if (!sk) return err(res, 500, "Billing is not connected yet.");
             const priceEnv = { good: "STRIPE_PRICE_ID_GOOD", better: "STRIPE_PRICE_ID_BETTER", best: "STRIPE_PRICE_ID_BEST" }[String(body.plan || "")];
@@ -729,6 +750,7 @@ module.exports = async (req, res) => {
           }
 
           case "billing-portal": {
+            if (isDemoTenant(tenantId)) return err(res, 400, "Billing is disabled in the demo — every plan is already unlocked.");
             const sk = process.env.STRIPE_SECRET_KEY;
             if (!sk) return err(res, 500, "Billing is not connected yet.");
             return err(res, 400, "No billing profile yet — subscribe to a plan first.");
