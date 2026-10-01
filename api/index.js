@@ -114,12 +114,14 @@ function csv(rows, cols) {
   return "\ufeff" + cols.map(csvEscape).join(",") + "\n" + rows.map(r => cols.map(c => csvEscape(r[c])).join(",")).join("\n");
 }
 const ENTITLEMENTS = plan => ({
-  cardPayments: true,
-  smsReminders: true,
-  reviewRequests: true,
-  proofline: true,
-  reviewline: true,
-  api: plan !== "good",
+  cardPayments: plan === "good" || plan === "better" || plan === "best",
+  emailReminders: plan === "good" || plan === "better" || plan === "best",
+  smsReminders: plan === "best",
+  reviewRequests: plan === "good" || plan === "better" || plan === "best",
+  proofline: plan === "better" || plan === "best",
+  reviewline: plan === "better" || plan === "best",
+  portal: plan === "better" || plan === "best",
+  api: plan !== "good" && plan !== "free",
 });
 async function sendEmail(to, subject, html) {
   const key = process.env.RESEND_API_KEY;
@@ -230,7 +232,7 @@ module.exports = async (req, res) => {
         await setSetting(`t:${tid}:auth`, JSON.stringify({ salt, hash: hashPassword(password, salt) }));
         await setSetting(`t:${tid}:secret`, crypto.randomBytes(24).toString("hex"));
         await setSetting(`t:${tid}:business`, JSON.stringify({ name: businessName, email, phone: "", address: "" }));
-        await setSetting(`t:${tid}:billing`, JSON.stringify({ status: "active", plan: "best" }));
+        await setSetting(`t:${tid}:billing`, JSON.stringify({ status: "free", plan: "free" }));
         await setSetting(`t:${tid}:users`, "[]");
         await setSetting(`t:${tid}:docstyle`, JSON.stringify({ template: "classic", accent: "" }));
         await setSetting(`t:${tid}:reminders`, JSON.stringify({ email24h: true, email2h: false, sms24h: false, sms2h: false }));
