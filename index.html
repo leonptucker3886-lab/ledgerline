@@ -649,7 +649,7 @@ function planState(){
 function planLabel(key){
   const st=planState();
   const p=(st&&st.plans&&st.plans[key])||{};
-  return p.label||({good:'Starter',better:'Growth',best:'Command'}[key]||key||'None');
+  return p.label||({good:'Starter',better:'Growth',best:'Command',free:'Free'}[key]||key||'None');
 }
 function planCardHTML(key, opts={}){
   const st=planState();
@@ -1413,7 +1413,7 @@ async function runApp(){
       try{
         await api('signup',{method:'POST',body:{email,password,businessName}});
         setS(await api('state'));
-        toast(S.billing?.plan==='best'?'Welcome — Command plan unlocked':'Workspace created','ok');
+        toast(S.billing?.plan==='best'?'Welcome — Command plan unlocked':'Workspace created — you\u2019re on Free. Card payments, review requests and photo reports unlock from $4.83/mo in Settings \u2192 Subscription','ok');
         navigate('dashboard',{replace:true});
       }catch(e){
         const box=$('#su-err');
@@ -1678,6 +1678,7 @@ async function runApp(){
     const doneMonth=S.jobs.filter(j=>j.status==='done' && j.date && j.date.startsWith(monthPrefix)).length;
     setTimeout(()=>{
       document.querySelectorAll('#dash-book').forEach(el=>el.addEventListener('click',()=>{ navigate('jobs'); setTimeout(()=>openJob(null),50); }));
+      $('#dash-upgrade')?.addEventListener('click',()=>navigate('settings'));
       $('#dash-week')?.addEventListener('click',()=>{ window._calMode='week'; navigate('jobs'); });
       $('#dash-cta-req')?.addEventListener('click',()=>navigate('requests'));
       $('#dash-cta-inv')?.addEventListener('click',()=>navigate('invoices'));
@@ -1761,6 +1762,11 @@ async function runApp(){
     const winRate=estCounts.sent+estCounts.accepted>0?Math.round((estCounts.accepted/(estCounts.sent+estCounts.accepted))*100):0;
 
     return `
+      ${(S.role||'owner')!=='crew' && S.billing?.plan==='free'?`
+      <div class="notice" style="background:linear-gradient(160deg,var(--green),var(--green2));border:1px solid rgba(242,193,78,.4);display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px">
+        <div style="min-width:220px"><strong>You're on Free.</strong> <span style="color:var(--muted)">Card payments, review requests, the customer portal, Reviewline and Proofline unlock from <strong style="color:var(--accent)">$4.83/mo</strong> — whole crew, no per-user fees.</span></div>
+        <button class="btn primary" id="dash-upgrade" style="flex-shrink:0">Choose your plan</button>
+      </div>`:''}
       <div class="dash-hero">
         <div class="row-between" style="align-items:flex-start">
           <div>
