@@ -2182,7 +2182,7 @@ async function runApp(){
       const d=inMonth?`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`:'';
       const jobs=d?(byDate[d]||[]):[];
       const isToday=d===todayStr;
-      const evs=jobs.slice(0,3).map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}" title="${esc(customerName(j.customerId))}${j.time?' '+j.time:''}">${esc((j.time?j.time+' ':'')+customerName(j.customerId))}</div>`).join('');
+      const evs=jobs.slice(0,window.innerWidth<520?2:3).map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}" title="${esc(customerName(j.customerId))}${j.time?' '+j.time:''}">${esc(window.innerWidth<520?(j.time||'Job'):((j.time?j.time+' ':'')+customerName(j.customerId)))}</div>`).join('');
       const more=jobs.length>3?`<div class="cal-more">+${jobs.length-3} more</div>`:'';
       cells+=`<div class="cal-cell ${inMonth?'':'out'} ${isToday?'today':''}" data-date="${d}"><div class="cal-daynum">${inMonth?day:''}</div>${evs}${more}</div>`;
     }
@@ -2236,7 +2236,7 @@ async function runApp(){
           const ds=localYmd(d);
           const isToday=ds===todayStr;
           const jobs=byDate[ds]||[];
-          const evs=jobs.map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}">${esc((j.time?j.time+' ':'')+customerName(j.customerId))}</div>`).join('');
+          const evs=jobs.map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}">${esc(window.innerWidth<520?(j.time||'Job'):((j.time?j.time+' ':'')+customerName(j.customerId)))}</div>`).join('');
           return `<div class="week-col ${isToday?'today':''}" data-date="${ds}"><div class="wd">${d.toLocaleDateString(undefined,{weekday:'short'})}</div><div class="wn">${d.getDate()}</div>${evs||'<span class="faint" style="font-size:12px">—</span>'}</div>`;
         }).join('')}</div>`;
       setTimeout(()=>{
