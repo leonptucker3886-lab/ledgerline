@@ -640,6 +640,7 @@ html[data-theme="dark"]{
 .qe-tools{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
 .qe-tools .btn{min-width:44px;justify-content:center}
 .qe-tools .btn:disabled{opacity:.35;cursor:default}
+.qe-tools .qe-del{color:var(--danger)}
 .chk{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;cursor:pointer}
 .chk input{width:20px;height:20px;accent-color:var(--accent);flex:none}
 .linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:3px}
@@ -658,7 +659,7 @@ html[data-theme="dark"]{
 .rv-item.oc-fail{border-left-color:var(--danger)}
 .rv-q{flex:1;min-width:0;font-size:14px}
 .rv-note{font-size:13px;color:var(--muted);margin-top:3px}
-.rv-a{text-align:right;font-weight:600;font-size:14px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:48%}
+.rv-a{text-align:right;font-weight:600;font-size:14px;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;align-content:flex-start;gap:6px;max-width:50%}
 .rv-txt{font-weight:400;text-align:left;white-space:pre-wrap}
 .rep-doc{font-family:Georgia,serif;color:#111;background:#fff;padding:24px;box-sizing:border-box;font-size:12px;line-height:1.35}
 .rep-doc h1{font-size:22px;margin:0 0 4px}
@@ -1409,7 +1410,7 @@ async function runApp(){
   const Q_TYPE_LABEL={yesno:'Yes / No',text:'Text',number:'Number',photo:'Photo',select:'Pick list'};
   const repThumbs={};
   const TAB_PATHS = {dashboard:'/', customers:'/customers', estimates:'/estimates', requests:'/requests', jobs:'/jobs', invoices:'/invoices', reports:'/reports', settings:'/settings', customer:'/customers'};
-  const PATH_TABS = Object.fromEntries(Object.entries(TAB_PATHS).map(([k,v])=>[v,k]));
+  const PATH_TABS = Object.fromEntries(Object.entries(TAB_PATHS).filter(([k])=>k!=='customer').map(([k,v])=>[v,k]));
   PATH_TABS['/'] = 'dashboard';
 
   function pathFor(t, id){
@@ -2355,26 +2356,28 @@ async function runApp(){
     if(q.type==='number') return a.value!=='' && isFinite(+a.value);
     return String(a.value).trim()!=='';
   }
-  function repSumPills(s,{empty=true}={}){
+  function repSumPills(s,{empty=true,compact=false}={}){
     const out=[];
     if(s.fail) out.push(`<span class="pill fail">${s.fail} fail</span>`);
     if(s.attention) out.push(`<span class="pill attention">${s.attention} attention</span>`);
-    if(s.pass) out.push(`<span class="pill pass">${s.pass} pass</span>`);
+    if(s.pass && (!compact || !out.length)) out.push(`<span class="pill pass">${compact?'all pass':s.pass+' pass'}</span>`);
     if(!out.length && empty) out.push(`<span class="pill draft">no ratings</span>`);
     return out.join(' ');
   }
-  function jobLabel(jobId){
+  function jobLabel(jobId,sameDay){
     const j=S.jobs.find(x=>x.id===jobId);
-    return j?[typeLabel(j)||'Job', j.date?fmtDate(j.date):''].filter(Boolean).join(' · '):'';
+    if(!j) return '';
+    const kind=(typeLabel(j)||'')+' job';
+    return j.date&&j.date!==sameDay?kind.trim()+' '+fmtDate(j.date):kind.trim();
   }
   function repRows(list,{showCustomer=true}={}){
     if(!list.length) return '';
     return `<div class="ledger">${list.map(r=>{
       const s=r.summary||repSummary(r.answers);
-      const sub=[showCustomer?r.title:'', fmtDate(r.date), r.jobId?jobLabel(r.jobId):''].filter(Boolean).join(' · ');
+      const sub=[showCustomer?r.title:'', fmtDate(r.date), r.jobId?jobLabel(r.jobId,r.date):''].filter(Boolean).join(' · ');
       return `<div class="line rep-line" data-openrep="${r.id}" style="border-left-color:var(${s.fail?'--danger':s.attention?'--warn':'--ok'})">
         <div class="main"><div class="title">${esc(showCustomer?customerName(r.customerId):(r.title||'Inspection report'))}</div><div class="sub">${esc(sub)}</div></div>
-        <div class="rep-pills">${repSumPills(s)}</div>
+        <div class="rep-pills">${repSumPills(s,{compact:true})}</div>
       </div>`;
     }).join('')}</div>`;
   }
@@ -2431,7 +2434,7 @@ async function runApp(){
       ${ok?'':repLockedNotice()}
       ${resume}${tabs}
       ${(S.reports||[]).length?`<div class="search-wrap"><span class="search-ic">${ICON.estimate}</span><input type="search" id="rep-search" placeholder="Search by customer or report" value="${esc(rp.q||'')}" aria-label="Search reports"></div>`:''}
-      <div id="rep-list">${repRows(list)||`<div class="empty">${ICON.reports.replace('class="ic"','class="ic" style="width:26px;height:26px"')}<div>${q?'No reports match.':'No reports yet.'}</div>${ok&&!q?'<p class="faint" style="margin-top:8px">Pick a checklist, answer it on site, print or save it to the customer.</p>':''}</div>`}</div>`;
+      ${!ok&&!(S.reports||[]).length?'':`<div id="rep-list">${repRows(list)||`<div class="empty">${ICON.reports.replace('class="ic"','class="ic" style="width:26px;height:26px"')}<div>${q?'No reports match.':'No reports yet.'}</div>${ok&&!q?'<p class="faint" style="margin-top:8px">Pick a checklist, answer it on site, print or save it to the customer.</p>':''}</div>`}</div>`}`;
   }
 
   function openTemplatePicker(ctx){
@@ -2484,11 +2487,11 @@ async function runApp(){
       if(q.rate) input+=`<div class="oc-label">Result</div><div class="seg">${Object.keys(REP_OC).map(o=>`<button type="button" data-oc="${o}" class="oc-${o} ${a.outcome===o?'on':''}" aria-pressed="${a.outcome===o}">${REP_OC[o]}</button>`).join('')}</div>
         ${a.outcome==='attention'||a.outcome==='fail'?`<input class="rq-in" data-note placeholder="What did you find? (optional)" value="${esc(a.note||'')}" style="margin-top:8px">`:''}`;
     } else if(q.type==='text'){
-      input=`<textarea class="rq-in" data-val rows="3">${esc(a.value||'')}</textarea>`;
+      input=`<textarea class="rq-in" data-val rows="3" aria-label="${esc(q.label)}">${esc(a.value||'')}</textarea>`;
     } else if(q.type==='number'){
-      input=`<input class="rq-in" data-val type="number" inputmode="decimal" step="any" value="${a.value!==undefined?esc(a.value):''}">`;
+      input=`<input class="rq-in" data-val aria-label="${esc(q.label)}" type="number" inputmode="decimal" step="any" value="${a.value!==undefined?esc(a.value):''}">`;
     } else if(q.type==='select'){
-      input=`<select class="rq-in" data-val><option value="">Choose…</option>${(q.options||[]).map(o=>`<option ${a.value===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+      input=`<select class="rq-in" data-val aria-label="${esc(q.label)}"><option value="">Choose…</option>${(q.options||[]).map(o=>`<option ${a.value===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
     } else if(q.type==='photo'){
       const saved=(a.photos||[]).map((p,i)=>`<div class="thumb">${p.fileId?`<img data-fid="${esc(p.fileId)}" alt="">`:`<div class="fn">${esc(p.filename)}<br>(not uploaded)</div>`}<button type="button" data-rmsaved="${i}" aria-label="Remove photo"><span>${ICON.close}</span></button></div>`).join('');
       const fresh=pend.map((p,i)=>`<div class="thumb"><img src="${p.dataUrl}" alt=""><button type="button" data-rmpend="${i}" aria-label="Remove photo"><span>${ICON.close}</span></button></div>`).join('');
@@ -2702,7 +2705,7 @@ async function runApp(){
       <div class="panel-card rv-head" style="margin-top:14px">
         <div class="faint">${esc(S.business?.name||'')}</div>
         <h2 style="margin:2px 0 6px;font-size:20px">${esc(r.title||'Inspection report')}</h2>
-        <div class="rv-meta"><button type="button" class="linkbtn" id="rep-cust">${esc(c?.name||'Unknown customer')}</button> · ${esc(fmtDate(r.date))}${r.jobId?' · '+esc(jobLabel(r.jobId)):''}</div>
+        <div class="rv-meta"><button type="button" class="linkbtn" id="rep-cust">${esc(c?.name||'Unknown customer')}</button> · ${esc(fmtDate(r.date))}${r.jobId?' · '+esc(jobLabel(r.jobId,r.date)):''}</div>
         <div class="rv-sum">
           <div class="rv-box pass"><b>${s.pass}</b><span>Pass</span></div>
           <div class="rv-box attention"><b>${s.attention}</b><span>Attention</span></div>
@@ -2735,7 +2738,7 @@ async function runApp(){
       }
       return `<tr><td>${esc(q.label)}${a&&a.note?`<div class="rd-note">${esc(a.note)}</div>`:''}</td><td>${val}</td><td>${a&&a.outcome?`<span class="oc ${a.outcome}">${REP_OC[a.outcome]}</span>`:''}</td></tr>`;
     }).join('');
-    const info=[['Customer',c.name||customerName(r.customerId)],['Date',fmtDate(r.date)],['Address',c.address],['Phone',c.phone||c.email],['Job',r.jobId?jobLabel(r.jobId):'']]
+    const info=[['Customer',c.name||customerName(r.customerId)],['Date',fmtDate(r.date)],['Address',c.address],['Phone',c.phone||c.email],['Job',r.jobId?jobLabel(r.jobId,r.date):'']]
       .filter(([,v])=>v).map(([k,v])=>`<div><b>${k}:</b> ${esc(v)}</div>`).join('');
     const html=`${docHead(r.title||'Inspection report', [c.name||'', fmtDate(r.date)].filter(Boolean).join(' · '))}
       <div class="rd-info">${info}</div>
@@ -2774,13 +2777,13 @@ async function runApp(){
       </div>
       ${q.type==='select'?`<textarea class="rq-in" data-f="options" rows="3" placeholder="One option per line" style="margin-top:8px">${esc((q.options||[]).join('\n'))}</textarea>`:''}
       ${q.type==='yesno'?`<div class="grid2" style="margin-top:4px">
-        <label class="chk"><input type="checkbox" data-f="rate" ${q.rate?'checked':''}> Pass / attention / fail</label>
+        <label class="chk"><input type="checkbox" data-f="rate" ${q.rate?'checked':''}> Pass/fail rating</label>
         ${q.rate?`<select class="rq-in" data-f="good" aria-label="Passing answer"><option value="yes" ${q.good!=='no'?'selected':''}>Yes passes</option><option value="no" ${q.good==='no'?'selected':''}>No passes</option></select>`:'<span></span>'}
       </div>`:''}
       <div class="qe-tools">
         <button type="button" class="btn small" data-mv="-1" ${i===0?'disabled':''} aria-label="Move up">↑</button>
         <button type="button" class="btn small" data-mv="1" ${i===n-1?'disabled':''} aria-label="Move down">↓</button>
-        <button type="button" class="btn small danger" data-rmq aria-label="Delete question">Delete</button>
+        <button type="button" class="btn small qe-del" data-rmq aria-label="Delete question">Delete</button>
       </div>
     </div>`;
   }
@@ -2975,6 +2978,7 @@ async function runApp(){
   if(typeof window._calCursor==="undefined") window._calCursor=new Date();
   if(typeof window._calMode==="undefined") window._calMode = window.innerWidth<700 ? "list" : "month";
   function viewJobs(){
+    if(!window._calCursor) window._calCursor=new Date();
     const calCursor=window._calCursor, calMode=window._calMode;
     const rows=S.jobs.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(j=>({
       id:j.id, title:customerName(j.customerId),

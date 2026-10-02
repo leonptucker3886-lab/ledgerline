@@ -402,7 +402,7 @@ module.exports = async (req, res) => {
           estimates: estimates.map(withId).filter(x => x.customerId === cid),
           invoices: invoices.map(withId).filter(x => x.customerId === cid),
           jobs: jobs.map(withId).filter(x => x.customerId === cid).sort((a, b) => String(a.date || "").localeCompare(String(b.date || ""))),
-          files: files.map(r => { const d = r.data; return { id: r.id, filename: d.filename, mime: d.mime, category: d.category, size: d.size, createdAt: d.createdAt }; }).filter(f => f.category === "photo" || f.category === "document"),
+          files: files.filter(r => r.data.customerId === cid).map(r => { const d = r.data; return { id: r.id, filename: d.filename, mime: d.mime, category: d.category, size: d.size, createdAt: d.createdAt }; }).filter(f => f.category === "photo" || f.category === "document"),
           messages: messages.map(withId).filter(x => x.customerId === cid).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)),
         });
       }
@@ -748,7 +748,7 @@ module.exports = async (req, res) => {
               customer: { id: cust.id, name: cust.name, portalToken: cust.portalToken },
               messages: msgs.map(withId).filter(x => x.customerId === cid).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)),
               notes: notes.map(r => ({ id: r.id, customerId: r.data.customerId, text: r.data.text, createdAt: r.data.createdAt })).filter(x => x.customerId === cid).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)),
-              files: files.map(r => { const d = r.data; return { id: r.id, filename: d.filename, mime: d.mime, category: d.category, size: d.size, createdAt: d.createdAt }; }).filter(x => x.customerId === cid),
+              files: files.map(r => { const d = r.data; return { id: r.id, customerId: d.customerId, filename: d.filename, mime: d.mime, category: d.category, size: d.size, createdAt: d.createdAt }; }).filter(x => x.customerId === cid),
             });
           }
 
