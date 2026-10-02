@@ -53,6 +53,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/reports",
+      "destination": "/index.html"
+    },
+    {
       "source": "/settings",
       "destination": "/index.html"
     },

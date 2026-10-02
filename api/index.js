@@ -145,7 +145,52 @@ const ENTITLEMENTS = plan => ({
   reviewline: plan === "best",
   portal: plan === "better" || plan === "best",
   api: plan !== "good" && plan !== "free",
+  reports: plan === "better" || plan === "best",
 });
+async function tenantEntitlements(tenantId) {
+  const v = await getSetting(`t:${tenantId}:billing`);
+  const billing = v ? JSON.parse(v) : (isDemoTenant(tenantId) ? { plan: "best" } : { plan: "free" });
+  return ENTITLEMENTS(billing.plan);
+}
+
+/* ---------------- inspection reports ---------------- */
+const Q_TYPES = ["yesno", "text", "number", "photo", "select"];
+const OUTCOMES = ["pass", "attention", "fail"];
+const clip = (v, n) => String(v == null ? "" : v).trim().slice(0, n);
+function cleanQuestions(list) {
+  if (!Array.isArray(list)) return [];
+  return list.slice(0, 150).map((q, i) => {
+    const type = Q_TYPES.includes(q && q.type) ? q.type : "text";
+    const out = { id: clip(q && q.id, 40) || "q" + (i + 1), label: clip(q && q.label, 300), type, required: !!(q && q.required) };
+    if (type === "select") out.options = (Array.isArray(q.options) ? q.options : []).map(o => clip(o, 120)).filter(Boolean).slice(0, 30);
+    if (type === "yesno") { out.rate = !!q.rate; out.good = q.good === "no" ? "no" : "yes"; }
+    if (q && q.hint) out.hint = clip(q.hint, 300);
+    return out;
+  }).filter(q => q.label);
+}
+function cleanAnswers(questions, raw) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  const out = {};
+  for (const q of questions) {
+    const a = src[q.id];
+    if (!a || typeof a !== "object") continue;
+    const v = {};
+    if (q.type === "yesno" && (a.value === "yes" || a.value === "no")) v.value = a.value;
+    if (q.type === "text" && a.value != null) v.value = clip(a.value, 4000);
+    if (q.type === "number" && a.value !== "" && a.value != null && isFinite(Number(a.value))) v.value = Number(a.value);
+    if (q.type === "select" && a.value != null && (q.options || []).includes(String(a.value))) v.value = String(a.value);
+    if (q.type === "photo" && Array.isArray(a.photos)) v.photos = a.photos.slice(0, 12).map(p => ({ fileId: clip(p && p.fileId, 60), filename: clip(p && p.filename, 200) })).filter(p => p.fileId || p.filename);
+    if (q.type === "yesno" && OUTCOMES.includes(a.outcome)) v.outcome = a.outcome;
+    if (a.note) v.note = clip(a.note, 1000);
+    if (Object.keys(v).length) out[q.id] = v;
+  }
+  return out;
+}
+function reportSummary(answers) {
+  const s = { pass: 0, attention: 0, fail: 0 };
+  for (const a of Object.values(answers || {})) if (a && OUTCOMES.includes(a.outcome)) s[a.outcome]++;
+  return s;
+}
 async function sendEmail(to, subject, html) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return false;
@@ -473,8 +518,9 @@ module.exports = async (req, res) => {
         if (!data || typeof data !== "string") return err(res, 400, "No file data.");
         const size = Math.floor(data.length * 0.75);
         if (size > 10_000_000) return err(res, 400, "That file is larger than 3MB.");
-        await putRecord("file", uid(), { tenantId, customerId, filename: String(filename || "file"), mime: String(mime || "application/octet-stream"), category, size, data, createdAt: Date.now() });
-        return json(res, 200, { ok: true });
+        const fileId = uid();
+        await putRecord("file", fileId, { tenantId, customerId, filename: String(filename || "file"), mime: String(mime || "application/octet-stream"), category, size, data, createdAt: Date.now() });
+        return json(res, 200, { ok: true, id: fileId });
       }
 
       case "file": {
@@ -508,8 +554,9 @@ module.exports = async (req, res) => {
             const business = businessV ? JSON.parse(businessV) : {};
             const billing = billingV ? JSON.parse(billingV) : (isDemoTenant(tenantId) ? { status: "active", plan: "best" } : { status: "free", plan: "free" });
             billing.entitlements = ENTITLEMENTS(billing.plan);
-            const [customers, jobs, estimates, invoices, requests] = await Promise.all([
+            const [customers, jobs, estimates, invoices, requests, reports, templates] = await Promise.all([
               listRecords("customer", tenantId), listRecords("job", tenantId), listRecords("estimate", tenantId), listRecords("invoice", tenantId), listRecords("request", tenantId),
+              listRecords("report", tenantId), listRecords("template", tenantId),
             ]);
             const fileRows = await sql("SELECT data FROM records WHERE kind='file' AND data->>'tenantId'=$1", [tenantId]);
             const used = fileRows.reduce((s, r) => s + (r.data.size || 0), 0);
@@ -523,6 +570,8 @@ module.exports = async (req, res) => {
               estimates: estimates.map(withId),
               invoices: invoices.map(withId),
               requests: requests.map(withId),
+              reports: reports.map(withId).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)),
+              templates: templates.map(withId).sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""))),
               storage: { used, limit: 1_000_000_000 },
               mail: !!process.env.RESEND_API_KEY,
               sms: !!(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM),
@@ -596,12 +645,56 @@ module.exports = async (req, res) => {
               await putRecord("invoice", b.id || uid(), inv);
               return json(res, 200, { ok: true });
             }
+            if (kind === "template") {
+              if (!(await tenantEntitlements(tenantId)).reports) return err(res, 403, "Inspection reports are on the Growth plan.");
+              const tpl = b.id ? (await getRecord("template", b.id) || { tenantId, createdAt: now }) : { tenantId, createdAt: now };
+              if (tpl.tenantId !== tenantId) return err(res, 404, "Template not found.");
+              tpl.name = clip(b.name, 120);
+              if (!tpl.name) return err(res, 400, "Give the template a name.");
+              tpl.questions = cleanQuestions(b.questions);
+              if (!tpl.questions.length) return err(res, 400, "Add at least one question.");
+              if (tpl.questions.some(q => q.type === "select" && !q.options.length)) return err(res, 400, "Pick lists need at least one option.");
+              tpl.updatedAt = now;
+              const tplId = b.id || uid();
+              await putRecord("template", tplId, tpl);
+              return json(res, 200, { ok: true, id: tplId });
+            }
+            if (kind === "report") {
+              if (!(await tenantEntitlements(tenantId)).reports) return err(res, 403, "Inspection reports are on the Growth plan.");
+              const rep = b.id ? (await getRecord("report", b.id) || { tenantId, createdAt: now }) : { tenantId, createdAt: now };
+              if (rep.tenantId !== tenantId) return err(res, 404, "Report not found.");
+              let customerId = b.customerId ? String(b.customerId) : (rep.customerId || null);
+              if (customerId) {
+                const cust = await getRecord("customer", customerId);
+                if (!cust || cust.tenantId !== tenantId) return err(res, 404, "Customer not found.");
+              } else customerId = await inlineCustomer(tenantId, b.customer, now);
+              if (!customerId) return err(res, 400, "Pick a customer.");
+              let jobId = b.jobId !== undefined ? (b.jobId ? String(b.jobId) : "") : (rep.jobId || "");
+              if (jobId) {
+                const job = await getRecord("job", jobId);
+                if (!job || job.tenantId !== tenantId) return err(res, 404, "Job not found.");
+              }
+              const questions = cleanQuestions(b.questions !== undefined ? b.questions : rep.questions);
+              if (!questions.length) return err(res, 400, "This report has no questions.");
+              const answers = cleanAnswers(questions, b.answers !== undefined ? b.answers : rep.answers);
+              Object.assign(rep, {
+                customerId, jobId,
+                templateId: clip(b.templateId !== undefined ? b.templateId : rep.templateId, 80),
+                title: clip(b.title !== undefined ? b.title : rep.title, 160) || "Inspection report",
+                date: /^\d{4}-\d{2}-\d{2}$/.test(String(b.date || "")) ? String(b.date) : (rep.date || new Date(now).toISOString().slice(0, 10)),
+                notes: clip(b.notes !== undefined ? b.notes : rep.notes, 4000),
+                questions, answers, summary: reportSummary(answers), updatedAt: now,
+              });
+              const repId = b.id || uid();
+              await putRecord("report", repId, rep);
+              return json(res, 200, { ok: true, id: repId, customerId });
+            }
             return err(res, 400, "Unknown kind.");
           }
 
           case "del": {
             if (!id) return err(res, 400, "Missing id.");
-            if (kind === "file" || kind === "note") {
+            if (kind === "file" || kind === "note" || kind === "report" || kind === "template") {
               const rec = await getRecord(kind, id);
               if (!rec || rec.tenantId !== tenantId) return err(res, 404, "Not found.");
               await delRecord(kind, id);

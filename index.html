@@ -604,6 +604,85 @@ html[data-theme="dark"]{
 .obj-card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px}
 .obj-card .q{font-weight:700;font-size:14px;margin:0 0 6px}
 .obj-card .a{font-size:13.5px;color:var(--muted);margin:0;line-height:1.55}
+/* ---- inspection reports ---- */
+.pill.pass{background:var(--ok-soft);color:var(--ok)}
+.pill.attention{background:var(--warn-soft);color:var(--warn)}
+.pill.fail{background:var(--danger-soft);color:var(--danger)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:72px;min-height:44px;background:var(--panel2);color:var(--muted);border:1px solid var(--line2);border-radius:10px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:8px 10px}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.seg button.oc-pass.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.seg button.oc-attention.on{background:var(--warn);border-color:var(--warn);color:#fff}
+.seg button.oc-fail.on{background:var(--danger);border-color:var(--danger);color:#fff}
+.rep-tabs{margin-bottom:14px;max-width:360px}
+.rep-line .rep-pills{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;max-width:46%}
+.rep-resume{display:block}
+.rq{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.rq.missing{border-color:var(--danger);box-shadow:0 0 0 1px var(--danger)}
+.rq .ql{font-weight:600;font-size:15px;line-height:1.35;margin-bottom:10px}
+.rq .ql .req{color:var(--danger)}
+.rq .qh{font-size:12.5px;color:var(--muted);margin:-6px 0 10px}
+.rq .oc-label{font-size:12px;color:var(--muted);margin:10px 0 6px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.rq-in{width:100%;background:var(--panel2);border:1px solid var(--line2);color:var(--ink);padding:10px 12px;border-radius:8px;font:inherit;min-height:44px}
+.rq-in:focus{border-color:var(--accent)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.thumbs:empty{display:none}
+.thumb{position:relative;width:96px;height:96px;border-radius:10px;overflow:hidden;background:var(--panel2);border:1px solid var(--line2);flex:none}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .fn{font-size:11px;padding:6px;word-break:break-all;color:var(--muted)}
+.thumb button{position:absolute;top:0;right:0;width:40px;height:40px;background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.thumb button span{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center}
+.rep-bar{position:sticky;bottom:0;z-index:4;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line);margin:14px -20px 0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.rep-bar-sum{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+@media(max-width:639px){.rep-bar{bottom:calc(56px + env(safe-area-inset-bottom,0px))}.rep-bar .btnrow{width:100%}.rep-bar .btnrow .btn{flex:1;justify-content:center}}
+.qe-top{display:flex;gap:8px;align-items:center}
+.qe-n{width:28px;flex:none;font-weight:700;color:var(--muted);text-align:center}
+.qe-tools{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.qe-tools .btn{min-width:44px;justify-content:center}
+.qe-tools .btn:disabled{opacity:.35;cursor:default}
+.chk{display:flex;align-items:center;gap:8px;min-height:44px;font-size:14px;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;min-height:40px;display:inline-flex;align-items:center;text-decoration:underline;text-underline-offset:3px}
+.rv-meta{color:var(--muted);font-size:14px}
+.rv-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0 14px}
+.rv-box{border-radius:10px;padding:10px;text-align:center}
+.rv-box b{display:block;font-size:22px;line-height:1.1}
+.rv-box span{font-size:12px;font-weight:600}
+.rv-box.pass{background:var(--ok-soft);color:var(--ok)}
+.rv-box.attention{background:var(--warn-soft);color:var(--warn)}
+.rv-box.fail{background:var(--danger-soft);color:var(--danger)}
+.rv-list{border-top:1px solid var(--line)}
+.rv-item{display:flex;gap:12px;padding:12px 2px 12px 12px;border-bottom:1px solid var(--line);border-left:3px solid transparent}
+.rv-item.oc-pass{border-left-color:var(--ok)}
+.rv-item.oc-attention{border-left-color:var(--warn)}
+.rv-item.oc-fail{border-left-color:var(--danger)}
+.rv-q{flex:1;min-width:0;font-size:14px}
+.rv-note{font-size:13px;color:var(--muted);margin-top:3px}
+.rv-a{text-align:right;font-weight:600;font-size:14px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;max-width:48%}
+.rv-txt{font-weight:400;text-align:left;white-space:pre-wrap}
+.rep-doc{font-family:Georgia,serif;color:#111;background:#fff;padding:24px;box-sizing:border-box;font-size:12px;line-height:1.35}
+.rep-doc h1{font-size:22px;margin:0 0 4px}
+.rep-doc .meta{color:#555;font-size:12px;margin-bottom:8px}
+.rep-doc .rd-info{display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;margin:8px 0}
+.rep-doc .rd-sum{display:flex;gap:8px;margin:10px 0 4px}
+.rep-doc .rd-sum span{flex:1;border:1px solid #ccc;border-radius:6px;padding:6px 8px;text-align:center;font-weight:700;font-size:13px}
+.rep-doc .rd-sum .pass,.rep-doc .oc.pass{color:#2f6b4a}
+.rep-doc .rd-sum .attention,.rep-doc .oc.attention{color:#b45309}
+.rep-doc .rd-sum .fail,.rep-doc .oc.fail{color:#b33f2a}
+.rep-doc table{width:100%;border-collapse:collapse;margin:8px 0}
+.rep-doc th,.rep-doc td{text-align:left;padding:4px 6px;border-bottom:1px solid #ddd;font-size:11.5px;vertical-align:top}
+.rep-doc th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#555}
+.rep-doc .oc{font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em}
+.rep-doc .rd-note{color:#555;font-style:italic;margin-top:2px}
+.rep-doc .rd-notes{margin-top:8px;white-space:pre-wrap}
+.rep-doc img.rd-ph{height:72px;width:auto;max-width:110px;object-fit:cover;border-radius:4px;margin:0 4px 4px 0;border:1px solid #ddd;vertical-align:top}
+.rep-measure{position:absolute;left:-10000px;top:0;width:720px;visibility:hidden}
+@media print{
+  body.printing-report > *:not(.doc-print){display:none!important}
+  body.printing-report .doc-print{position:static!important;inset:auto;padding:0!important}
+  .rep-doc{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rep-doc tr{break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -643,8 +722,128 @@ const ICON={
   estimate: svg('<circle cx="10.5" cy="10.5" r="6.5"/><path d="m21 21-4.3-4.3"/>'),
   production: svg('<path d="M14.7 6.3 17.7 3.3l3 3-3 3z"/><path d="m14 8-9.5 9.5a1.4 1.4 0 0 0 0 2l0 0a1.4 1.4 0 0 0 2 0L16 10"/>'),
   service: svg('<path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-2-2z"/>'),
-  custom: svg('<path d="M12 3l2.6 5.8L21 9.6l-4.5 4.2 1.2 6.2L12 17l-5.7 3 1.2-6.2L3 9.6l6.4-.8z"/>')
+  custom: svg('<path d="M12 3l2.6 5.8L21 9.6l-4.5 4.2 1.2 6.2L12 17l-5.7 3 1.2-6.2L3 9.6l6.4-.8z"/>'),
+  reports: svg('<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="m9 13.5 2 2 4-4"/>')
 };
+/* ---- built-in inspection templates (reports feature) ---- */
+const RQ=(id,label,type,more)=>Object.assign({id,label,type,required:false},type==='yesno'?{rate:true,good:'yes'}:{},more||{});
+const CREOSOTE=['None / light dusting','Stage 1: sooty, brushes off','Stage 2: flaky or crunchy','Stage 3: glazed or tar-like'];
+const REPORT_TEMPLATES=[
+  {id:'builtin-chimney-1',name:'Chimney inspection, Level 1',desc:'Readily accessible parts of the chimney, flue and appliance. Annual check and sweep.',questions:[
+    RQ('appliance','Appliance type','select',{required:true,options:['Open masonry fireplace','Factory-built fireplace','Wood stove','Fireplace insert','Gas appliance','Furnace or boiler flue','Other']}),
+    RQ('liner','Flue liner type','select',{options:['Clay tile','Stainless steel','Cast-in-place','Unlined','Not visible']}),
+    RQ('cap','Chimney cap present and secure?','yesno',{required:true}),
+    RQ('screen','Spark arrestor screen intact?','yesno'),
+    RQ('crown','Crown free of cracks and gaps?','yesno',{required:true}),
+    RQ('masonry','Exterior masonry sound (no spalling or missing mortar)?','yesno',{required:true}),
+    RQ('flashing','Flashing sealed at the roofline?','yesno'),
+    RQ('damper','Damper opens, closes and seals?','yesno'),
+    RQ('firebox','Firebox intact (no cracked or missing brick or panels)?','yesno',{required:true}),
+    RQ('hearth','Hearth extension intact and adequate?','yesno'),
+    RQ('smokechamber','Smoke chamber and shelf clear of debris?','yesno'),
+    RQ('creosote','Creosote level found','select',{required:true,options:CREOSOTE}),
+    RQ('clearance','Clearance to combustibles looks adequate where visible?','yesno'),
+    RQ('water','Signs of water getting in?','yesno',{good:'no'}),
+    RQ('animals','Signs of animals or nesting?','yesno',{good:'no'}),
+    RQ('alarms','Smoke and CO alarms present near the appliance?','yesno'),
+    RQ('swept','Flue swept today?','yesno',{rate:false}),
+    RQ('photos','Photos','photo'),
+    RQ('recs','Recommendations','text')
+  ]},
+  {id:'builtin-chimney-2',name:'Chimney inspection, Level 2',desc:'Level 1 plus video scan of the full flue and accessible attic, crawlspace and basement areas.',questions:[
+    RQ('reason','Reason for Level 2','select',{required:true,options:['Property sale or transfer','Appliance change or relining','Chimney fire or weather event','Level 1 findings','Customer request']}),
+    RQ('appliance','Appliance type','select',{options:['Open masonry fireplace','Factory-built fireplace','Wood stove','Fireplace insert','Gas appliance','Furnace or boiler flue','Other']}),
+    RQ('cap','Chimney cap present and secure?','yesno'),
+    RQ('crown','Crown free of cracks and gaps?','yesno'),
+    RQ('masonry','Exterior masonry and flashing sound?','yesno'),
+    RQ('scan','Video scan of the full flue completed?','yesno',{required:true,rate:false}),
+    RQ('liner','Flue liner continuous, no cracks or gaps?','yesno',{required:true}),
+    RQ('joints','Liner joints and mortar intact?','yesno',{required:true}),
+    RQ('offsets','Offsets and bends free of damage?','yesno'),
+    RQ('sizing','Liner sized correctly for the appliance?','yesno'),
+    RQ('attic','Clearances in the attic verified?','yesno'),
+    RQ('crawl','Clearances in crawlspace or basement verified?','yesno'),
+    RQ('chase','Chase, framing and enclosure in good shape?','yesno'),
+    RQ('fire','Evidence of a past chimney fire?','yesno',{required:true,good:'no'}),
+    RQ('connector','Thimble and connector pipe in good shape?','yesno'),
+    RQ('creosote','Creosote level found','select',{options:CREOSOTE}),
+    RQ('scanphotos','Video scan stills and photos','photo'),
+    RQ('findings','Findings summary','text',{required:true}),
+    RQ('repairs','Recommended repairs','text')
+  ]},
+  {id:'builtin-hvac',name:'HVAC seasonal tune-up',desc:'Spring cooling or fall heating check with readings.',questions:[
+    RQ('season','Season','select',{required:true,options:['Spring (cooling)','Fall (heating)']}),
+    RQ('system','System type','select',{required:true,options:['Gas furnace + AC','Heat pump','Electric furnace + AC','Boiler','Ductless mini-split','Other']}),
+    RQ('tstat','Thermostat calls and cycles correctly?','yesno',{required:true}),
+    RQ('filtercond','Filter condition on arrival','select',{options:['Clean','Dirty','Clogged']}),
+    RQ('filtersize','Filter size','text'),
+    RQ('filternew','Filter replaced?','yesno',{rate:false}),
+    RQ('electrical','Electrical connections tight, no burn marks?','yesno',{required:true}),
+    RQ('cap','Capacitor within rated spec?','yesno'),
+    RQ('capuf','Capacitor reading (µF)','number'),
+    RQ('amps','Blower motor amp draw (A)','number'),
+    RQ('drain','Condensate drain and pan clear?','yesno',{required:true}),
+    RQ('coil','Outdoor coil clean?','yesno'),
+    RQ('refrig','Refrigerant pressures normal?','yesno'),
+    RQ('supply','Supply air temperature (°F)','number'),
+    RQ('return','Return air temperature (°F)','number'),
+    RQ('burner','Burners and flame look right (heating)?','yesno'),
+    RQ('hx','Visible cracks in the heat exchanger?','yesno',{good:'no'}),
+    RQ('co','CO reading at the flue (ppm)','number'),
+    RQ('photos','Photos','photo'),
+    RQ('recs','Recommendations','text')
+  ]},
+  {id:'builtin-dryer',name:'Dryer vent cleaning',desc:'Vent route, condition, airflow and before and after photos.',questions:[
+    RQ('route','Vent exits through','select',{required:true,options:['Wall','Roof','Soffit','Crawlspace or under deck']}),
+    RQ('length','Approximate vent length (ft)','number'),
+    RQ('material','Vent material','select',{required:true,options:['Rigid metal','Semi-rigid metal','Flexible foil','Plastic or vinyl (unsafe)']}),
+    RQ('lint','Lint buildup before cleaning','select',{required:true,options:['Light','Moderate','Heavy','Blocked']}),
+    RQ('hood','Exterior hood flap opens freely?','yesno',{required:true}),
+    RQ('hoodscreen','Screen on the exterior hood trapping lint?','yesno',{good:'no'}),
+    RQ('transition','Transition hose is metal and not kinked?','yesno',{required:true}),
+    RQ('joints','Joints secure, nothing disconnected?','yesno'),
+    RQ('crush','Vent free of crushed or kinked sections?','yesno'),
+    RQ('airflow','Airflow good after cleaning?','yesno',{required:true}),
+    RQ('fpm','Airflow reading after cleaning (FPM)','number'),
+    RQ('trap','Dryer lint screen clean and intact?','yesno'),
+    RQ('before','Before photos','photo'),
+    RQ('after','After photos','photo'),
+    RQ('notes','Notes','text')
+  ]},
+  {id:'builtin-gutter',name:'Gutter inspection',desc:'Debris, drainage, fastening and fascia condition.',questions:[
+    RQ('material','Gutter material','select',{options:['Aluminum','Vinyl','Steel','Copper','Other']}),
+    RQ('debris','Debris level found','select',{required:true,options:['Clear','Light','Moderate','Heavy or overflowing']}),
+    RQ('cleaned','Gutters cleaned today?','yesno',{rate:false}),
+    RQ('downspouts','Downspouts flowing freely?','yesno',{required:true}),
+    RQ('fastened','Gutters fastened securely, no sagging?','yesno',{required:true}),
+    RQ('pitch','Gutters pitched toward downspouts?','yesno'),
+    RQ('seams','Seams and end caps sealed, no leaks?','yesno'),
+    RQ('rust','Rust, holes or corrosion?','yesno',{good:'no'}),
+    RQ('fascia','Fascia or soffit damage or rot?','yesno',{good:'no'}),
+    RQ('discharge','Downspouts drain away from the foundation?','yesno'),
+    RQ('granules','Heavy shingle granules in the gutters?','yesno',{good:'no'}),
+    RQ('guards','Gutter guards installed?','yesno',{rate:false}),
+    RQ('photos','Photos','photo'),
+    RQ('recs','Recommendations','text')
+  ]},
+  {id:'builtin-walkthrough',name:'General home service walkthrough',desc:'Arrival, safety checks, completed work and cleanup.',questions:[
+    RQ('area','Areas serviced','text',{required:true}),
+    RQ('concerns','Customer concerns reviewed on arrival','text'),
+    RQ('protect','Work area protected before starting?','yesno'),
+    RQ('smoke','Smoke alarms tested and working?','yesno'),
+    RQ('coalarm','CO alarm present and working?','yesno'),
+    RQ('leaks','Visible leaks under sinks or at fixtures?','yesno',{good:'no'}),
+    RQ('outlets','Outlets or switches damaged or warm?','yesno',{good:'no'}),
+    RQ('mold','Visible water damage or mold?','yesno',{good:'no'}),
+    RQ('steps','Exterior steps and walkways safe?','yesno'),
+    RQ('complete','Work completed as described?','yesno',{required:true}),
+    RQ('cleanup','Work area cleaned up?','yesno',{required:true}),
+    RQ('walk','Customer walked through the finished work?','yesno',{rate:false}),
+    RQ('before','Before photos','photo'),
+    RQ('after','After photos','photo'),
+    RQ('followup','Follow-up recommended','text')
+  ]}
+];
 
 
 
@@ -674,7 +873,7 @@ function planCardHTML(key, opts={}){
   const cat=(st&&st.plans&&st.plans[key])||{};
   const names={good:{label:'Starter',tagline:'Stop paying per user',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',priceMonthly:'$9.83',moAmount:9.83,value:'Run the whole business from your phone — quotes, schedule, invoices, and get paid by card. Whole crew, unlimited jobs, one flat price.',perks:['Quotes, schedule & invoices','Get paid by card on every job','One-tap review request after a job','Unlimited crew — no per-user fees','Unlimited customers & jobs']},
 
-better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',priceMonthly:'$29.83',moAmount:29.83,value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, automatic reminders that chase late invoices, and Proofline before/after reports that win the next job.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Proofline before/after photo reports','Shareable job reports for customers']},
+better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',priceMonthly:'$29.83',moAmount:29.83,value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, automatic reminders that chase late invoices, and Proofline before/after reports that win the next job.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Proofline before/after photo reports','Shareable job reports for customers','Inspection reports & custom checklists']},
 
 best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',priceMonthly:'$54.50',moAmount:54.5,value:'Everything in Growth, plus Reviewline — the review funnel and QR kits that turn finished jobs into Google reviews — and SMS reminders that actually get read. One saved no-show covers the whole year.',perks:['Everything in Growth','Reviewline review funnel + QR kits','SMS reminders that get read','Priority on new features']}};
   const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
@@ -749,13 +948,10 @@ function toast(msg, kind){
   setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),250); }, kind==='err'?3200:2200);
 }
 
-function printDocument({title, subtitle, lines, total, footer}){
-  const prev = document.querySelector('.doc-print');
-  if(prev) prev.remove();
-  const el = document.createElement('div');
-  el.className = 'doc-print';
-  const biz = (typeof S !== 'undefined' && S.business) ? S.business : {};
-  const ds = (typeof S !== 'undefined' && S.docstyle) || {};
+function docStateForPrint(){ return (typeof S !== 'undefined' && S) || planState() || {}; }
+function docHead(title, subtitle){
+  const biz = docStateForPrint().business || {};
+  const ds = docStateForPrint().docstyle || {};
   const tpl = ['classic','bold','fresh'].includes(ds.template) ? ds.template : 'classic';
   const accent = /^#[0-9a-fA-F]{6}$/.test(ds.accent||'') ? ds.accent : '#183d2a';
   const dark = accent==='#183d2a';
@@ -784,6 +980,19 @@ function printDocument({title, subtitle, lines, total, footer}){
       ${subtitle?`<div class="meta">${esc(subtitle)}</div>`:''}
       ${biz.phone || biz.email || biz.address ? `<div class="meta">${[biz.phone,biz.email,biz.address].filter(Boolean).map(esc).join(' · ')}</div>` : ''}`;
   }
+  return head;
+}
+function printDocument({title, subtitle, lines, total, footer}){
+  const prev = document.querySelector('.doc-print');
+  if(prev) prev.remove();
+  const el = document.createElement('div');
+  el.className = 'doc-print';
+  const ds = docStateForPrint().docstyle || {};
+  const tpl = ['classic','bold','fresh'].includes(ds.template) ? ds.template : 'classic';
+  const accent = /^#[0-9a-fA-F]{6}$/.test(ds.accent||'') ? ds.accent : '#183d2a';
+  const dark = accent==='#183d2a';
+  const onAccent = dark ? '#fff' : '#17211c';
+  const head = docHead(title, subtitle);
   el.innerHTML = `${head}
     <table><thead><tr><th style="${tpl==='bold'?`background:${accent};color:${onAccent}`:''}">Description</th><th style="text-align:right;${tpl==='bold'?`background:${accent};color:${onAccent}`:''}">Amount</th></tr></thead>
     <tbody>${(lines||[]).map(l=>`<tr><td>${esc(l.label)}</td><td style="text-align:right">${esc(l.amt)}</td></tr>`).join('')}</tbody></table>
@@ -903,6 +1112,21 @@ async function _apiRaw(action,{method='GET',kind,id,t,body}={}){
     if(!llOnline()) throw new Error("You're offline. That action needs a connection.");
     return _apiRaw(action,o);
   }
+  function llFatal(msg){
+    try{
+      if(document.getElementById('ll-fatal')) return;
+      const d=document.createElement('div');
+      d.id='ll-fatal';
+      d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#3b1d1d;color:#ffe7e7;border:1px solid #a33;border-radius:12px;padding:12px 14px;font:13.5px/1.5 system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4)';
+      d.innerHTML='<b>Something on this screen failed to load.</b><div style="margin-top:4px;opacity:.9" id="ll-fatal-msg"></div><button id="ll-fatal-b" style="margin-top:8px;background:#ffe7e7;border:0;border-radius:8px;padding:8px 14px;font-weight:700">Reload</button>';
+      document.body.appendChild(d);
+      document.getElementById('ll-fatal-msg').textContent=String(msg||'unknown error').slice(0,220);
+      document.getElementById('ll-fatal-b').onclick=()=>location.reload();
+    }catch(e){}
+  }
+  window.addEventListener('error',e=>llFatal(e&&e.message));
+  window.addEventListener('unhandledrejection',e=>llFatal(e&&e.reason&&(e.reason.message||e.reason)));
+
   function llInit(){
     llPaintSync();
     if(llOutbox().length&&llOnline()) llFlush();
@@ -1180,7 +1404,8 @@ async function runApp(){
   let S=null; const setS=(v)=>{ S=v; try{ window.__LL_S=v; }catch(_){} };
   const ROLE_LABEL={owner:'Owner',admin:'Admin',dispatcher:'Dispatcher',crew:'Crew',member:'Crew'};
   let tab='dashboard', selectedCustomerId=null, threadData=null, customerSearch='', moreOpen=false;
-  const TAB_PATHS = {dashboard:'/', customers:'/customers', estimates:'/estimates', requests:'/requests', jobs:'/jobs', invoices:'/invoices', settings:'/settings', customer:'/customers'};
+  let rp={mode:'list', pane:'reports'};
+  const TAB_PATHS = {dashboard:'/', customers:'/customers', estimates:'/estimates', requests:'/requests', jobs:'/jobs', invoices:'/invoices', reports:'/reports', settings:'/settings', customer:'/customers'};
   const PATH_TABS = Object.fromEntries(Object.entries(TAB_PATHS).map(([k,v])=>[v,k]));
   PATH_TABS['/'] = 'dashboard';
 
@@ -1200,6 +1425,7 @@ async function runApp(){
   function navigate(newTab, opts={}){
     if(opts.customerId) selectedCustomerId = opts.customerId;
     if(newTab==='customer' && !selectedCustomerId) newTab='customers';
+    if(opts.rp) rp=opts.rp; else if(newTab==='reports' || tab==='reports') rp=rpReset();
     tab = newTab;
     const path = pathFor(tab, selectedCustomerId);
     if(location.pathname !== path){
@@ -1209,9 +1435,10 @@ async function runApp(){
     render();
   }
   try{ window.navigate = navigate; }catch(_){}
-  window.addEventListener('popstate', ()=>{
+  window.addEventListener('popstate', e=>{
     tab = parsePath();
     moreOpen=false;
+    rp = rpFromHistory(e.state);
     if(tab==='customer' && selectedCustomerId){
       threadData=null;
       api('thread',{id:selectedCustomerId}).then(t=>{ threadData=t; if(tab==='customer') render(); });
@@ -1508,7 +1735,11 @@ async function runApp(){
 
   function renderAuth(mode){
     const params=new URLSearchParams(location.search);
-    const resetToken=params.get('reset');
+    // The reset email links to /login?reset=1&t=<exp>.<token>. The token lives in t=.
+    // Reading it from reset= meant every link submitted the string "1" and the server
+    // answered "That reset link expired", so no password reset could ever complete.
+    const resetToken=params.get('t')||'';
+    if(params.get('reset') && !resetToken && mode!=='setup'){ renderAuth('forgot'); return; }
     if(resetToken && mode!=='setup'){
       app.innerHTML=`<div class="center-screen"><div class="authbox">
         <div class="brand">${ICON.mark}<h1>Ledgerline</h1></div>
@@ -1592,8 +1823,8 @@ async function runApp(){
     const pendingCount = (S.requests||[]).filter(r=>r.status==='pending').length;
     const badge = pendingCount ? ` <span class="badge">${pendingCount}</span>` : '';
     const myRole = S.role || 'owner';
-    const ROLE_TABS = { crew: ['dashboard','jobs','customers'], dispatcher: ['dashboard','jobs','customers','estimates','requests','invoices'] };
-    const allowedTabs = ROLE_TABS[myRole] || ['dashboard','jobs','customers','estimates','requests','invoices','settings'];
+    const ROLE_TABS = { crew: ['dashboard','jobs','customers','reports'], dispatcher: ['dashboard','jobs','customers','estimates','requests','invoices','reports'] };
+    const allowedTabs = ROLE_TABS[myRole] || ['dashboard','jobs','customers','estimates','requests','invoices','reports','settings'];
     const allTabs = [
       ['dashboard','Overview',ICON.dashboard],
       ['jobs','Schedule',ICON.jobs],
@@ -1601,6 +1832,7 @@ async function runApp(){
       ['estimates','Estimates',ICON.estimates],
       ['requests','Requests',ICON.requests],
       ['invoices','Invoices',ICON.invoices],
+      ['reports','Reports',ICON.reports],
       ['settings','Settings',ICON.settings]
     ].filter(([k])=>allowedTabs.includes(k));
     const isOn = (k) => tab===k || (tab==='customer' && k==='customers');
@@ -1665,12 +1897,13 @@ async function runApp(){
   function openMoreMenu(){
     moreOpen=true;
     const myRole = S.role || 'owner';
-    const ROLE_TABS = { crew: ['dashboard','jobs','customers'], dispatcher: ['dashboard','jobs','customers','estimates','requests','invoices'] };
-    const allowedTabs = ROLE_TABS[myRole] || ['dashboard','jobs','customers','estimates','requests','invoices','settings'];
+    const ROLE_TABS = { crew: ['dashboard','jobs','customers','reports'], dispatcher: ['dashboard','jobs','customers','estimates','requests','invoices','reports'] };
+    const allowedTabs = ROLE_TABS[myRole] || ['dashboard','jobs','customers','estimates','requests','invoices','reports','settings'];
     const items = [
       ['estimates','Estimates',ICON.estimates],
       ['jobs','Schedule',ICON.jobs],
       ['invoices','Invoices',ICON.invoices],
+      ['reports','Reports',ICON.reports],
       ['settings','Settings',ICON.settings]
     ].filter(([k])=>allowedTabs.includes(k));
     const wrap=document.createElement('div');
@@ -1706,6 +1939,7 @@ async function runApp(){
     if(tab==='requests') return shell(viewRequests());
     if(tab==='jobs') return shell(viewJobs());
     if(tab==='invoices') return shell(viewInvoices());
+    if(tab==='reports') return shell(viewReports());
     if(tab==='settings') return shell(viewSettings());
   }
 
@@ -1989,6 +2223,11 @@ async function runApp(){
         ${S.billing?.entitlements?.emailReminders?`<button class="btn small" id="review-req">Request review</button>`:''}
       </div>`}
 
+      <h3 class="section">Inspection reports</h3>
+      ${repOk()?`${repRows((S.reports||[]).filter(r=>r.customerId===c.id),{showCustomer:false})||'<div class="empty" style="padding:18px 4px">No reports for this customer yet.</div>'}
+      <div class="btnrow" style="margin-top:10px"><button class="btn small" id="cust-rep">+ New report</button></div>`
+      :`${repRows((S.reports||[]).filter(r=>r.customerId===c.id),{showCustomer:false})}<p class="faint">Inspection reports and custom checklists are on the <strong>Growth</strong> plan.</p>`}
+
       <h3 class="section">Documents &amp; photos</h3>
       ${t?fileSection(t.files):skel(2)}
       <div class="btnrow" style="margin-top:10px">
@@ -2032,6 +2271,8 @@ async function runApp(){
   function bindCustomerDetail(){
     $('#back').onclick=()=>{ selectedCustomerId=null; navigate('customers'); };
     $('#edit-cust').onclick=()=>openCustomer(selectedCustomerId);
+    $('#cust-rep')?.addEventListener('click',()=>openTemplatePicker({customerId:selectedCustomerId}));
+    bindRepRows($('#main'));
     $('#copy-link').onclick=()=>{
       const c=S.customers.find(x=>x.id===selectedCustomerId);
       navigator.clipboard?.writeText(location.origin+'/p/'+c.portalToken);
@@ -2070,6 +2311,547 @@ async function runApp(){
       threadData=await api('thread',{id:selectedCustomerId}); render();
     }catch(e){ toastErr(e.message); }
     inputEl.value='';
+  }
+
+  /* =========================== INSPECTION REPORTS =========================== */
+  const REP_OC={pass:'Pass',attention:'Attention',fail:'Fail'};
+  const Q_TYPE_LABEL={yesno:'Yes / No',text:'Text',number:'Number',photo:'Photo',select:'Pick list'};
+  const repThumbs={};
+  const repOk=()=>!!S.billing?.entitlements?.reports;
+  const repClone=o=>JSON.parse(JSON.stringify(o));
+  const repQid=()=>'q'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  function rpReset(){
+    const d=rp.mode==='fill'&&rp.draft&&rp.draft.dirty?rp.draft:rp.resume;
+    return {mode:'list', pane:rp.pane||'reports', q:rp.q||'', resume:d||null};
+  }
+  function rpFromHistory(st){
+    const base=rpReset();
+    if(st&&st.rpPane) base.pane=st.rpPane;
+    if(st&&st.rpView&&tab==='reports') return Object.assign(base,{mode:'view',id:st.rpView});
+    return base;
+  }
+  function goRp(next){
+    if(tab==='reports' && location.pathname==='/reports'){
+      history.replaceState(Object.assign({},history.state,{rpView:rp.mode==='view'?rp.id:null,rpPane:rp.pane}),'','/reports');
+      history.pushState({tab:'reports',sub:next.mode},'','/reports');
+      rp=next; moreOpen=false; render();
+    } else navigate('reports',{rp:next});
+    window.scrollTo(0,0);
+  }
+  function allTemplates(){
+    return [...REPORT_TEMPLATES.map(t=>Object.assign({builtin:true},t)), ...(S.templates||[])];
+  }
+  function repSummary(answers){
+    const s={pass:0,attention:0,fail:0};
+    Object.values(answers||{}).forEach(a=>{ if(a&&s[a.outcome]!==undefined) s[a.outcome]++; });
+    return s;
+  }
+  function repAnswered(q,a,pend){
+    if(q.type==='photo') return !!((a&&a.photos&&a.photos.length)||(pend&&pend.length));
+    if(!a||a.value===undefined||a.value===null) return false;
+    if(q.type==='number') return a.value!=='' && isFinite(+a.value);
+    return String(a.value).trim()!=='';
+  }
+  function repSumPills(s,{empty=true}={}){
+    const out=[];
+    if(s.fail) out.push(`<span class="pill fail">${s.fail} fail</span>`);
+    if(s.attention) out.push(`<span class="pill attention">${s.attention} attention</span>`);
+    if(s.pass) out.push(`<span class="pill pass">${s.pass} pass</span>`);
+    if(!out.length && empty) out.push(`<span class="pill draft">no ratings</span>`);
+    return out.join(' ');
+  }
+  function jobLabel(jobId){
+    const j=S.jobs.find(x=>x.id===jobId);
+    return j?[typeLabel(j)||'Job', j.date?fmtDate(j.date):''].filter(Boolean).join(' · '):'';
+  }
+  function repRows(list,{showCustomer=true}={}){
+    if(!list.length) return '';
+    return `<div class="ledger">${list.map(r=>{
+      const s=r.summary||repSummary(r.answers);
+      const sub=[showCustomer?r.title:'', fmtDate(r.date), r.jobId?jobLabel(r.jobId):''].filter(Boolean).join(' · ');
+      return `<div class="line rep-line" data-openrep="${r.id}" style="border-left-color:var(${s.fail?'--danger':s.attention?'--warn':'--ok'})">
+        <div class="main"><div class="title">${esc(showCustomer?customerName(r.customerId):(r.title||'Inspection report'))}</div><div class="sub">${esc(sub)}</div></div>
+        <div class="rep-pills">${repSumPills(s)}</div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+  function bindRepRows(root){
+    (root||document).querySelectorAll('[data-openrep]').forEach(el=>el.onclick=()=>{ closeModal(); goRp({mode:'view', id:el.dataset.openrep, pane:rp.pane}); });
+  }
+  function repLockedNotice(){
+    const canBill=['owner','admin'].includes(S.role||'owner');
+    return `<div class="notice err">Inspection reports and custom checklists are on the <strong>Growth</strong> plan.${canBill?' Upgrade in Settings → Subscription.':' Ask the account owner to upgrade.'}</div>
+      ${canBill?`<button class="btn primary" id="rep-upgrade">See plans</button>`:''}`;
+  }
+
+  /* ---- list screen: reports + templates ---- */
+  function viewReports(){
+    if(rp.mode==='fill' && rp.draft) return viewReportFill();
+    if(rp.mode==='view') return viewReportOne();
+    if(rp.mode==='tpl' && rp.tpl) return viewTemplateEdit();
+    const ok=repOk();
+    const pane=ok?rp.pane:'reports';
+    const q=(rp.q||'').trim().toLowerCase();
+    let list=(S.reports||[]).slice();
+    if(q) list=list.filter(r=>(customerName(r.customerId)+' '+(r.title||'')).toLowerCase().includes(q));
+    setTimeout(()=>{
+      $('#rep-upgrade')?.addEventListener('click',()=>navigate('settings'));
+      $('#rep-new')?.addEventListener('click',()=>openTemplatePicker({}));
+      $('#tpl-new')?.addEventListener('click',()=>goRp({mode:'tpl', pane:'templates', tpl:{name:'',questions:[{id:repQid(),label:'',type:'yesno',required:false,rate:true,good:'yes'}]}}));
+      document.querySelectorAll('[data-pane]').forEach(b=>b.onclick=()=>{ rp.pane=b.dataset.pane; render(); });
+      const s=$('#rep-search');
+      if(s) s.oninput=()=>{ rp.q=s.value; const box=$('#rep-list'); if(box){ const qq=s.value.trim().toLowerCase(); const l=(S.reports||[]).filter(r=>(customerName(r.customerId)+' '+(r.title||'')).toLowerCase().includes(qq)); box.innerHTML=repRows(l)||`<div class="empty">No reports match.</div>`; bindRepRows(box); } };
+      bindRepRows($('#rep-list'));
+      document.querySelectorAll('[data-usetpl]').forEach(el=>el.onclick=()=>startReport(el.dataset.usetpl,{}));
+      document.querySelectorAll('[data-edittpl]').forEach(el=>el.onclick=e=>{ e.stopPropagation(); editTemplate(el.dataset.edittpl); });
+      $('#rep-resume')?.addEventListener('click',()=>{ const d=rp.resume; rp.resume=null; goRp({mode:'fill', draft:d}); });
+      $('#rep-discard')?.addEventListener('click',()=>{ rp.resume=null; render(); });
+    },0);
+    const resume=rp.resume?`<div class="notice ok rep-resume"><div>Unsaved report: <strong>${esc(rp.resume.title)}</strong>${rp.resume.customerId?' for '+esc(customerName(rp.resume.customerId)):''}.</div>
+      <div class="btnrow" style="margin-top:8px"><button class="btn small primary" id="rep-resume">Resume</button><button class="btn small" id="rep-discard">Discard</button></div></div>`:'';
+    const tabs=ok?`<div class="seg rep-tabs" role="tablist">
+        <button type="button" role="tab" data-pane="reports" class="${pane==='reports'?'on':''}">Reports</button>
+        <button type="button" role="tab" data-pane="templates" class="${pane==='templates'?'on':''}">Templates</button>
+      </div>`:'';
+    if(pane==='templates'){
+      const tpls=allTemplates();
+      return `<div class="row-between"><h2>Reports</h2><button class="btn primary" id="tpl-new">New template</button></div>
+        ${tabs}
+        <p class="faint" style="margin:0 0 10px">Tap a template to start a report. Copy a built-in to make it your own.</p>
+        <div class="ledger">${tpls.map(t=>`
+          <div class="line" data-usetpl="${esc(t.id)}">
+            <div class="main"><div class="title">${esc(t.name)}</div><div class="sub">${t.builtin?'Built-in':'Custom'} · ${t.questions.length} question${t.questions.length===1?'':'s'}</div></div>
+            <button class="btn small" type="button" data-edittpl="${esc(t.id)}">${t.builtin?'Copy':'Edit'}</button>
+          </div>`).join('')}</div>`;
+    }
+    return `<div class="row-between"><h2>Reports</h2>${ok?`<button class="btn primary" id="rep-new">New report</button>`:''}</div>
+      ${ok?'':repLockedNotice()}
+      ${resume}${tabs}
+      ${(S.reports||[]).length?`<div class="search-wrap"><span class="search-ic">${ICON.estimate}</span><input type="search" id="rep-search" placeholder="Search by customer or report" value="${esc(rp.q||'')}" aria-label="Search reports"></div>`:''}
+      <div id="rep-list">${repRows(list)||`<div class="empty">${ICON.reports.replace('class="ic"','class="ic" style="width:26px;height:26px"')}<div>${q?'No reports match.':'No reports yet.'}</div>${ok&&!q?'<p class="faint" style="margin-top:8px">Pick a checklist, answer it on site, print or save it to the customer.</p>':''}</div>`}</div>`;
+  }
+
+  function openTemplatePicker(ctx){
+    if(!repOk()){ navigate('reports'); return; }
+    const wrap=document.createElement('div');
+    wrap.className='overlay more-sheet'; wrap.id='overlay';
+    wrap.innerHTML=`<div class="sheet" style="padding-bottom:24px">
+      <button class="modal-close" id="m-x" aria-label="Close">${ICON.close}</button>
+      <h3>Pick a checklist</h3>
+      <div class="ledger">${allTemplates().map(t=>`
+        <div class="line" data-pick="${esc(t.id)}">
+          <div class="main"><div class="title">${esc(t.name)}</div><div class="sub">${t.builtin?'Built-in':'Custom'} · ${t.questions.length} questions</div></div>
+        </div>`).join('')}</div>
+      <div class="btnrow" style="margin-top:14px"><button class="btn" id="pick-build">Build my own</button></div>
+    </div>`;
+    document.body.appendChild(wrap);
+    const close=()=>wrap.remove();
+    wrap.addEventListener('click',e=>{ if(e.target===wrap) close(); });
+    $('#m-x',wrap).onclick=close;
+    $('#pick-build',wrap).onclick=()=>{ close(); goRp({mode:'tpl', pane:'templates', tpl:{name:'',questions:[{id:repQid(),label:'',type:'yesno',required:false,rate:true,good:'yes'}]}}); };
+    wrap.querySelectorAll('[data-pick]').forEach(el=>el.onclick=()=>{ close(); startReport(el.dataset.pick, ctx); });
+  }
+  function startReport(templateId, ctx){
+    const t=allTemplates().find(x=>x.id===templateId);
+    if(!t) return toastErr('Template not found');
+    const job=ctx.jobId?S.jobs.find(j=>j.id===ctx.jobId):null;
+    goRp({mode:'fill', pane:rp.pane, draft:{
+      templateId:t.id, title:t.name, questions:repClone(t.questions), answers:{}, pending:{},
+      customerId:ctx.customerId||job?.customerId||'', jobId:ctx.jobId||'', date:localYmd(new Date()), notes:'', dirty:false
+    }});
+  }
+  function editReport(r){
+    goRp({mode:'fill', pane:rp.pane, draft:{
+      id:r.id, templateId:r.templateId, title:r.title, questions:repClone(r.questions||[]), answers:repClone(r.answers||{}), pending:{},
+      customerId:r.customerId, jobId:r.jobId||'', date:r.date||localYmd(new Date()), notes:r.notes||'', dirty:false
+    }});
+  }
+
+  /* ---- fill a report ---- */
+  function jobOptions(customerId, sel){
+    const jobs=customerId?S.jobs.filter(j=>j.customerId===customerId).sort((a,b)=>(b.date||'').localeCompare(a.date||'')):[];
+    return `<option value="">No job</option>${jobs.map(j=>`<option value="${j.id}" ${sel===j.id?'selected':''}>${esc(jobLabel(j.id))}${j.status?' ('+esc(j.status)+')':''}</option>`).join('')}`;
+  }
+  function qCard(q,d){
+    const a=d.answers[q.id]||{};
+    const pend=d.pending[q.id]||[];
+    let input='';
+    if(q.type==='yesno'){
+      input=`<div class="seg">${['yes','no'].map(v=>`<button type="button" data-yn="${v}" class="${a.value===v?'on':''}" aria-pressed="${a.value===v}">${v==='yes'?'Yes':'No'}</button>`).join('')}</div>`;
+      if(q.rate) input+=`<div class="oc-label">Result</div><div class="seg">${Object.keys(REP_OC).map(o=>`<button type="button" data-oc="${o}" class="oc-${o} ${a.outcome===o?'on':''}" aria-pressed="${a.outcome===o}">${REP_OC[o]}</button>`).join('')}</div>
+        ${a.outcome==='attention'||a.outcome==='fail'?`<input class="rq-in" data-note placeholder="What did you find? (optional)" value="${esc(a.note||'')}" style="margin-top:8px">`:''}`;
+    } else if(q.type==='text'){
+      input=`<textarea class="rq-in" data-val rows="3">${esc(a.value||'')}</textarea>`;
+    } else if(q.type==='number'){
+      input=`<input class="rq-in" data-val type="number" inputmode="decimal" step="any" value="${a.value!==undefined?esc(a.value):''}">`;
+    } else if(q.type==='select'){
+      input=`<select class="rq-in" data-val><option value="">Choose…</option>${(q.options||[]).map(o=>`<option ${a.value===o?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+    } else if(q.type==='photo'){
+      const saved=(a.photos||[]).map((p,i)=>`<div class="thumb">${p.fileId?`<img data-fid="${esc(p.fileId)}" alt="">`:`<div class="fn">${esc(p.filename)}<br>(not uploaded)</div>`}<button type="button" data-rmsaved="${i}" aria-label="Remove photo"><span>${ICON.close}</span></button></div>`).join('');
+      const fresh=pend.map((p,i)=>`<div class="thumb"><img src="${p.dataUrl}" alt=""><button type="button" data-rmpend="${i}" aria-label="Remove photo"><span>${ICON.close}</span></button></div>`).join('');
+      input=`<div class="thumbs">${saved}${fresh}</div><label class="btn small">+ Add photo<input type="file" accept="image/*" multiple data-photo></label>`;
+    }
+    return `<div class="rq" data-q="${esc(q.id)}">
+      <div class="ql">${esc(q.label)}${q.required?' <span class="req" aria-label="required">*</span>':''}</div>
+      ${q.hint?`<div class="qh">${esc(q.hint)}</div>`:''}
+      ${input}
+    </div>`;
+  }
+  function viewReportFill(){
+    const d=rp.draft;
+    const total=d.questions.length;
+    setTimeout(bindReportFill,0);
+    return `<button class="btn small" id="rep-back">← Back</button>
+      <div class="row-between" style="margin-top:14px;margin-bottom:6px"><h2>${esc(d.title)}</h2></div>
+      <div class="faint" style="margin-bottom:12px">${d.id?'Editing saved report':'New report'} · ${total} question${total===1?'':'s'}</div>
+      <div class="panel-card">
+        <div class="field"><label for="rp-cust">Customer</label>
+          <select id="rp-cust"><option value="">+ New customer</option>${S.customers.map(c=>`<option value="${c.id}" ${d.customerId===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select>
+        </div>
+        <div id="rp-newcust" style="display:${d.customerId?'none':''}">
+          <div class="field"><label for="rp-cname">Customer name</label><input id="rp-cname" value="${esc(d.newCust?.name||'')}"></div>
+          <div class="grid2"><div class="field"><label for="rp-cphone">Phone</label><input id="rp-cphone" type="tel" value="${esc(d.newCust?.phone||'')}"></div><div class="field"><label for="rp-cemail">Email</label><input id="rp-cemail" type="email" value="${esc(d.newCust?.email||'')}"></div></div>
+        </div>
+        <div class="grid2">
+          <div class="field" style="margin-bottom:0"><label for="rp-job">Job (optional)</label><select id="rp-job">${jobOptions(d.customerId,d.jobId)}</select></div>
+          <div class="field" style="margin-bottom:0"><label for="rp-date">Date</label><input type="date" id="rp-date" value="${esc(d.date)}"></div>
+        </div>
+      </div>
+      <div id="rep-qs">${d.questions.map(q=>qCard(q,d)).join('')}</div>
+      <div class="field"><label for="rp-notes">Report notes</label><textarea id="rp-notes" rows="3" placeholder="Anything the customer should know">${esc(d.notes)}</textarea></div>
+      <div class="rep-bar">
+        <div class="rep-bar-sum" id="rp-sum"></div>
+        <div class="btnrow"><button class="btn primary" id="rp-save">Save report</button><button class="btn" id="rp-cancel">Cancel</button></div>
+      </div>`;
+  }
+  function paintFillSummary(){
+    const d=rp.draft; const el=$('#rp-sum'); if(!d||!el) return;
+    const done=d.questions.filter(q=>repAnswered(q,d.answers[q.id],d.pending[q.id])).length;
+    el.innerHTML=`<span class="faint">${done}/${d.questions.length} answered</span> ${repSumPills(repSummary(d.answers),{empty:false})}`;
+  }
+  function loadThumbs(root){
+    (root||document).querySelectorAll('img[data-fid]').forEach(async img=>{
+      const id=img.dataset.fid;
+      if(repThumbs[id]){ img.src=repThumbs[id]; return; }
+      try{ const f=await api('file',{id}); repThumbs[id]='data:'+(f.mime||'image/jpeg')+';base64,'+f.data; img.src=repThumbs[id]; }
+      catch(_){ img.replaceWith(Object.assign(document.createElement('div'),{className:'fn',textContent:'Photo unavailable'})); }
+    });
+  }
+  function shrinkImage(file){
+    return new Promise((resolve,reject)=>{
+      const url=URL.createObjectURL(file); const img=new Image();
+      img.onload=()=>{
+        const s=Math.min(1,1600/Math.max(img.naturalWidth||1,img.naturalHeight||1));
+        const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(img.naturalWidth*s)); c.height=Math.max(1,Math.round(img.naturalHeight*s));
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        URL.revokeObjectURL(url);
+        const dataUrl=c.toDataURL('image/jpeg',0.82);
+        resolve({dataUrl, data:dataUrl.split(',')[1], mime:'image/jpeg', filename:(file.name||'photo').replace(/\.[^.]+$/,'')+'.jpg'});
+      };
+      img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error('Could not read that photo')); };
+      img.src=url;
+    });
+  }
+  function bindReportFill(){
+    const d=rp.draft; if(!d) return;
+    const qs=$('#rep-qs');
+    const qOf=el=>{ const card=el.closest('[data-q]'); return card?d.questions.find(q=>q.id===card.dataset.q):null; };
+    const ans=q=>(d.answers[q.id]=d.answers[q.id]||{});
+    const repaint=q=>{
+      const card=qs.querySelector(`[data-q="${CSS.escape(q.id)}"]`);
+      if(card){ card.outerHTML=qCard(q,d); const n=qs.querySelector(`[data-q="${CSS.escape(q.id)}"]`); loadThumbs(n); }
+      paintFillSummary();
+    };
+    $('#rep-back').onclick=$('#rp-cancel').onclick=async()=>{
+      if(d.dirty && !(await confirmDialog('Discard this report?',{okLabel:'Discard',danger:true}))) return;
+      d.dirty=false; history.back();
+    };
+    $('#rp-cust').onchange=e=>{
+      d.customerId=e.target.value; d.jobId=''; d.dirty=true;
+      $('#rp-newcust').style.display=d.customerId?'none':'';
+      $('#rp-job').innerHTML=jobOptions(d.customerId,'');
+    };
+    ['rp-cname','rp-cphone','rp-cemail'].forEach(id=>{ $('#'+id).oninput=()=>{ d.newCust={name:$('#rp-cname').value,phone:$('#rp-cphone').value,email:$('#rp-cemail').value}; d.dirty=true; }; });
+    $('#rp-job').onchange=e=>{ d.jobId=e.target.value; d.dirty=true; };
+    $('#rp-date').onchange=e=>{ d.date=e.target.value; d.dirty=true; };
+    $('#rp-notes').oninput=e=>{ d.notes=e.target.value; d.dirty=true; };
+    qs.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      const q=qOf(b); if(!q) return;
+      const a=ans(q); d.dirty=true;
+      if(b.dataset.yn){
+        a.value=b.dataset.yn;
+        if(q.rate) a.outcome=a.value===(q.good||'yes')?'pass':'fail';
+        repaint(q);
+      } else if(b.dataset.oc){
+        a.outcome=a.outcome===b.dataset.oc?undefined:b.dataset.oc; repaint(q);
+      } else if(b.dataset.rmsaved!==undefined){
+        (a.photos||[]).splice(+b.dataset.rmsaved,1); repaint(q);
+      } else if(b.dataset.rmpend!==undefined){
+        (d.pending[q.id]||[]).splice(+b.dataset.rmpend,1); repaint(q);
+      }
+    });
+    qs.addEventListener('input',e=>{
+      const t=e.target; const q=qOf(t); if(!q) return;
+      if(t.hasAttribute('data-val')){ ans(q).value=t.value; d.dirty=true; t.closest('.rq').classList.remove('missing'); paintFillSummary(); }
+      else if(t.hasAttribute('data-note')){ ans(q).note=t.value; d.dirty=true; }
+    });
+    qs.addEventListener('change',async e=>{
+      const t=e.target; if(!t.hasAttribute('data-photo')) return;
+      const q=qOf(t); if(!q) return;
+      const files=[...(t.files||[])];
+      for(const f of files){
+        try{ const p=await shrinkImage(f); (d.pending[q.id]=d.pending[q.id]||[]).push(p); d.dirty=true; }
+        catch(err){ toastErr(err.message); }
+      }
+      repaint(q);
+    });
+    $('#rp-save').onclick=saveReport;
+    loadThumbs(qs);
+    paintFillSummary();
+  }
+  async function saveReport(){
+    const d=rp.draft; if(!d) return;
+    const custSel=$('#rp-cust').value;
+    const newCust={name:$('#rp-cname').value.trim(), phone:$('#rp-cphone').value.trim(), email:$('#rp-cemail').value.trim()};
+    if(!custSel && !newCust.name && !newCust.phone && !newCust.email){ toastErr('Pick a customer or type a new one'); $('#rp-cust').focus(); return; }
+    const missing=d.questions.filter(q=>q.required && !repAnswered(q,d.answers[q.id],d.pending[q.id]));
+    document.querySelectorAll('#rep-qs .rq').forEach(c=>c.classList.toggle('missing',missing.some(q=>q.id===c.dataset.q)));
+    if(missing.length){
+      toastErr(missing.length===1?'1 required question is blank':missing.length+' required questions are blank');
+      document.querySelector('#rep-qs .rq.missing')?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    const btn=$('#rp-save'); btn.disabled=true; btn.textContent='Saving…';
+    const answers=repClone(d.answers);
+    const body={id:d.id, templateId:d.templateId, title:d.title, questions:d.questions, answers, customerId:custSel||undefined, jobId:d.jobId||'', date:d.date, notes:d.notes};
+    if(!custSel) body.customer=newCust;
+    const pendingIds=Object.keys(d.pending).filter(k=>(d.pending[k]||[]).length);
+    try{
+      const offline=!navigator.onLine;
+      let customerId=custSel;
+      if(pendingIds.length && offline){
+        pendingIds.forEach(k=>{ const a=answers[k]=answers[k]||{}; a.photos=(a.photos||[]).concat(d.pending[k].map(p=>({filename:p.filename}))); });
+        toast('Photos need a connection. Their names are saved; add them again once online.','err');
+      } else if(pendingIds.length){
+        if(!customerId){
+          const first=await api('save',{kind:'report',body:Object.assign({},body,{answers:d.answers})});
+          if(first.queued||!first.id){ d.dirty=false; rp={mode:'list',pane:'reports'}; history.replaceState({tab:'reports'},'','/reports'); render(); toast('Saved without photos. Add them once you are back online.','err'); return; }
+          d.id=body.id=first.id; customerId=body.customerId=first.customerId; delete body.customer;
+        }
+        for(const k of pendingIds){
+          const a=answers[k]=answers[k]||{}; a.photos=a.photos||[];
+          for(const p of d.pending[k]){
+            const u=await api('upload',{body:{customerId, filename:'Report - '+p.filename, mime:p.mime, data:p.data, category:'photo'}});
+            if(u.id) repThumbs[u.id]=p.dataUrl;
+            a.photos.push({fileId:u.id||'', filename:p.filename});
+          }
+        }
+      }
+      const r=await api('save',{kind:'report',body});
+      d.dirty=false;
+      setS(await api('state'));
+      if(r.queued || !r.id){ rp={mode:'list',pane:'reports'}; history.replaceState({tab:'reports'},'','/reports'); render(); return; }
+      rp={mode:'view', id:r.id};
+      history.replaceState({tab:'reports',rpView:r.id},'','/reports');
+      render(); window.scrollTo(0,0);
+      toast('Report saved','ok');
+    }catch(e){
+      toastErr(e.message||'Could not save the report');
+      btn.disabled=false; btn.textContent='Save report';
+    }
+  }
+
+  /* ---- view one report ---- */
+  function answerText(q,a){
+    if(!a) return '';
+    if(q.type==='yesno') return a.value==='yes'?'Yes':a.value==='no'?'No':'';
+    if(q.type==='photo') return (a.photos||[]).length?(a.photos.length+' photo'+(a.photos.length===1?'':'s')):'';
+    return a.value===undefined||a.value===null?'':String(a.value);
+  }
+  function viewReportOne(){
+    const r=(S.reports||[]).find(x=>x.id===rp.id);
+    if(!r){ setTimeout(()=>{ $('#rep-back')?.addEventListener('click',()=>history.back()); },0); return `<button class="btn small" id="rep-back">← Back</button><div class="empty">Report not found.</div>`; }
+    const c=S.customers.find(x=>x.id===r.customerId);
+    const s=r.summary||repSummary(r.answers);
+    setTimeout(()=>{
+      $('#rep-back').onclick=()=>history.back();
+      $('#rep-print').onclick=()=>printReport(r);
+      $('#rep-edit')?.addEventListener('click',()=>editReport(r));
+      $('#rep-cust').onclick=()=>openCustomerDetail(r.customerId);
+      $('#rep-del')?.addEventListener('click',async()=>{
+        if(!(await confirmDialog('Delete this report? Photos stay in the customer\u2019s files.',{okLabel:'Delete',danger:true}))) return;
+        try{ await api('del',{kind:'report',id:r.id}); setS(await api('state')); toast('Report deleted','ok'); history.back(); }
+        catch(e){ toastErr(e.message); }
+      });
+      loadThumbs($('#main'));
+    },0);
+    const rows=(r.questions||[]).map(q=>{
+      const a=(r.answers||{})[q.id];
+      const txt=answerText(q,a);
+      const photos=q.type==='photo'&&a&&a.photos&&a.photos.length?`<div class="thumbs" style="margin:8px 0 0">${a.photos.map(p=>`<div class="thumb">${p.fileId?`<img data-fid="${esc(p.fileId)}" alt="">`:`<div class="fn">${esc(p.filename)}</div>`}</div>`).join('')}</div>`:'';
+      return `<div class="rv-item ${a&&a.outcome?'oc-'+a.outcome:''}">
+        <div class="rv-q">${esc(q.label)}${a&&a.note?`<div class="rv-note">${esc(a.note)}</div>`:''}${photos}</div>
+        <div class="rv-a">${txt?(q.type==='text'?`<span class="rv-txt">${esc(txt)}</span>`:esc(txt)):'<span class="faint">—</span>'}${a&&a.outcome?`<span class="pill ${a.outcome}">${REP_OC[a.outcome]}</span>`:''}</div>
+      </div>`;
+    }).join('');
+    return `<button class="btn small" id="rep-back">← Back</button>
+      <div class="panel-card rv-head" style="margin-top:14px">
+        <div class="faint">${esc(S.business?.name||'')}</div>
+        <h2 style="margin:2px 0 6px;font-size:20px">${esc(r.title||'Inspection report')}</h2>
+        <div class="rv-meta"><button type="button" class="linkbtn" id="rep-cust">${esc(c?.name||'Unknown customer')}</button> · ${esc(fmtDate(r.date))}${r.jobId?' · '+esc(jobLabel(r.jobId)):''}</div>
+        <div class="rv-sum">
+          <div class="rv-box pass"><b>${s.pass}</b><span>Pass</span></div>
+          <div class="rv-box attention"><b>${s.attention}</b><span>Attention</span></div>
+          <div class="rv-box fail"><b>${s.fail}</b><span>Fail</span></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="rep-print">Print / PDF</button>${repOk()?'<button class="btn" id="rep-edit">Edit</button>':''}<button class="btn danger ghost" id="rep-del">Delete</button></div>
+      </div>
+      <div class="rv-list">${rows}</div>
+      ${r.notes?`<h3 class="section">Notes</h3><p style="white-space:pre-wrap;margin:0">${esc(r.notes)}</p>`:''}`;
+  }
+
+  /* ---- printable report: one page, existing doc-print pattern ---- */
+  async function printReport(r){
+    const fids=[];
+    (r.questions||[]).forEach(q=>{ const a=(r.answers||{})[q.id]; if(q.type==='photo'&&a&&a.photos) a.photos.forEach(p=>{ if(p.fileId&&fids.length<8) fids.push(p.fileId); }); });
+    if(fids.some(id=>!repThumbs[id])) toast('Preparing photos…');
+    await Promise.all(fids.map(async id=>{
+      if(repThumbs[id]) return;
+      try{ const f=await api('file',{id}); repThumbs[id]='data:'+(f.mime||'image/jpeg')+';base64,'+f.data; }catch(_){}
+    }));
+    const c=S.customers.find(x=>x.id===r.customerId)||{};
+    const s=r.summary||repSummary(r.answers);
+    let shown=0;
+    const rows=(r.questions||[]).map(q=>{
+      const a=(r.answers||{})[q.id];
+      let val=esc(answerText(q,a))||'—';
+      if(q.type==='photo'&&a&&a.photos&&a.photos.length){
+        const imgs=a.photos.map(p=>{ if(!p.fileId||!repThumbs[p.fileId]||shown>=8) return ''; shown++; return `<img class="rd-ph" src="${repThumbs[p.fileId]}" alt="">`; }).join('');
+        val=imgs||val;
+      }
+      return `<tr><td>${esc(q.label)}${a&&a.note?`<div class="rd-note">${esc(a.note)}</div>`:''}</td><td>${val}</td><td>${a&&a.outcome?`<span class="oc ${a.outcome}">${REP_OC[a.outcome]}</span>`:''}</td></tr>`;
+    }).join('');
+    const info=[['Customer',c.name||customerName(r.customerId)],['Date',fmtDate(r.date)],['Address',c.address],['Phone',c.phone||c.email],['Job',r.jobId?jobLabel(r.jobId):'']]
+      .filter(([,v])=>v).map(([k,v])=>`<div><b>${k}:</b> ${esc(v)}</div>`).join('');
+    const html=`${docHead(r.title||'Inspection report', [c.name||'', fmtDate(r.date)].filter(Boolean).join(' · '))}
+      <div class="rd-info">${info}</div>
+      <div class="rd-sum"><span class="pass">${s.pass} Pass</span><span class="attention">${s.attention} Attention</span><span class="fail">${s.fail} Fail</span></div>
+      <table><thead><tr><th style="width:52%">Item</th><th>Result</th><th style="width:76px">Rating</th></tr></thead><tbody>${rows}</tbody></table>
+      ${r.notes?`<div class="rd-notes"><b>Notes</b><div>${esc(r.notes)}</div></div>`:''}
+      <div style="margin-top:12px;padding-top:6px;border-top:1px solid #e5e5e5;font-size:10px;color:#9aa"><img src="/mascot.png" alt="" style="width:14px;height:14px;border-radius:50%;vertical-align:-3px;margin-right:5px">Made with Ledgerline — leonlink.net</div>`;
+    document.querySelectorAll('.doc-print').forEach(x=>x.remove());
+    const m=document.createElement('div'); m.className='rep-doc rep-measure'; m.innerHTML=html;
+    document.body.appendChild(m);
+    await Promise.all([...m.querySelectorAll('img')].map(i=>i.decode?i.decode().catch(()=>{}):null));
+    const h=m.scrollHeight; m.remove();
+    const el=document.createElement('div'); el.className='doc-print';
+    const inner=document.createElement('div'); inner.className='rep-doc'; inner.innerHTML=html;
+    const PAGE=940;
+    if(h>PAGE) inner.style.zoom=String(Math.max(0.3,PAGE/h));
+    el.appendChild(inner);
+    document.body.appendChild(el);
+    document.body.classList.add('printing-report');
+    const done=()=>{ document.body.classList.remove('printing-report'); el.remove(); window.removeEventListener('afterprint',done); };
+    window.addEventListener('afterprint',done);
+    window.print();
+  }
+
+  /* ---- template builder ---- */
+  function editTemplate(id){
+    const t=allTemplates().find(x=>x.id===id); if(!t) return;
+    goRp({mode:'tpl', pane:'templates', tpl:t.builtin?{name:t.name+' (my copy)',questions:repClone(t.questions)}:{id:t.id,name:t.name,questions:repClone(t.questions)}});
+  }
+  function qEditor(q,i,n){
+    return `<div class="rq qe" data-qi="${i}">
+      <div class="qe-top"><span class="qe-n">${i+1}</span><input class="rq-in" data-f="label" placeholder="Question" value="${esc(q.label)}" aria-label="Question ${i+1}"></div>
+      <div class="grid2" style="margin-top:8px">
+        <select class="rq-in" data-f="type" aria-label="Answer type">${Object.entries(Q_TYPE_LABEL).map(([k,l])=>`<option value="${k}" ${q.type===k?'selected':''}>${l}</option>`).join('')}</select>
+        <label class="chk"><input type="checkbox" data-f="required" ${q.required?'checked':''}> Required</label>
+      </div>
+      ${q.type==='select'?`<textarea class="rq-in" data-f="options" rows="3" placeholder="One option per line" style="margin-top:8px">${esc((q.options||[]).join('\n'))}</textarea>`:''}
+      ${q.type==='yesno'?`<div class="grid2" style="margin-top:4px">
+        <label class="chk"><input type="checkbox" data-f="rate" ${q.rate?'checked':''}> Pass / attention / fail</label>
+        ${q.rate?`<select class="rq-in" data-f="good" aria-label="Passing answer"><option value="yes" ${q.good!=='no'?'selected':''}>Yes passes</option><option value="no" ${q.good==='no'?'selected':''}>No passes</option></select>`:'<span></span>'}
+      </div>`:''}
+      <div class="qe-tools">
+        <button type="button" class="btn small" data-mv="-1" ${i===0?'disabled':''} aria-label="Move up">↑</button>
+        <button type="button" class="btn small" data-mv="1" ${i===n-1?'disabled':''} aria-label="Move down">↓</button>
+        <button type="button" class="btn small danger" data-rmq aria-label="Delete question">Delete</button>
+      </div>
+    </div>`;
+  }
+  function viewTemplateEdit(){
+    const t=rp.tpl;
+    setTimeout(bindTemplateEdit,0);
+    return `<button class="btn small" id="rep-back">← Back</button>
+      <div class="row-between" style="margin-top:14px"><h2>${t.id?'Edit template':'New template'}</h2></div>
+      <div class="field"><label for="tp-name">Template name</label><input id="tp-name" value="${esc(t.name)}" placeholder="e.g. Pellet stove annual service"></div>
+      <div id="tp-qs">${t.questions.map((q,i)=>qEditor(q,i,t.questions.length)).join('')}</div>
+      <button class="btn" id="tp-add" type="button" style="width:100%;justify-content:center">+ Add question</button>
+      <div class="rep-bar">
+        <div class="rep-bar-sum"><span class="faint">${t.questions.length} question${t.questions.length===1?'':'s'}</span></div>
+        <div class="btnrow"><button class="btn primary" id="tp-save">Save template</button>${t.id?'<button class="btn danger ghost" id="tp-del">Delete</button>':''}</div>
+      </div>`;
+  }
+  function bindTemplateEdit(){
+    const t=rp.tpl; if(!t) return;
+    const box=$('#tp-qs');
+    const redraw=()=>{ const y=window.scrollY; render(); window.scrollTo(0,y); };
+    $('#rep-back').onclick=()=>history.back();
+    $('#tp-name').oninput=e=>{ t.name=e.target.value; };
+    $('#tp-add').onclick=()=>{ t.questions.push({id:repQid(),label:'',type:'yesno',required:false,rate:true,good:'yes'}); redraw(); setTimeout(()=>{ const ins=document.querySelectorAll('#tp-qs [data-f="label"]'); ins[ins.length-1]?.focus(); },10); };
+    const idx=el=>+el.closest('[data-qi]').dataset.qi;
+    box.addEventListener('input',e=>{
+      const f=e.target.dataset.f; if(!f) return;
+      const q=t.questions[idx(e.target)];
+      if(f==='label') q.label=e.target.value;
+      if(f==='options') q.options=e.target.value.split('\n').map(s=>s.trim()).filter(Boolean);
+    });
+    box.addEventListener('change',e=>{
+      const f=e.target.dataset.f; if(!f) return;
+      const q=t.questions[idx(e.target)];
+      if(f==='type'){ q.type=e.target.value; if(q.type==='yesno'&&q.rate===undefined){ q.rate=true; q.good='yes'; } if(q.type==='select'&&!q.options) q.options=[]; redraw(); }
+      if(f==='required') q.required=e.target.checked;
+      if(f==='rate'){ q.rate=e.target.checked; if(!q.good) q.good='yes'; redraw(); }
+      if(f==='good') q.good=e.target.value;
+    });
+    box.addEventListener('click',async e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      const i=idx(b);
+      if(b.dataset.mv){ const j=i+(+b.dataset.mv); if(j<0||j>=t.questions.length) return; [t.questions[i],t.questions[j]]=[t.questions[j],t.questions[i]]; redraw(); }
+      else if(b.hasAttribute('data-rmq')){
+        if(t.questions[i].label && !(await confirmDialog('Delete this question?',{okLabel:'Delete',danger:true}))) return;
+        t.questions.splice(i,1); redraw();
+      }
+    });
+    $('#tp-save').onclick=async()=>{
+      const name=t.name.trim();
+      if(!name){ toastErr('Give the template a name'); $('#tp-name').focus(); return; }
+      const qs=t.questions.filter(q=>q.label.trim());
+      if(!qs.length){ toastErr('Add at least one question'); return; }
+      const bad=qs.find(q=>q.type==='select'&&!(q.options||[]).length);
+      if(bad){ toastErr('“'+bad.label+'” needs at least one option'); return; }
+      const questions=qs.map(q=>{
+        const o={id:q.id||repQid(),label:q.label.trim(),type:q.type,required:!!q.required};
+        if(q.type==='select') o.options=q.options;
+        if(q.type==='yesno'){ o.rate=!!q.rate; o.good=q.good==='no'?'no':'yes'; }
+        if(q.hint) o.hint=q.hint;
+        return o;
+      });
+      try{
+        await api('save',{kind:'template',body:{id:t.id, name, questions}});
+        setS(await api('state'));
+        rp={mode:'list', pane:'templates'};
+        history.replaceState({tab:'reports'},'','/reports');
+        render(); toast('Template saved','ok');
+      }catch(err){ toastErr(err.message); }
+    };
+    $('#tp-del')?.addEventListener('click',async()=>{
+      if(!(await confirmDialog('Delete this template? Reports already made with it are kept.',{okLabel:'Delete',danger:true}))) return;
+      try{ await api('del',{kind:'template',id:t.id}); setS(await api('state')); rp={mode:'list',pane:'templates'}; history.replaceState({tab:'reports'},'','/reports'); render(); toast('Template deleted','ok'); }
+      catch(err){ toastErr(err.message); }
+    });
   }
 
   function viewEstimates(){
@@ -2320,6 +3102,7 @@ async function runApp(){
       <div class="field" id="f-customwrap" style="display:${j?.type==='custom'?'':'none'}"><label>Custom type</label><input id="f-customtype" value="${esc(j?.customType)}"></div>
       <div class="field"><label>Notes</label><textarea id="f-notes" rows="2">${esc(j?.notes)}</textarea></div>
       ${j?`<div class="field"><label>Status</label><select id="f-status">${['scheduled','in_progress','done','canceled'].map(s=>`<option ${j.status===s?'selected':''}>${s}</option>`).join('')}</select></div>`:''}
+      ${j&&(S.reports||[]).some(r=>r.jobId===j.id)?`<label style="font-size:13px;color:var(--muted);font-weight:500">Inspection reports</label>${repRows((S.reports||[]).filter(r=>r.jobId===j.id),{showCustomer:false})}`:''}
     `,{
       save: async()=>{
         const dateVal=($('#f-date')?.value||'').trim();
@@ -2345,7 +3128,7 @@ async function runApp(){
         }catch(err){ toastErr(err.message||'Could not save job'); }
       },
       del: j?async()=>{ if(await confirmDialog('Delete this job?',{okLabel:'Delete',danger:true})){ await api('del',{kind:'job',id}); setS(await api('state')); closeModal(); render(); } }:null,
-      extra: j && j.status!=='done' && j.status!=='canceled' ? [
+      extra: [...(j && j.status!=='done' && j.status!=='canceled' ? [
         {label:'Mark done', fn: async()=>{
           try{
             await api('complete-job',{body:{jobId:j.id, createInvoice:false}});
@@ -2367,9 +3150,10 @@ async function runApp(){
             lines: [{label: (j.notes||typeLabel(j)||'Job'), amt: j.price?money(j.price):'—'}],
             total: j.price?money(j.price):null
           });
-        }}]:[])
+        }}]:[])),
+        ...(j && repOk() ? [{label:'+ Report', fn:()=>{ closeModal(); openTemplatePicker({customerId:j.customerId, jobId:j.id}); }}] : [])]
     });
-    setTimeout(()=>{ $('#f-type').onchange=e=>{ $('#f-customwrap').style.display=e.target.value==='custom'?'':'none'; }; },0);
+    setTimeout(()=>{ $('#f-type').onchange=e=>{ $('#f-customwrap').style.display=e.target.value==='custom'?'':'none'; }; bindRepRows($('#overlay')); },0);
   }
 
   function viewInvoices(){
