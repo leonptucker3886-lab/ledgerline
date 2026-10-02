@@ -654,11 +654,11 @@ function planLabel(key){
 function planCardHTML(key, opts={}){
   const st=planState();
   const cat=(st&&st.plans&&st.plans[key])||{};
-  const names={good:{label:'Starter',tagline:'Stop paying per user',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',value:'Run the whole business from your phone — quotes, schedule, invoices, and get paid by card. Whole crew, unlimited jobs, one flat price.',perks:['Quotes, schedule & invoices','Get paid by card on every job','One-tap review request after a job','Unlimited crew — no per-user fees','Unlimited customers & jobs']},
+  const names={good:{label:'Starter',tagline:'Stop paying per user',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',priceMonthly:'$9.83',moAmount:9.83,value:'Run the whole business from your phone — quotes, schedule, invoices, and get paid by card. Whole crew, unlimited jobs, one flat price.',perks:['Quotes, schedule & invoices','Get paid by card on every job','One-tap review request after a job','Unlimited crew — no per-user fees','Unlimited customers & jobs']},
 
-better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, automatic reminders that chase late invoices, and Proofline before/after reports that win the next job.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Proofline before/after photo reports','Shareable job reports for customers']},
+better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',priceMonthly:'$29.83',moAmount:29.83,value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, automatic reminders that chase late invoices, and Proofline before/after reports that win the next job.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Proofline before/after photo reports','Shareable job reports for customers']},
 
-best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',value:'Everything in Growth, plus Reviewline — the review funnel and QR kits that turn finished jobs into Google reviews — and SMS reminders that actually get read. One saved no-show covers the whole year.',perks:['Everything in Growth','Reviewline review funnel + QR kits','SMS reminders that get read','Priority on new features']}};
+best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',priceMonthly:'$54.50',moAmount:54.5,value:'Everything in Growth, plus Reviewline — the review funnel and QR kits that turn finished jobs into Google reviews — and SMS reminders that actually get read. One saved no-show covers the whole year.',perks:['Everything in Growth','Reviewline review funnel + QR kits','SMS reminders that get read','Priority on new features']}};
   const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
   // Keep display price from catalog names when API only has priceId
   if(!d.price) d.price = names[key]?.price;
@@ -667,16 +667,19 @@ best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMon
   const on=opts.on||(st&&st.billing&&st.billing.plan===key);
   const tone={good:'tone-good',better:'tone-better',best:'tone-best'}[key];
   const perks=(d.perks||[]).map(x=>`<li>${esc(x)}</li>`).join('');
-  const btn=opts.button?`<button class="btn small ${key==='better'||key==='best'?'primary':''}" type="button" data-plan="${key}">${esc(opts.button)}</button>`:'';
+  const btn=opts.button?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small ${key!=='good'?'primary':''}" type="button" data-plan="${key}" data-period="month">Start monthly</button><button class="btn small" type="button" data-plan="${key}" data-period="6mo">Prepay ${esc(d.price||'')}</button></div>`:'';
   const badge=key==='best'?`<span class="plan-badge">Best value</span>`:(key==='better'&&opts.featured?`<span class="plan-badge">Popular</span>`:'');
-  const mo=(d.perMonth||'').replace(/\/mo$/,'');
-  const m=(d.period||'').match(/\d+/);
-  const billed=(mo&&d.price&&m)?`billed ${d.price} every ${m[0]} months`:'';
+  const moAmt=Number(d.moAmount||0);
+  const p6=Number(String(d.price||'').replace(/[^0-9.]/g,''));
+  const save=(moAmt>0&&p6>0)?(moAmt*6-p6):0;
+  const head=String(d.priceMonthly||d.perMonth||d.price||'').replace(/\/mo$/,'');
+  const sub=(d.priceMonthly||d.perMonth)?'/mo':(d.period||'');
+  const line2=d.priceMonthly?`or prepay ${d.price} every 6 months${save>0?` — save $${save.toFixed(2)}`:''}`:(d.perMonth||'');
   return `<div class="plan-card ${tone} ${on?'on':''}">${badge}
     <div class="plan-tag">${esc(d.tagline||'')}</div>
     <div class="plan-name">${esc(d.label||key)}</div>
-    <div class="plan-price">${esc(mo||d.price||'')}<span>${mo?'/mo':(d.period||'')}</span></div>
-    <div class="plan-month">${esc(billed||d.perMonth||'')}</div>
+    <div class="plan-price">${esc(head)}<span>${sub}</span></div>
+    <div class="plan-month">${esc(line2)}</div>
     <p class="plan-value">${esc(d.value||d.desc||'')}</p>
     <ul class="plan-perks">${perks}</ul>
     ${btn}
@@ -2433,7 +2436,7 @@ async function runApp(){
       document.querySelectorAll('[data-plan]').forEach(btn=>{
         btn.addEventListener('click', async()=>{
           try{
-            const r=await api('subscribe',{body:{plan:btn.dataset.plan}});
+            const r=await api('subscribe',{body:{plan:btn.dataset.plan,period:btn.dataset.period||'month'}});
             if(r.url) location.href=r.url;
           }catch(e){ toastErr(e.message); }
         });

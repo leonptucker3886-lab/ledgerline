@@ -348,6 +348,9 @@ module.exports = async (req, res) => {
           cancel_url: `${origin}/${after.replace("session_id={CHECKOUT_SESSION_ID}", "canceled=1")}`,
           "metadata[invoiceId]": invoiceId,
           "metadata[tenantId]": tenantId,
+          "metadata[plan]": String(body.plan || ""),
+          "metadata[period]": prepaid ? "6mo" : "month",
+          "subscription_data[metadata][tenantId]": tenantId,
         });
         const r = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers: { Authorization: "Bearer " + sk, "Content-Type": "application/x-www-form-urlencoded" }, body: form.toString() });
         const d = await r.json();
@@ -369,6 +372,18 @@ module.exports = async (req, res) => {
             inv.status = "paid"; inv.paidAt = Date.now(); inv.paidMethod = "card";
             await putRecord("invoice", invoiceId, inv);
           }
+        }
+        const md = d.metadata || {};
+        if (md.tenantId && md.plan) {
+          const tid = String(md.tenantId);
+          const cur = await getSetting(`t:${tid}:billing`);
+          const prev = cur ? JSON.parse(cur) : {};
+          await setSetting(`t:${tid}:billing`, JSON.stringify({
+            ...prev, status: "active", plan: String(md.plan), period: String(md.period || "month"),
+            stripeCustomerId: d.customer || prev.stripeCustomerId || "",
+            subscriptionId: d.subscription || prev.subscriptionId || "",
+            startedAt: prev.startedAt || Date.now(),
+          }));
         }
         return json(res, 200, { ok: true });
       }
@@ -468,7 +483,7 @@ module.exports = async (req, res) => {
               getSetting(`t:${tenantId}:business`), getSetting(`t:${tenantId}:billing`), getSetting(`t:${tenantId}:docstyle`), getSetting(`t:${tenantId}:reminders`), getSetting(`t:${tenantId}:reviews`),
             ]);
             const business = businessV ? JSON.parse(businessV) : {};
-            const billing = billingV ? JSON.parse(billingV) : { status: "active", plan: "best" };
+            const billing = billingV ? JSON.parse(billingV) : (isDemoTenant(tenantId) ? { status: "active", plan: "best" } : { status: "free", plan: "free" });
             billing.entitlements = ENTITLEMENTS(billing.plan);
             const [customers, jobs, estimates, invoices, requests] = await Promise.all([
               listRecords("customer", tenantId), listRecords("job", tenantId), listRecords("estimate", tenantId), listRecords("invoice", tenantId), listRecords("request", tenantId),
@@ -733,9 +748,9 @@ module.exports = async (req, res) => {
             if (isDemoTenant(tenantId)) return err(res, 400, "Billing is disabled in the demo — every plan is already unlocked.");
             const sk = process.env.STRIPE_SECRET_KEY;
             if (!sk) return err(res, 500, "Billing is not connected yet.");
-            const priceEnv = { good: "STRIPE_PRICE_ID_GOOD", better: "STRIPE_PRICE_ID_BETTER", best: "STRIPE_PRICE_ID_BEST" }[String(body.plan || "")];
-            const price = priceEnv ? process.env[priceEnv] : null;
-            if (!price) return err(res, 400, "Unknown plan.");
+            const planBase = { good: "STRIPE_PRICE_ID_GOOD", better: "STRIPE_PRICE_ID_BETTER", best: "STRIPE_PRICE_ID_BEST" }[String(body.plan || "")];
+            const prepaid = String(body.period || "") === "6mo";
+            const price = planBase ? process.env[prepaid ? planBase : planBase + "_MONTHLY"] : null;
             const origin = baseUrl(req);
             const form = new URLSearchParams({
               mode: "subscription",
@@ -755,7 +770,18 @@ module.exports = async (req, res) => {
             if (isDemoTenant(tenantId)) return err(res, 400, "Billing is disabled in the demo — every plan is already unlocked.");
             const sk = process.env.STRIPE_SECRET_KEY;
             if (!sk) return err(res, 500, "Billing is not connected yet.");
-            return err(res, 400, "No billing profile yet — subscribe to a plan first.");
+            const curB = await getSetting(`t:${tenantId}:billing`);
+            const b = curB ? JSON.parse(curB) : {};
+            if (!b.stripeCustomerId) return err(res, 400, "No billing profile yet — subscribe to a plan first.");
+            const originB = baseUrl(req);
+            const rb = await fetch("https://api.stripe.com/v1/billing_portal/sessions", {
+              method: "POST",
+              headers: { Authorization: "Bearer " + sk, "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({ customer: String(b.stripeCustomerId), return_url: `${originB}/settings` }),
+            });
+            const db = await rb.json();
+            if (!rb.ok || !db.url) return err(res, 500, "Billing provider error.");
+            return json(res, 200, { url: db.url });
           }
 
           case "export": {
