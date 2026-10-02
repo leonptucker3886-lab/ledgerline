@@ -47,6 +47,29 @@ async function getRecord(kind, id) {
 async function listRecords(kind, tenantId) {
   return sql("SELECT id, data FROM records WHERE kind=$1 AND data->>'tenantId'=$2", [kind, tenantId]);
 }
+
+// Some forms let a new customer be typed in on the fly ("add a job while on the
+// phone"). Estimates handled that; jobs and invoices answered "Pick a customer."
+// and silently dropped the booking. Create the customer, then link it.
+async function inlineCustomer(tenantId, c, now) {
+  if (!c) return null;
+  const name = String(c.name || "").trim();
+  const phone = String(c.phone || "").trim();
+  const email = String(c.email || "").trim();
+  if (!name && !phone && !email) return null;
+  const id = uid();
+  await putRecord("customer", id, {
+    tenantId,
+    name: name || phone || email,
+    phone,
+    email,
+    address: "",
+    createdAt: now,
+    portalToken: crypto.randomBytes(12).toString("hex"),
+  });
+  return id;
+}
+
 async function putRecord(kind, id, data) {
   const j = JSON.stringify(data);
   const upd = await sql("UPDATE records SET data=$3 WHERE kind=$1 AND id=$2 RETURNING id", [kind, id, j]);
@@ -555,6 +578,7 @@ module.exports = async (req, res) => {
               for (const f of ["customerId", "date", "time", "type", "title", "notes", "status", "recur", "estimateId", "price"]) {
                 if (b[f] !== undefined) j[f] = b[f];
               }
+              if (!j.customerId) j.customerId = await inlineCustomer(tenantId, b.customer, now);
               if (!j.customerId) return err(res, 400, "Pick a customer.");
               if (!j.status) j.status = "scheduled";
               await putRecord("job", b.id || uid(), j);
@@ -566,6 +590,7 @@ module.exports = async (req, res) => {
               for (const f of ["customerId", "title", "total", "status", "due", "items", "notes", "estimateId", "jobId", "paidAt", "paidMethod"]) {
                 if (b[f] !== undefined) inv[f] = b[f];
               }
+              if (!inv.customerId) inv.customerId = await inlineCustomer(tenantId, b.customer, now);
               if (!inv.customerId) return err(res, 400, "Pick a customer.");
               if (!inv.status) inv.status = "unpaid";
               await putRecord("invoice", b.id || uid(), inv);

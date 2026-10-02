@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/press",
-      "destination": "/press.html"
+      "source": "/what-you-get",
+      "destination": "/what-you-get.html"
     },
     {
-      "source": "/alternatives/:slug",
-      "destination": "/alternatives/:slug.html"
+      "source": "/press",
+      "destination": "/press.html"
     },
     {
       "source": "/",
@@ -63,6 +63,13 @@
     {
       "source": "/portal",
       "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/alternatives/:slug",
+      "destination": "/what-you-get",
+      "permanent": true
     }
   ]
 }
