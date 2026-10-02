@@ -271,23 +271,33 @@ nav.top-nav{display:flex}
 /* Calendar */
 .cal-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cal-nav h3{margin:0;font-size:17px;flex:1}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px}
 .cal-cell{min-height:92px}
 .cal-ev{display:block;cursor:pointer}
 .cal-dow{background:var(--panel2);padding:8px 4px;text-align:center;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase}
-.cal-cell{background:var(--panel);min-height:88px;padding:6px;cursor:pointer;transition:background .12s;position:relative}
+.cal-cell{background:var(--panel);min-height:88px;padding:6px;cursor:pointer;transition:background .12s;position:relative;min-width:0;overflow:hidden}
 .cal-cell:hover{background:var(--panel2)}
 .cal-cell.out{opacity:.4}
 .cal-cell.today{box-shadow:inset 0 0 0 2px var(--accent)}
 .cal-daynum{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
 .cal-cell.today .cal-daynum{color:var(--accent)}
-.cal-ev{font-size:11px;padding:2px 5px;border-radius:4px;margin-bottom:2px;background:var(--accent-soft);color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.cal-ev{font-size:11px;padding:2px 5px;border-radius:4px;margin-bottom:2px;background:var(--accent-soft);color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;max-width:100%}
 .cal-ev.done{opacity:.55}
 .cal-ev.canceled{opacity:.4;text-decoration:line-through}
 .cal-more{font-size:10px;color:var(--faint);padding-left:2px}
 .cal-toggle{display:flex;gap:4px;margin-left:auto}
 .cal-toggle button.on{border-color:var(--accent);color:var(--ink)}
-@media(max-width:560px){.cal-cell{min-height:64px;padding:4px}.cal-ev{font-size:10px}.cal-dow{font-size:10px}}
+@media(max-width:560px){
+  .cal-cell{min-height:64px;padding:4px}
+  .cal-ev,.cal-dow,.cal-more{font-size:11px}
+  .cal-nav{gap:6px;margin-bottom:10px}
+  .cal-nav h3{font-size:15px}
+  .cal-nav .btn.small{min-height:44px;min-width:44px;padding:0 12px}
+  .cal-toggle{width:100%;margin-left:0;gap:6px}
+  .cal-toggle .btn{flex:1}
+  .sub,.nav-section,.badge{font-size:11px}
+  .sub{letter-spacing:.1em}
+}
 
 @media print{
   body{background:#fff;color:#111}
@@ -2149,7 +2159,7 @@ async function runApp(){
   }
 
   if(typeof window._calCursor==="undefined") window._calCursor=new Date();
-  if(typeof window._calMode==="undefined") window._calMode="month";
+  if(typeof window._calMode==="undefined") window._calMode = window.innerWidth<700 ? "list" : "month";
   function viewJobs(){
     const calCursor=window._calCursor, calMode=window._calMode;
     const rows=S.jobs.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(j=>({
