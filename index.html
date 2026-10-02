@@ -1118,11 +1118,12 @@ async function _apiRaw(action,{method='GET',kind,id,t,body}={}){
       if(document.getElementById('ll-fatal')) return;
       const d=document.createElement('div');
       d.id='ll-fatal';
-      d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#3b1d1d;color:#ffe7e7;border:1px solid #a33;border-radius:12px;padding:12px 14px;font:13.5px/1.5 system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4)';
-      d.innerHTML='<b>Something on this screen failed to load.</b><div style="margin-top:4px;opacity:.9" id="ll-fatal-msg"></div><button id="ll-fatal-b" style="margin-top:8px;background:#ffe7e7;border:0;border-radius:8px;padding:8px 14px;font-weight:700">Reload</button>';
+      d.style.cssText='position:fixed;left:12px;right:12px;bottom:calc(12px + var(--ll-bnav-h,0px));z-index:99999;background:#3b1d1d;color:#ffe7e7;border:1px solid #a33;border-radius:12px;padding:12px 14px;font:13.5px/1.5 system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4)';
+      d.innerHTML='<b>Something on this screen failed to load.</b><div style="margin-top:4px;opacity:.9" id="ll-fatal-msg"></div><button id="ll-fatal-b" style="margin-top:8px;min-height:44px;background:#ffe7e7;border:0;border-radius:8px;padding:8px 16px;font-weight:700">Reload</button><button id="ll-fatal-x" aria-label="Dismiss" style="margin:8px 0 0 8px;min-height:44px;background:transparent;color:#ffe7e7;border:1px solid #a33;border-radius:8px;padding:8px 16px;font-weight:700">Dismiss</button>';
       document.body.appendChild(d);
       document.getElementById('ll-fatal-msg').textContent=String(msg||'unknown error').slice(0,220);
       document.getElementById('ll-fatal-b').onclick=()=>location.reload();
+      document.getElementById('ll-fatal-x').onclick=()=>d.remove();
     }catch(e){}
   }
   window.addEventListener('error',e=>llFatal(e&&e.message));
@@ -2975,10 +2976,11 @@ async function runApp(){
     });
   }
 
-  if(typeof window._calCursor==="undefined") window._calCursor=new Date();
-  if(typeof window._calMode==="undefined") window._calMode = window.innerWidth<700 ? "list" : "month";
   function viewJobs(){
+    // runApp() returns early on the login screen, so module-level defaults below it never ran
+    // after a fresh sign-in: Schedule threw on calCursor.getFullYear(). Default here instead.
     if(!window._calCursor) window._calCursor=new Date();
+    if(!window._calMode) window._calMode = window.innerWidth<700 ? "list" : "month";
     const calCursor=window._calCursor, calMode=window._calMode;
     const rows=S.jobs.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(j=>({
       id:j.id, title:customerName(j.customerId),
@@ -3392,11 +3394,15 @@ async function runApp(){
           ${S.billing?.status==='active'?' · Active':' · Not subscribed'}
           ${S.billing?.source==='founder'?' · Founder Command':''}</p>
         <p class="faint" style="margin-top:0">${!S.billing?.entitlements?.cardPayments?'Starter unlocks card payments.':!S.billing?.entitlements?.portal?'Growth unlocks the customer portal.':'Command unlocks SMS reminders.'}</p>
-        <div class="plan-grid">
+        ${S.billing?.status==='active'
+          ? (['good','better','best'].includes(S.billing?.plan)
+              ? `<div class="plan-grid">${planCardHTML(S.billing.plan,{})}</div><p class="faint" style="margin-top:8px">Your current plan. Switch or cancel any time from Manage billing.</p>`
+              : `<p class="faint">Your workspace is on <strong>${esc(planLabel(S.billing?.plan))}</strong>. Manage it from billing below.</p>`)
+          : `<div class="plan-grid">
           ${planCardHTML('good',{button:'Choose Starter'})}
           ${planCardHTML('better',{button:'Choose Growth',featured:true})}
           ${planCardHTML('best',{button:'Choose Command'})}
-        </div>
+        </div>`}
         ${S.billing?.status==='active'?`<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`:''}
       </div>
 
@@ -3456,7 +3462,7 @@ async function runApp(){
         <h3>Proofline — before &amp; after photo reports</h3>
         <p class="faint">${S.billing?.entitlements?.proofline?'Included on your plan. Attach before/after photos to any job and send a branded report your customer keeps.':'Proofline photo reports are included on the <strong>Growth</strong> plan — branded, shareable before/after reports for every job.'}</p>
         <div class="btnrow" style="flex-wrap:wrap;margin-top:4px">
-          <a class="btn ghost" href="https://proofline.leonlink.net" target="_blank" rel="noopener">Open Proofline ↗</a>
+          <a class="btn ghost" href="https://proofline.leonlink.net/login">Open Proofline ↗</a>
         </div>
       </div>
 
