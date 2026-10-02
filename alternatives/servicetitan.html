@@ -65,6 +65,13 @@ svg.ic{width:16px;height:16px;flex:none;vertical-align:-3px}
 ::selection{background:var(--accent-soft);color:var(--ink)}
 button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+#demo-banner{position:fixed;left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom));z-index:400;display:flex;gap:10px;align-items:center;justify-content:space-between;background:#1f4d35;color:#f2f2f0;border:1px solid #f2c14e;border-radius:12px;padding:10px 12px;font:13px/1.45 'DM Sans',system-ui,sans-serif;box-shadow:0 10px 34px rgba(0,0,0,.35)}
+#demo-banner[hidden]{display:none}
+#demo-banner b{color:#d9f16b}
+#demo-banner-x{background:none;border:0;color:#f2f2f0;font-size:17px;line-height:1;padding:4px 6px;cursor:pointer;flex:none}
+#ll-offline{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:401;background:#1f2937;color:#f6f7f5;border:1px solid #4b5563;border-radius:999px;padding:7px 14px;font:12.5px/1.3 'DM Sans',system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:92vw;text-align:center}
+#ll-offline.sync{background:#1f4d35;border-color:#f2c14e;color:#f2f2f0}
+@media(min-width:760px){#demo-banner{bottom:16px;left:auto;right:16px;max-width:420px}}
 #app{max-width:100%;margin:0;min-height:100%;display:flex;flex-direction:column}
 @media(min-width:900px){
   #app.app-shell{flex-direction:row;align-items:stretch}
@@ -271,23 +278,33 @@ nav.top-nav{display:flex}
 /* Calendar */
 .cal-nav{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cal-nav h3{margin:0;font-size:17px;flex:1}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:320px}
 .cal-cell{min-height:92px}
 .cal-ev{display:block;cursor:pointer}
 .cal-dow{background:var(--panel2);padding:8px 4px;text-align:center;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase}
-.cal-cell{background:var(--panel);min-height:88px;padding:6px;cursor:pointer;transition:background .12s;position:relative}
+.cal-cell{background:var(--panel);min-height:88px;padding:6px;cursor:pointer;transition:background .12s;position:relative;min-width:0;overflow:hidden}
 .cal-cell:hover{background:var(--panel2)}
 .cal-cell.out{opacity:.4}
 .cal-cell.today{box-shadow:inset 0 0 0 2px var(--accent)}
 .cal-daynum{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
 .cal-cell.today .cal-daynum{color:var(--accent)}
-.cal-ev{font-size:11px;padding:2px 5px;border-radius:4px;margin-bottom:2px;background:var(--accent-soft);color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.cal-ev{font-size:11px;padding:2px 5px;border-radius:4px;margin-bottom:2px;background:var(--accent-soft);color:var(--accent);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;max-width:100%}
 .cal-ev.done{opacity:.55}
 .cal-ev.canceled{opacity:.4;text-decoration:line-through}
 .cal-more{font-size:10px;color:var(--faint);padding-left:2px}
 .cal-toggle{display:flex;gap:4px;margin-left:auto}
 .cal-toggle button.on{border-color:var(--accent);color:var(--ink)}
-@media(max-width:560px){.cal-cell{min-height:64px;padding:4px}.cal-ev{font-size:10px}.cal-dow{font-size:10px}}
+@media(max-width:560px){
+  .cal-cell{min-height:64px;padding:4px}
+  .cal-ev,.cal-dow,.cal-more{font-size:11px}
+  .cal-nav{gap:6px;margin-bottom:10px}
+  .cal-nav h3{font-size:15px}
+  .cal-nav .btn.small{min-height:44px;min-width:44px;padding:0 12px}
+  .cal-toggle{width:100%;margin-left:0;gap:6px}
+  .cal-toggle .btn{flex:1}
+  .sub,.nav-section,.badge{font-size:11px}
+  .sub{letter-spacing:.1em}
+}
 
 @media print{
   body{background:#fff;color:#111}
@@ -590,7 +607,8 @@ html[data-theme="dark"]{
 </style>
 </head>
 <body>
-<div id="app"><div class="landing">
+  <div id="demo-banner" hidden><span><b>Demo mode.</b> Nothing here is real, and no payments, emails or texts can go out. Log in with <b>demo@ledgerline.app</b> / <b>demo</b>.</span><button id="demo-banner-x" type="button" aria-label="Dismiss demo notice">&#10005;</button></div>
+  <div id="app"><div class="landing">
     <div class="landing-hero" style="min-height:0">
       <nav class="landing-nav">
         <div class="brand" style="display:flex;align-items:center;gap:10px"><span class="logo-mark" style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:#0d1512" aria-hidden="true" title="Ledgerline"><img src="/mascot.png" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></span><strong style="font-family:Fraunces,Georgia,serif">Ledgerline</strong></div>
@@ -647,7 +665,8 @@ html[data-theme="dark"]{
       <div class="foot-copy">ServiceTitan is a trademark of its respective owner, used for comparison only. Prices are published 2026 figures.</div>
     </footer>
   </div></div>
-<script>
+<script src="/alternatives-data.js"></script>
+  <script>
 const $=(s,c=document)=>c.querySelector(s);
 const app=$('#app');
 const money=n=>'$'+((+n||0).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g,',');
@@ -710,9 +729,11 @@ function planLabel(key){
 function planCardHTML(key, opts={}){
   const st=planState();
   const cat=(st&&st.plans&&st.plans[key])||{};
-  const names={good:{label:'Starter',tagline:'Cards from day one',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',value:'Card payments, estimates, invoices and schedule. Flat price, whole crew included.',perks:['Card payments on invoices','Estimates & invoices','Schedule & calendar','Unlimited customers']},
-    better:{label:'Growth',tagline:'Your own customer portal',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',value:'Portal, reminders & review requests — no per-user fees, no add-ons.',perks:['Everything in Starter','Customer portal for clients','Email reminders','Review requests + cloud files','Proofline photo reports']},
-    best:{label:'Command',tagline:'The whole Line',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',value:'SMS reminders + the entire suite — Ledgerline, Reviewline (the review-funnel app) and Proofline (photo proof reports) — one saved no-show covers the year.',perks:['Everything in Growth','SMS reminders','Reviewline + Proofline included — review-gate funnel, QR kits, photo reports, slide-to-compare','Unlimited crew seats','Priority features']}};
+  const names={good:{label:'Starter',tagline:'Stop paying per user',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',priceMonthly:'$9.83',moAmount:9.83,value:'Run the whole business from your phone — quotes, schedule, invoices, and get paid by card. Whole crew, unlimited jobs, one flat price.',perks:['Quotes, schedule & invoices','Get paid by card on every job','One-tap review request after a job','Unlimited crew — no per-user fees','Unlimited customers & jobs']},
+
+better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',priceMonthly:'$29.83',moAmount:29.83,value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, automatic reminders that chase late invoices, and Proofline before/after reports that win the next job.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Proofline before/after photo reports','Shareable job reports for customers']},
+
+best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',priceMonthly:'$54.50',moAmount:54.5,value:'Everything in Growth, plus Reviewline — the review funnel and QR kits that turn finished jobs into Google reviews — and SMS reminders that actually get read. One saved no-show covers the whole year.',perks:['Everything in Growth','Reviewline review funnel + QR kits','SMS reminders that get read','Priority on new features']}};
   const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
   // Keep display price from catalog names when API only has priceId
   if(!d.price) d.price = names[key]?.price;
@@ -721,16 +742,19 @@ function planCardHTML(key, opts={}){
   const on=opts.on||(st&&st.billing&&st.billing.plan===key);
   const tone={good:'tone-good',better:'tone-better',best:'tone-best'}[key];
   const perks=(d.perks||[]).map(x=>`<li>${esc(x)}</li>`).join('');
-  const btn=opts.button?`<button class="btn small ${key==='better'||key==='best'?'primary':''}" type="button" data-plan="${key}">${esc(opts.button)}</button>`:'';
+  const btn=opts.button?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small ${key!=='good'?'primary':''}" type="button" data-plan="${key}" data-period="month">Start monthly</button><button class="btn small" type="button" data-plan="${key}" data-period="6mo">Prepay ${esc(d.price||'')}</button></div>`:'';
   const badge=key==='best'?`<span class="plan-badge">Best value</span>`:(key==='better'&&opts.featured?`<span class="plan-badge">Popular</span>`:'');
-  const mo=(d.perMonth||'').replace(/\/mo$/,'');
-  const m=(d.period||'').match(/\d+/);
-  const billed=(mo&&d.price&&m)?`billed ${d.price} every ${m[0]} months`:'';
+  const moAmt=Number(d.moAmount||0);
+  const p6=Number(String(d.price||'').replace(/[^0-9.]/g,''));
+  const save=(moAmt>0&&p6>0)?(moAmt*6-p6):0;
+  const head=String(d.priceMonthly||d.perMonth||d.price||'').replace(/\/mo$/,'');
+  const sub=(d.priceMonthly||d.perMonth)?'/mo':(d.period||'');
+  const line2=d.priceMonthly?`or prepay ${d.price} every 6 months${save>0?` — save $${save.toFixed(2)}`:''}`:(d.perMonth||'');
   return `<div class="plan-card ${tone} ${on?'on':''}">${badge}
     <div class="plan-tag">${esc(d.tagline||'')}</div>
     <div class="plan-name">${esc(d.label||key)}</div>
-    <div class="plan-price">${esc(mo||d.price||'')}<span>${mo?'/mo':(d.period||'')}</span></div>
-    <div class="plan-month">${esc(billed||d.perMonth||'')}</div>
+    <div class="plan-price">${esc(head)}<span>${sub}</span></div>
+    <div class="plan-month">${esc(line2)}</div>
     <p class="plan-value">${esc(d.value||d.desc||'')}</p>
     <ul class="plan-perks">${perks}</ul>
     ${btn}
@@ -849,7 +873,7 @@ function confirmDialog(message, {okLabel='Confirm', danger=false}={}){
   });
 }
 
-async function api(action,{method='GET',kind,id,t,body}={}){
+async function _apiRaw(action,{method='GET',kind,id,t,body}={}){
   const qs=new URLSearchParams({a:action});
   if(kind) qs.set('kind',kind);
   if(id) qs.set('id',id);
@@ -864,6 +888,95 @@ async function api(action,{method='GET',kind,id,t,body}={}){
   if(!res.ok){ const e=new Error(data.error||'Something went wrong'); if(data.contact) e.contact=data.contact; throw e; }
   return data;
 }
+  /* ---------------- offline: cache reads, queue writes, auto-upload ---------------- */
+  const QUEUEABLE={save:1,del:1,'complete-job':1,schedule:1,savesettings:1};
+  const SKEY='ll-state-cache', QKEY='ll-outbox';
+  const llOnline=()=>navigator.onLine!==false;
+  const llIsNetErr=e=>!llOnline()||(e&&(e.name==='TypeError'||e instanceof TypeError));
+  function llCachedState(){ try{ const r=JSON.parse(localStorage.getItem(SKEY)||'null'); return r&&r.state?r.state:null; }catch(_){ return null; } }
+  function llOutbox(){ try{ return JSON.parse(localStorage.getItem(QKEY)||'[]')||[]; }catch(_){ return []; } }
+  function llSetOutbox(q){ try{ localStorage.setItem(QKEY,JSON.stringify(q)); }catch(_){} llPaintSync(); }
+  function llRef(){ return 'of'+(Date.now().toString(36))+Math.random().toString(36).slice(2,7); }
+  function llPaintSync(){
+    const n=llOutbox().length, off=!llOnline();
+    let el=document.getElementById('ll-offline');
+    if(!off&&!n){ if(el) el.remove(); return; }
+    if(!el){ el=document.createElement('div'); el.id='ll-offline'; document.body.appendChild(el); }
+    el.className=off?'':'sync';
+    el.textContent = off
+      ? ('Offline. Showing saved data'+(n?(' \u00b7 '+n+' change'+(n>1?'s':'')+' to upload'):''))
+      : (n+' change'+(n>1?'s':'')+' waiting to upload');
+  }
+  function llQueue(action,o){
+    const q=llOutbox(); const ref=llRef();
+    q.push({a:action,o:o,ref:ref,at:Date.now()});
+    llSetOutbox(q);
+    try{ toast('Saved on this phone. It will upload when you are back online.','ok'); }catch(_){}
+    return {ok:true,queued:true,ref:ref,id:(o&&o.body&&o.body.id)||undefined};
+  }
+  let llFlushing=false;
+  async function llFlush(){
+    if(llFlushing) return; llFlushing=true;
+    let sent=0;
+    try{
+      while(llOutbox().length){
+        const item=llOutbox()[0];
+        try{ await _apiRaw(item.a,item.o); }
+        catch(e){
+          if(llIsNetErr(e)) break;
+          try{ toast('One offline change was rejected and skipped.','err'); }catch(_){}
+        }
+        const rest=llOutbox(); rest.shift(); llSetOutbox(rest); sent++;
+      }
+      if(sent){
+        try{ toast(sent+' offline change'+(sent>1?'s':'')+' uploaded.','ok'); }catch(_){}
+        try{ const fresh=await _apiRaw('state'); localStorage.setItem(SKEY,JSON.stringify({at:Date.now(),state:fresh})); }catch(_){}
+        const ae=document.activeElement;
+        const typing=ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
+        if(!typing) setTimeout(()=>location.reload(),700);
+        else { try{ toast('Uploaded. Refresh to see them.','ok'); }catch(_){} }
+      }
+    } finally { llFlushing=false; llPaintSync(); }
+  }
+  async function api(action,opts={}){
+    const o=opts||{};
+    if(action==='state'){
+      try{
+        const d=await _apiRaw(action,o);
+        try{ localStorage.setItem(SKEY,JSON.stringify({at:Date.now(),state:d})); }catch(_){}
+        if(!llOutbox().length) llPaintSync();
+        return d;
+      }catch(e){
+        const c=llCachedState();
+        if(c&&!llOnline()){ llPaintSync(); return c; }
+        throw e;
+      }
+    }
+    if(QUEUEABLE[action]){
+      if(!llOnline()) return llQueue(action,o);
+      try{ return await _apiRaw(action,o); }
+      catch(e){ if(llIsNetErr(e)) return llQueue(action,o); throw e; }
+    }
+    if(!llOnline()) throw new Error("You're offline. That action needs a connection.");
+    return _apiRaw(action,o);
+  }
+  function llInit(){
+    llPaintSync();
+    if(llOutbox().length&&llOnline()) llFlush();
+    window.addEventListener('online',()=>{ llPaintSync(); llFlush(); });
+    window.addEventListener('offline',llPaintSync);
+    const h=(location.hostname||'').toLowerCase();
+    if(h.indexOf('demo')>-1){
+      const el=document.getElementById('demo-banner');
+      let dismissed=false; try{ dismissed=sessionStorage.getItem('ll-demo-x')==='1'; }catch(_){}
+      if(el&&!dismissed){
+        el.hidden=false;
+        const x=document.getElementById('demo-banner-x');
+        if(x) x.addEventListener('click',()=>{ el.hidden=true; try{ sessionStorage.setItem('ll-demo-x','1'); }catch(_){} });
+      }
+    }
+  }
+
 function readFileAsBase64(file){
   return new Promise((resolve,reject)=>{
     const r=new FileReader();
@@ -890,93 +1003,16 @@ const MAX_UPLOAD=10_000_000;
 const skel=(n=2)=>Array.from({length:n}).map((_,i)=>`<div class="skel" style="width:${70-i*18}%"></div>`).join('');
 
 const portalMatch=location.pathname.match(/^\/p\/(.+)/);
+/* the API used to email /portal?t=<token>; accept both forms so every link already sent still opens */
+const portalParam=/^\/portal\/?$/.test(location.pathname)?new URLSearchParams(location.search).get('t'):null;
 const altMatch=location.pathname.match(/^\/alternatives\/([a-z-]+)\/?$/);
-if(portalMatch) runPortal(portalMatch[1]);
+if(portalMatch||portalParam) runPortal(portalMatch?portalMatch[1]:portalParam);
 else if(altMatch) renderAlternativePage(altMatch[1]);
 else runApp();
 
 /* =========================== ALTERNATIVES SEO PAGES =========================== */
 function renderAlternativePage(competitor){
-  const pages={
-    'jobber':{
-      title:'Jobber Alternative — From $4.83/mo, No Per-User Fees | Ledgerline',
-      desc:'Looking for a Jobber alternative? Ledgerline does scheduling, estimates, invoices, card payments and a customer portal from $4.83/mo flat. No per-user fees, no add-ons, 6-month terms.',
-      name:'Jobber', h1:'Why small crews are switching from Jobber',
-      theirPrice:'$167-187/mo', theirPriceNote:'Jobber Connect + 2 per-user fees ($19-29 each) for a 3-person crew, 2026 pricing',
-      points:[
-        ['Jobber charges per user. We never do.','$19-29 per user per month means hiring a helper costs as much as a tool subscription. Ledgerline includes your whole crew — owner, subs, family — for one flat price.'],
-        ['Review requests cost $39/mo extra at Jobber.','On Ledgerline, review requests are built in — plus Proofline\u2019s photo reports from Growth and Reviewline\u2019s review-gate funnel on Command. One saved review pays for a year.'],
-        ['Annual prepay is a leash.','Jobber pushes annual plans with a "discount" that is really 12 months of lock-in. Ledgerline runs 6-month terms. Cancel when the term ends. Export every customer, job, and invoice to CSV in one click.'],
-        ['Built for 40-truck fleets, priced for you.','Sales pipelines, quoting automations, reporting suites — most solo operators open none of it. Ledgerline is book, show, get paid. That is the whole job.']
-      ],
-      math:'A 3-person crew on Jobber Connect with per-user fees runs about $167-187/mo. Ledgerline Command — everything on, whole crew included — is $46.50/mo. That is roughly $2,400 a year back in your pocket.'
-    },
-    'housecall-pro':{
-      title:'Housecall Pro Alternative — From $4.83/mo, Whole Crew Included | Ledgerline',
-      desc:'Looking for a Housecall Pro alternative? Ledgerline gives solo trades and small crews scheduling, estimates, invoices, card payments and a customer portal from $4.83/mo flat. No per-user fees. No add-ons.',
-      name:'Housecall Pro', h1:'Why trades are leaving Housecall Pro',
-      theirPrice:'$219-259/mo', theirPriceNote:'Housecall Pro Essentials + 2 user add-ons ($35 each) for a 3-person crew, 2026 pricing',
-      points:[
-        ['$35 per user, every month.','Grow your crew, grow their bill. Ledgerline charges $0 per user — bring your cousin, your kid, three subs. Same flat price.'],
-        ['The basics are gated behind plan tiers.','Portals, reminders and features you assumed were included sit behind Essentials and MAX tiers, then add-ons push the real cost 30-50% above the sticker. Ledgerline puts everything on the plan card. No surprise line items.'],
-        ['Annual contracts and trust issues.','A year of prepay for software you haven\'t used yet is a big ask — and Housecall Pro\'s review record has customers burned by it. Ledgerline runs 6-month terms with one-click CSV export of all your data. Earning the renewal is our problem, not yours.'],
-        ['Enterprise machinery, solo-operator job.','You need to book the call, show up, get paid. Ledgerline does exactly that — estimates, portal, payments, reminders — and nothing you will never open.']
-      ],
-      math:'A 3-person crew on Housecall Pro Essentials with per-user add-ons runs about $219-259/mo. Ledgerline Command is $46.50/mo, everything on. About $2,490 a year stays in your truck.'
-    },
-    'servicetitan':{
-      title:'ServiceTitan Alternative for Small Crews — $46.50/mo Flat | Ledgerline',
-      desc:'ServiceTitan is built for 10-truck operations. Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. Whole crew, no per-tech fees.',
-      name:'ServiceTitan', h1:'ServiceTitan power without the ServiceTitan bill',
-      theirPrice:'$700-1,000+/mo', theirPriceNote:'ServiceTitan does not publish pricing; publicly reported figures run roughly $238 per technician per month billed annually, 2026 estimates',
-      points:[
-        ['Per-tech pricing priced you out on day one.','ServiceTitan is quoted per technician, billed annually, with sales calls and onboarding fees before you take a single job. Ledgerline is $46.50/mo for the whole crew — sign up online, start today, no demo call.'],
-        ['Enterprise machinery, solo-operator job.','Pay-per-call call tracking, marketing attribution, multi-division dispatch — most of a 2-5 tech shop will never touch it. Ledgerline is book, quote, show, get paid. That is the whole loop.'],
-        ['Annual contracts with onboarding fees.','A year of prepay plus an implementation fee is a big bet for a small crew. Ledgerline runs 6-month terms, no onboarding fee, and one-click CSV export of every customer, job and invoice.'],
-        ['Your customers do not need an app.','Ledgerline gives them a link — quotes, invoices and a portal that opens in any browser. Same for yours: no per-customer seats, ever.']
-      ],
-      math:'At the commonly reported ~$238/tech/mo, a 3-tech shop runs $700+/mo on ServiceTitan — $8,500+/yr. Ledgerline Command is $46.50/mo, everything on. That is the truck payment, covered.'
-    },
-    'workiz':{
-      title:'Workiz Alternative — $46.50/mo Flat, Whole Crew | Ledgerline',
-      desc:'Looking for a Workiz alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. No per-user fees. No add-ons.',
-      name:'Workiz', h1:'Why small crews outgrow Workiz pricing',
-      theirPrice:'$225-345/mo', theirPriceNote:'Workiz standard and upper tiers for a small crew, 2026 published figures',
-      points:[
-        ['Flat-ish pricing that climbs anyway.','Workiz tiers gate the features you actually need — automations, advanced reporting — and the jump between tiers stings. Ledgerline has one plan. Everything on, always.'],
-        ['Per-user fees on top of tiers.','Adding a tech pushes you up tier pricing AND per-user fees on some plans. Ledgerline is $0 per user — owner, subs, family, one flat price.'],
-        ['The add-on game.','Text marketing, review requests, premium support — the extras stack 30-50% above sticker. On Ledgerline, review requests and the customer portal are just included.'],
-        ['6-month terms, not a leash.','Ledgerline runs 6-month terms with one-click CSV export. If we ever stop earning it, you walk with your data. That is the deal.']
-      ],
-      math:'A small crew on Workiz with the features a real business needs runs about $225-345/mo. Ledgerline Command is $46.50/mo, everything on. Roughly $2,500-3,500 a year back.'
-    },
-    'jobnimbus':{
-      title:'JobNimbus Alternative — From $4.83/mo, No Per-User Fees | Ledgerline',
-      desc:'Looking for a JobNimbus alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal from $46.50/mo flat. Whole crew included.',
-      name:'JobNimbus', h1:'Why small crews switch from JobNimbus',
-      theirPrice:'$150-210/mo', theirPriceNote:'JobNimbus per-user plans for a 3-person crew, 2026 published figures',
-      points:[
-        ['Per-user pricing punishes growth.','JobNimbus charges per seat, so hiring your first helper raises your software bill the same week you take on more payroll. Ledgerline includes everyone for one flat price.'],
-        ['CRM-first when you need job-first.','JobNimbus leans sales-pipeline and contact management — roofers love it. If you run jobs instead of pipelines, Ledgerline is book, quote, show, get paid with nothing you will never open.'],
-        ['Review requests are included here.','On JobNimbus, review and communication add-ons push the bill up. On Ledgerline, review requests are built in — and Proofline photo reports come with Growth, and Reviewline\u2019s review-gate funnel with Command.'],
-        ['Take the data with you.','Ledgerline runs 6-month terms with one-click CSV export of customers, jobs and invoices. Your data is yours, always.']
-      ],
-      math:'A 3-person crew on JobNimbus per-user plans runs about $150-210/mo. Ledgerline Command is $46.50/mo, everything on. About $1,900-2,900 a year stays in your truck.'
-    },
-    'fieldedge':{
-      title:'FieldEdge Alternative — $46.50/mo Flat, Whole Crew | Ledgerline',
-      desc:'Looking for a FieldEdge alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. No per-user fees.',
-      name:'FieldEdge', h1:'Why small crews switch from FieldEdge',
-      theirPrice:'$150-250+/mo', theirPriceNote:'FieldEdge per-user plans for a small crew, 2026 reported figures',
-      points:[
-        ['Built for HVAC desks, priced per head.','FieldEdge charges per user, and the contract terms match its enterprise ambitions. Ledgerline is $46.50/mo, whole crew, 6-month terms, no onboarding fee.'],
-        ['The basics are not basic here.','Scheduling, quotes, invoices, card payments, customer portal — every one included on every plan. No feature bingo, no tier math.'],
-        ['Service agreements without the suite.','FieldEdge shines on service agreements for big HVAC shops. A small crew needs the job loop to just work — Ledgerline does exactly that and nothing you will never open.'],
-        ['Your escape hatch is built in.','One-click CSV export of every customer, job and invoice. If we stop earning your $46.50, you walk with everything.']
-      ],
-      math:'A small crew on FieldEdge runs roughly $150-250+/mo with per-user fees in. Ledgerline Command is $46.50/mo, everything on. About $2,400+ a year back in your pocket.'
-    }
-  };
+  const pages=(window.LL_ALTS||{});
   const p=pages[competitor];
   if(!p) return runApp();
   document.title=p.title;
@@ -1591,7 +1627,7 @@ async function runApp(){
         await api('ensure-demo');
         await api('login',{body:{email:'demo@ledgerline.app',password:'demo'}});
         setS(await api('state'));
-        window._calMode='month';
+        
         window._calCursor=new Date();
         navigate('dashboard',{replace:true});
       }catch(e){ $('#err').innerHTML=`<div class="notice err">${esc(e.message)}</div>`; }
@@ -2200,7 +2236,7 @@ async function runApp(){
   }
 
   if(typeof window._calCursor==="undefined") window._calCursor=new Date();
-  if(typeof window._calMode==="undefined") window._calMode="month";
+  if(typeof window._calMode==="undefined") window._calMode = window.innerWidth<700 ? "list" : "month";
   function viewJobs(){
     const calCursor=window._calCursor, calMode=window._calMode;
     const rows=S.jobs.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(j=>({
@@ -2223,7 +2259,7 @@ async function runApp(){
       const d=inMonth?`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`:'';
       const jobs=d?(byDate[d]||[]):[];
       const isToday=d===todayStr;
-      const evs=jobs.slice(0,3).map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}" title="${esc(customerName(j.customerId))}${j.time?' '+j.time:''}">${esc((j.time?j.time+' ':'')+customerName(j.customerId))}</div>`).join('');
+      const evs=jobs.slice(0,window.innerWidth<520?2:3).map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}" title="${esc(customerName(j.customerId))}${j.time?' '+j.time:''}">${esc(window.innerWidth<520?(j.time||'Job'):((j.time?j.time+' ':'')+customerName(j.customerId)))}</div>`).join('');
       const more=jobs.length>3?`<div class="cal-more">+${jobs.length-3} more</div>`:'';
       cells+=`<div class="cal-cell ${inMonth?'':'out'} ${isToday?'today':''}" data-date="${d}"><div class="cal-daynum">${inMonth?day:''}</div>${evs}${more}</div>`;
     }
@@ -2245,7 +2281,7 @@ async function runApp(){
       $('#cal-prev')?.addEventListener('click',()=>{ window._calCursor=new Date(y,m-1,1); render(); });
       $('#cal-next')?.addEventListener('click',()=>{ window._calCursor=new Date(y,m+1,1); render(); });
       $('#cal-today')?.addEventListener('click',()=>{ window._calCursor=new Date(); render(); });
-      $('#mode-month')?.addEventListener('click',()=>{ window._calMode='month'; render(); });
+      $('#mode-month')?.addEventListener('click',()=>{  render(); });
       $('#mode-week')?.addEventListener('click',()=>{ window._calMode='week'; render(); });
       $('#mode-list')?.addEventListener('click',()=>{ window._calMode='list'; render(); });
       document.querySelectorAll('.cal-ev[data-id]').forEach(el=>{ el.onclick=e=>{ e.stopPropagation(); openJob(el.dataset.id); }; });
@@ -2277,7 +2313,7 @@ async function runApp(){
           const ds=localYmd(d);
           const isToday=ds===todayStr;
           const jobs=byDate[ds]||[];
-          const evs=jobs.map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}">${esc((j.time?j.time+' ':'')+customerName(j.customerId))}</div>`).join('');
+          const evs=jobs.map(j=>`<div class="cal-ev ${j.status||''}" data-id="${j.id}">${esc(window.innerWidth<520?(j.time||'Job'):((j.time?j.time+' ':'')+customerName(j.customerId)))}</div>`).join('');
           return `<div class="week-col ${isToday?'today':''}" data-date="${ds}"><div class="wd">${d.toLocaleDateString(undefined,{weekday:'short'})}</div><div class="wn">${d.getDate()}</div>${evs||'<span class="faint" style="font-size:12px">—</span>'}</div>`;
         }).join('')}</div>`;
       setTimeout(()=>{
@@ -2285,7 +2321,7 @@ async function runApp(){
         $('#cal-prev')?.addEventListener('click',()=>{ const c=new Date(window._calCursor); c.setDate(c.getDate()-7); window._calCursor=c; render(); });
         $('#cal-next')?.addEventListener('click',()=>{ const c=new Date(window._calCursor); c.setDate(c.getDate()+7); window._calCursor=c; render(); });
         $('#cal-today')?.addEventListener('click',()=>{ window._calCursor=new Date(); render(); });
-        $('#mode-month')?.addEventListener('click',()=>{ window._calMode='month'; render(); });
+        $('#mode-month')?.addEventListener('click',()=>{  render(); });
         $('#mode-week')?.addEventListener('click',()=>{ window._calMode='week'; render(); });
         $('#mode-list')?.addEventListener('click',()=>{ window._calMode='list'; render(); });
         document.querySelectorAll('.cal-ev[data-id]').forEach(el=>{ el.onclick=e=>{ e.stopPropagation(); openJob(el.dataset.id); }; });
@@ -2298,7 +2334,7 @@ async function runApp(){
     if(calMode==='list'){
       setTimeout(()=>{
         $('#add')?.addEventListener('click',()=>openJob(null));
-        $('#mode-month')?.addEventListener('click',()=>{ window._calMode='month'; render(); });
+        $('#mode-month')?.addEventListener('click',()=>{  render(); });
         document.querySelectorAll('.ledger .line[data-id]').forEach(el=>el.onclick=()=>openJob(el.dataset.id));
       },0);
       return `<div class="row-between"><h2>Schedule</h2><div class="btnrow"><button class="btn small" id="mode-month">Calendar</button><button class="btn primary" id="add">Add job</button></div></div>${listRows(rows,'Nothing scheduled yet. Tap Add job or accept a request.',ICON.jobs)}`;
@@ -2487,7 +2523,7 @@ async function runApp(){
       document.querySelectorAll('[data-plan]').forEach(btn=>{
         btn.addEventListener('click', async()=>{
           try{
-            const r=await api('subscribe',{body:{plan:btn.dataset.plan}});
+            const r=await api('subscribe',{body:{plan:btn.dataset.plan,period:btn.dataset.period||'month'}});
             if(r.url) location.href=r.url;
           }catch(e){ toastErr(e.message); }
         });
@@ -2792,6 +2828,10 @@ setInterval(()=>{ // bind whenever the settings card is on screen
     };
   }
 },1000);
+</script>
+<script>
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>{ try{ llInit(); }catch(e){} });
+  else { try{ llInit(); }catch(e){} }
 </script>
 </body>
 </html>

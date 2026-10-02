@@ -611,7 +611,7 @@ module.exports = async (req, res) => {
             await putRecord("estimate", est.id, est);
             const business = await tenantBusiness(tenantId);
             if (cust && cust.email && !isDemoTenant(tenantId)) {
-              const link = `${baseUrl(req)}/portal?t=${cust.portalToken}`;
+              const link = `${baseUrl(req)}/p/${cust.portalToken}`;
               await sendEmail(cust.email, `${business.name || "Your contractor"} sent you an estimate`, `<p>${business.name || "We"} sent you an estimate: <strong>${est.title || "Estimate"}</strong> — $${Number(est.total || 0).toFixed(2)}.</p><p>View and respond: <a href="${link}">${link}</a></p>`);
             }
             return json(res, 200, { ok: true });
@@ -621,7 +621,7 @@ module.exports = async (req, res) => {
             const cust = await getRecord("customer", String(body.customerId || ""));
             if (!cust || cust.tenantId !== tenantId) return err(res, 404, "Customer not found.");
             const business = await tenantBusiness(tenantId);
-            const link = `${baseUrl(req)}/portal?t=${cust.portalToken}`;
+            const link = `${baseUrl(req)}/p/${cust.portalToken}`;
             if (cust.email && !isDemoTenant(tenantId)) await sendEmail(cust.email, `Your ${business.name || "service"} portal`, `<p>Your customer portal: <a href="${link}">${link}</a></p>`);
             return json(res, 200, { ok: true, link });
           }

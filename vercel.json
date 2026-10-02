@@ -1,6 +1,64 @@
 {
   "rewrites": [
-    { "source": "/alternatives/:slug", "destination": "/alternatives/:slug.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/alternatives/:slug",
+      "destination": "/alternatives/:slug.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/book",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/signup",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/setup",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/customers",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/customers/:id",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/estimates",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/requests",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/jobs",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/invoices",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/settings",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/p/:token",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portal",
+      "destination": "/index.html"
+    }
   ]
 }
