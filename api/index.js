@@ -119,7 +119,7 @@ const ENTITLEMENTS = plan => ({
   smsReminders: plan === "best",
   reviewRequests: plan === "good" || plan === "better" || plan === "best",
   proofline: plan === "better" || plan === "best",
-  reviewline: plan === "better" || plan === "best",
+  reviewline: plan === "best",
   portal: plan === "better" || plan === "best",
   api: plan !== "good" && plan !== "free",
 });
