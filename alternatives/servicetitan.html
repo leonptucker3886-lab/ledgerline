@@ -711,7 +711,7 @@ function planCardHTML(key, opts={}){
   const st=planState();
   const cat=(st&&st.plans&&st.plans[key])||{};
   const names={good:{label:'Starter',tagline:'Cards from day one',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',value:'Card payments, estimates, invoices and schedule. Flat price, whole crew included.',perks:['Card payments on invoices','Estimates & invoices','Schedule & calendar','Unlimited customers']},
-    better:{label:'Growth',tagline:'Your own customer portal',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',value:'Portal, reminders & review requests — no per-user fees, no add-ons.',perks:['Everything in Starter','Customer portal for clients','Email reminders','Review requests + cloud files']},
+    better:{label:'Growth',tagline:'Your own customer portal',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',value:'Portal, reminders & review requests — no per-user fees, no add-ons.',perks:['Everything in Starter','Customer portal for clients','Email reminders','Review requests + cloud files','Proofline photo reports']},
     best:{label:'Command',tagline:'The whole Line',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',value:'SMS reminders + the entire suite — Ledgerline, Reviewline (the review-funnel app) and Proofline (photo proof reports) — one saved no-show covers the year.',perks:['Everything in Growth','SMS reminders','Reviewline + Proofline included — review-gate funnel, QR kits, photo reports, slide-to-compare','Unlimited crew seats','Priority features']}};
   const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
   // Keep display price from catalog names when API only has priceId
@@ -905,7 +905,7 @@ function renderAlternativePage(competitor){
       theirPrice:'$167-187/mo', theirPriceNote:'Jobber Connect + 2 per-user fees ($19-29 each) for a 3-person crew, 2026 pricing',
       points:[
         ['Jobber charges per user. We never do.','$19-29 per user per month means hiring a helper costs as much as a tool subscription. Ledgerline includes your whole crew — owner, subs, family — for one flat price.'],
-        ['Review requests cost $39/mo extra at Jobber.','On Ledgerline, review requests are built in — plus Reviewline\u2019s review-gate funnel and Proofline\u2019s photo reports on Command. One saved review pays for a year.'],
+        ['Review requests cost $39/mo extra at Jobber.','On Ledgerline, review requests are built in — plus Proofline\u2019s photo reports from Growth and Reviewline\u2019s review-gate funnel on Command. One saved review pays for a year.'],
         ['Annual prepay is a leash.','Jobber pushes annual plans with a "discount" that is really 12 months of lock-in. Ledgerline runs 6-month terms. Cancel when the term ends. Export every customer, job, and invoice to CSV in one click.'],
         ['Built for 40-truck fleets, priced for you.','Sales pipelines, quoting automations, reporting suites — most solo operators open none of it. Ledgerline is book, show, get paid. That is the whole job.']
       ],
@@ -958,7 +958,7 @@ function renderAlternativePage(competitor){
       points:[
         ['Per-user pricing punishes growth.','JobNimbus charges per seat, so hiring your first helper raises your software bill the same week you take on more payroll. Ledgerline includes everyone for one flat price.'],
         ['CRM-first when you need job-first.','JobNimbus leans sales-pipeline and contact management — roofers love it. If you run jobs instead of pipelines, Ledgerline is book, quote, show, get paid with nothing you will never open.'],
-        ['Review requests are included here.','On JobNimbus, review and communication add-ons push the bill up. On Ledgerline, review requests are built in — and Reviewline\u2019s review-gate funnel and Proofline photo reports come with Command.'],
+        ['Review requests are included here.','On JobNimbus, review and communication add-ons push the bill up. On Ledgerline, review requests are built in — and Proofline photo reports come with Growth, and Reviewline\u2019s review-gate funnel with Command.'],
         ['Take the data with you.','Ledgerline runs 6-month terms with one-click CSV export of customers, jobs and invoices. Your data is yours, always.']
       ],
       math:'A 3-person crew on JobNimbus per-user plans runs about $150-210/mo. Ledgerline Command is $46.50/mo, everything on. About $1,900-2,900 a year stays in your truck.'
@@ -2666,7 +2666,7 @@ async function runApp(){
 
       <div class="settings-card">
         <h3>Reviewline — the review funnel</h3>
-        <p class="faint">${S.billing?.entitlements?.reviewline?'Included on your plan. One-tap review requests run from the Requests screen; the Reviewline app adds the full review-gate funnel, QR kits and templates.':'Reviewline\u2019s full review-gate funnel is included on the <strong>Growth</strong> plan. One-tap review requests unlock at Starter.'}</p>
+        <p class="faint">${S.billing?.entitlements?.reviewline?'Included on your plan. One-tap review requests run from the Requests screen; the Reviewline app adds the full review-gate funnel, QR kits and templates.':'Reviewline\u2019s full review-gate funnel is included on the <strong>Command</strong> plan. One-tap review requests unlock at Starter.'}</p>
         <div class="field"><label>Google review link</label><input id="rv-link" value="${esc(S.reviews?.link||'')}" placeholder="https://g.page/r/…/review"></div>
         <div class="btnrow" style="flex-wrap:wrap;margin-top:4px">
           <a class="btn ghost" href="https://review.leonlink.net/app" target="_blank" rel="noopener">Open the Reviewline app ↗</a>
