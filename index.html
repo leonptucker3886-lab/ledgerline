@@ -366,7 +366,7 @@ html[data-theme="light"] .toast{box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .feature p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.45}
 .pricing-sec{max-width:1100px;margin:0 auto;padding:0 24px 72px}
 .pricing-sec h2{font-family:Fraunces,Georgia,serif;font-size:28px;margin:0 0 8px}
-.landing-foot{border-top:1px solid var(--line);padding:32px 24px 40px;text-align:center;color:var(--faint);font-size:13px;display:grid;gap:14px;justify-items:center}
+.landing-foot{border-top:1px solid var(--line);padding:32px 24px 40px;text-align:center;color:var(--faint);font-size:13px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;justify-items:center}
 .foot-brand{display:flex;align-items:center;gap:8px;font-family:Fraunces,Georgia,serif;font-size:17px;color:var(--ink)}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
 .foot-links a{color:var(--muted);text-decoration:none;font-weight:600;font-size:13.5px}
@@ -1764,7 +1764,7 @@ async function runApp(){
     return `
       ${(S.role||'owner')!=='crew' && S.billing?.plan==='free'?`
       <div class="notice" style="background:linear-gradient(160deg,var(--green),var(--green2));border:1px solid rgba(242,193,78,.4);display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px">
-        <div style="min-width:220px"><strong>You're on Free.</strong> <span style="color:var(--muted)">Card payments, review requests, the customer portal, Reviewline and Proofline unlock from <strong style="color:var(--accent)">$4.83/mo</strong> — whole crew, no per-user fees.</span></div>
+        <div style="min-width:220px"><strong>You're on Free.</strong> <span style="color:var(--muted)">Card payments, the customer portal and review requests unlock from <strong style="color:var(--accent)">$24.83/mo</strong> — whole crew, no per-user fees.</span></div>
         <button class="btn primary" id="dash-upgrade" style="flex-shrink:0">Choose your plan</button>
       </div>`:''}
       <div class="dash-hero">
