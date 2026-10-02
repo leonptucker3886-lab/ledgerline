@@ -314,6 +314,37 @@ module.exports = async (req, res) => {
         return json(res, 200, { ok: true, tenantId: tid }, { "Set-Cookie": cookie });
       }
 
+      case "admin": {
+        const sec = req.headers["x-cron-secret"] || "";
+        if (!process.env.CRON_SECRET || sec !== process.env.CRON_SECRET) return err(res, 403, "Forbidden");
+        const act = url.searchParams.get("action") || "list";
+        if (act === "list") {
+          const out = [];
+          for (const tid of await tenants()) {
+            const biz = await tenantBusiness(tid);
+            out.push({ tenant: tid, name: biz.name || "", email: biz.email || "", hasLogin: !!(await getSetting(`t:${tid}:auth`)), demo: isDemoTenant(tid) });
+          }
+          return json(res, 200, { count: out.length, tenants: out });
+        }
+        if (act === "set-email") {
+          const tid = String(url.searchParams.get("tenant") || "");
+          const em = String(url.searchParams.get("email") || "").trim().toLowerCase();
+          if (!tid || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return err(res, 400, "Need tenant and a valid email.");
+          const biz = await tenantBusiness(tid);
+          biz.email = em;
+          await setSetting(`t:${tid}:business`, JSON.stringify(biz));
+          return json(res, 200, { ok: true, tenant: tid, email: em });
+        }
+        if (act === "set-password") {
+          const tid = String(url.searchParams.get("tenant") || "");
+          const pw = String(url.searchParams.get("password") || "");
+          if (!tid || pw.length < 6) return err(res, 400, "Need tenant and a 6+ character password.");
+          const salt = crypto.randomBytes(16).toString("hex");
+          await setSetting(`t:${tid}:auth`, JSON.stringify({ salt, hash: hashPassword(pw, salt) }));
+          return json(res, 200, { ok: true, tenant: tid });
+        }
+        return err(res, 400, "Unknown admin action.");
+      }
       case "request-reset": {
         const email = String(body.email || "").trim().toLowerCase();
         for (const tid of await tenants()) {
