@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://app.leonlink.net/alternatives/kickserv">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ledgerline","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"Field service software for small crews: scheduling, estimates, invoices, card payments, customer portal. Flat price, no per-user fees.","offers":{"@type":"AggregateOffer","lowPrice":"4.83","highPrice":"46.50","priceCurrency":"USD","offerCount":"3"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ledgerline","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"Field service software for small crews: scheduling, estimates, invoices, card payments, customer portal. Flat price, no per-user fees.","offers":{"@type":"AggregateOffer","lowPrice":"9.83","highPrice":"54.50","priceCurrency":"USD","offerCount":"3"}}
 </script>
 <meta name="theme-color" content="#183d2a">
 <link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Ledgerline"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -631,7 +631,7 @@ html[data-theme="dark"]{
             <div class="viz-title"><strong>Kickserv vs Ledgerline</strong><span>one-truck shop</span></div>
             <div class="hero-kpis" style="grid-template-columns:1fr 1fr">
               <div><div class="v">$60-199/mo</div><div class="l">Kickserv Start, 5 seats bundled in</div></div>
-              <div><div class="v">$9.83</div><div class="l">Ledgerline Starter, month to month</div></div>
+              <div><div class="v">$9.83</div><div class="l">Ledgerline Starter, monthly</div></div>
             </div>
             <div class="viz-title" style="margin-top:12px"><strong>~$600/yr</strong><span>stays with you</span></div>
           </div>
@@ -1022,7 +1022,8 @@ function renderAlternativePage(competitor){
         <div class="brand" style="display:flex;align-items:center;gap:10px">${logoMark(36)}<strong style="font-family:Fraunces,Georgia,serif">Ledgerline</strong></div>
         <div class="links">
           <button class="btn ghost" id="alt-login">Log in</button>
-          <button class="btn primary" id="alt-signup">Start for $4.83</button>
+          <button class="btn ghost" data-install="1" type="button">Download</button>
+          <button class="btn primary" id="alt-signup">Create workspace</button>
         </div>
       </nav>
       <section class="hero-plane" style="padding-top:16px">
@@ -1030,7 +1031,7 @@ function renderAlternativePage(competitor){
           <h1 style="max-width:22ch">${p.h1}</h1>
           <p class="lede">Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.</p>
           <div class="hero-actions">
-            <button class="btn primary" id="alt-signup2">Create free workspace</button>
+            <button class="btn primary" id="alt-signup2">Create your workspace</button>
             <a class="btn" href="/" style="display:inline-flex;align-items:center">See the full product</a>
           </div>
         </div>
@@ -1039,9 +1040,9 @@ function renderAlternativePage(competitor){
             <div class="viz-title"><strong>${p.name} vs Ledgerline</strong><span>3-person crew</span></div>
             <div class="hero-kpis" style="grid-template-columns:1fr 1fr">
               <div><div class="v">${p.theirPrice}</div><div class="l">${p.name}, per-user fees in</div></div>
-              <div><div class="v">$46.50</div><div class="l">Ledgerline Command, everything on</div></div>
+              <div><div class="v">${p.ourPrice}</div><div class="l">${p.ourLabel}</div></div>
             </div>
-            <div class="viz-title" style="margin-top:12px"><strong>~$2,400+/yr</strong><span>stays with you</span></div>
+            <div class="viz-title" style="margin-top:12px"><strong>${p.savings}</strong><span>${p.savingsLabel||"stays with you"}</span></div>
           </div>
         </div>
       </section>
@@ -1063,8 +1064,9 @@ function renderAlternativePage(competitor){
           <p>Open the live demo (password <b>demo</b>) or create a workspace in under a minute. No card to look around.</p>
         </div>
         <div style="display:grid;gap:10px">
-          <button class="btn primary" id="alt-signup3" style="width:100%;justify-content:center">Create free workspace</button>
+          <button class="btn primary" id="alt-signup3" style="width:100%;justify-content:center">Create your workspace</button>
           <button class="btn" id="alt-demo" style="width:100%;justify-content:center">Open live demo</button>
+          <button class="btn ghost" data-install="1" type="button" style="width:100%;justify-content:center">Download the app</button>
         </div>
       </div>
     </section>
@@ -1317,10 +1319,10 @@ async function runApp(){
         <section class="hero-plane">
           <div>
             <div class="brand-lockup">${logoMark(56)}<p class="wordmark">Ledgerline</p></div>
-            <h1>Everything the $200/mo apps do. From <span class="lime">$4.83</span>.</h1>
+            <h1>Everything the $200/mo apps do. From <span class="lime">$9.83</span>.</h1>
             <p class="lede" style="color:rgba(244,250,240,.95)">Jobber, Housecall Pro and the rest start at $39 and end up costing a 3-person crew $200+ a month once per-user fees and add-ons stack. Ledgerline is one flat price — whole crew included, every feature on, no add-ons. Ever.</p>
             <div class="hero-actions">
-              <button class="btn primary" id="lp-signup">Create free workspace</button>
+              <button class="btn primary" id="lp-signup">Create your workspace</button>
               <button class="btn" id="lp-demo2">Open live demo</button>
             </div>
             <p class="faint" style="color:rgba(238,246,232,.85);margin-top:16px;display:flex;align-items:center;gap:8px">Built by a working chimney sweep in the US — support goes to him, not a ticket queue.</p>
@@ -1366,7 +1368,7 @@ async function runApp(){
           <div class="rant-card">
             <div class="strike">Their move</div>
             <h3>Add-on pricing</h3>
-            <p>Review requests run $39/mo extra at Jobber. Portals, SMS, "premium" support — each one another line item you find after signup.</p>
+            <p>Review requests, portals, SMS and "premium" support are billed as add-ons — each one another line item you find after you have signed up.</p>
             <div class="ours">Ledgerline: everything on your plan is included. That's the whole trick.</div>
           </div>
           <div class="rant-card">
@@ -1433,15 +1435,15 @@ async function runApp(){
         </div>
         <div class="math-strip">
           <div class="math-card"><div class="big">~$254/mo</div><div class="lbl">Housecall Pro Essentials for a 3-person crew, per-user fees included (2026)</div></div>
-          <div class="math-card"><div class="big">$46.50/mo</div><div class="lbl">Ledgerline Command. Everything on. Whole crew in.</div></div>
-          <div class="math-card"><div class="big">~$2,490</div><div class="lbl">Back in your pocket every year. That's a truck payment.</div></div>
+          <div class="math-card"><div class="big">$54.50/mo</div><div class="lbl">Ledgerline Command, month to month. Everything on, whole crew in.</div></div>
+          <div class="math-card"><div class="big">~$2,390</div><div class="lbl">Back in your pocket every year. That's a truck payment.</div></div>
           <div class="math-card"><div class="big">$0</div><div class="lbl">Per-user fees, add-ons, and "contact us" pricing. Forever.</div></div>
         </div>
       </section>
       <section class="obj-sec">
         <h2>Fine print? There isn't any.</h2>
         <div class="obj-grid">
-          <div class="obj-card"><p class="q">Is $4.83/mo actually real?</p><p class="a">Starter is $29 every 6 months. That's $4.83/mo for card payments, estimates, invoices, scheduling, unlimited customers. The catch: there isn't one.</p></div>
+          <div class="obj-card"><p class="q">Is $9.83/mo actually real?</p><p class="a">Starter is $9.83/mo month to month, or $29 every 6 months, which works out to $4.83/mo, for card payments, estimates, invoices, scheduling, unlimited customers. The catch: there isn't one.</p></div>
           <div class="obj-card"><p class="q">What happens when I hire?</p><p class="a">Nothing. No per-user fees, ever. Bring your cousin, your kid, three subs — same flat price.</p></div>
           <div class="obj-card"><p class="q">Do my customers need an app?</p><p class="a">No. They get a link — estimates, files, messages, and pay — right in their phone's browser.</p></div>
           <div class="obj-card"><p class="q">What if I want to leave?</p><p class="a">Every customer, job, invoice, and estimate exports to CSV in one click, from Settings. We earn your renewal. We don't trap you.</p></div>
@@ -1452,7 +1454,7 @@ async function runApp(){
       <section class="signup-box" id="signup">
         <div class="signup-panel">
           <div>
-            <h2>Try it free. Keep it for $4.83.</h2>
+            <h2>Try it free. Keep it for $9.83/mo.</h2>
             <p>Open the live demo (password <b>demo</b>) or create a workspace in under a minute — email, password, business name. No card to look around.</p>
           </div>
           <form class="signup-form" id="lp-signup-form">
@@ -1505,7 +1507,7 @@ async function runApp(){
       try{
         await api('signup',{method:'POST',body:{email,password,businessName}});
         setS(await api('state'));
-        toast(S.billing?.plan==='best'?'Welcome — Command plan unlocked':'Workspace created — you\u2019re on Free. Card payments, review requests and photo reports unlock from $4.83/mo in Settings \u2192 Subscription','ok');
+        toast(S.billing?.plan==='best'?'Welcome — Command plan unlocked':'Workspace created — you\u2019re on Free. Card payments, review requests and photo reports unlock from $9.83/mo in Settings \u2192 Subscription','ok');
         navigate('dashboard',{replace:true});
       }catch(e){
         const box=$('#su-err');
@@ -2815,6 +2817,21 @@ async function runApp(){
 }
 // ---- PWA install ----
 let __installEvt=null;
+window.llInstallApp=async()=>{
+  if(__installEvt){
+    try{ __installEvt.prompt(); const c=await __installEvt.userChoice.catch(()=>null); if(c&&c.outcome!=='accepted') __installEvt=null; return; }catch(e){}
+  }
+  const ua=navigator.userAgent||'';
+  const ios=/iPad|iPhone|iPod/.test(ua);
+  let standalone=false; try{ standalone=window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches; }catch(e){}
+  if(standalone){ try{ toast('Already installed on this device.','ok'); }catch(e){} return; }
+  try{ toast(ios?'iPhone: tap Share, then "Add to Home Screen".':'Chrome: tap the menu, then "Install app" or "Add to Home screen".','ok'); }catch(e){}
+};
+document.addEventListener('click',e=>{
+  const t=e.target&&e.target.closest?e.target.closest('[data-install]'):null;
+  if(t){ e.preventDefault(); window.llInstallApp(); }
+});
+try{ if(new URLSearchParams(location.search).get('install')==='1') setTimeout(()=>{ try{ window.llInstallApp(); }catch(e){} },1500); }catch(e){}
 window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); __installEvt=e; const b=$('#install-app'); if(b) b.textContent='Install on this phone'; });
 window.addEventListener('appinstalled',()=>{ const b=$('#install-app'); if(b){ b.textContent='Installed'; b.disabled=true; } });
 try{ navigator.serviceWorker?.register('/sw.js').catch(()=>{}); }catch(_){}

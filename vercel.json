@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/press",
+      "destination": "/press.html"
+    },
+    {
       "source": "/alternatives/:slug",
       "destination": "/alternatives/:slug.html"
     },

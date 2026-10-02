@@ -3,8 +3,8 @@
    Edit this file only; then run: node tools/build-alternatives.js */
 window.LL_ALTS = {
  "jobber": {
-  "title": "Jobber Alternative — From $4.83/mo, No Per-User Fees | Ledgerline",
-  "desc": "Looking for a Jobber alternative? Ledgerline does scheduling, estimates, invoices, card payments and a customer portal from $4.83/mo flat. No per-user fees, no add-ons, 6-month terms.",
+  "title": "Jobber Alternative — From $9.83/mo, No Per-User Fees | Ledgerline",
+  "desc": "Looking for a Jobber alternative? Ledgerline does scheduling, estimates, invoices, card payments and a customer portal from $9.83/mo flat. No per-user fees, no add-ons, 6-month terms.",
   "name": "Jobber",
   "h1": "Why small crews are switching from Jobber",
   "theirPrice": "$167-187/mo",
@@ -27,19 +27,19 @@ window.LL_ALTS = {
     "Sales pipelines, quoting automations, reporting suites — most solo operators open none of it. Ledgerline is book, show, get paid. That is the whole job."
    ]
   ],
-  "math": "A 3-person crew on Jobber Connect with per-user fees runs about $167-187/mo. Ledgerline Command — everything on, whole crew included — is $46.50/mo. That is roughly $2,400 a year back in your pocket.",
+  "math": "A 3-person crew on Jobber Connect with per-user fees runs about $167-187/mo. Ledgerline Command, everything on for the whole crew, is $54.50/mo month to month, or $46.50/mo on the 6-month term. Compared month to month, that is roughly $1,350 to $1,600 a year back in your pocket.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "Jobber, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$1,350-1,600/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
  "housecall-pro": {
-  "title": "Housecall Pro Alternative — From $4.83/mo, Whole Crew Included | Ledgerline",
-  "desc": "Looking for a Housecall Pro alternative? Ledgerline gives solo trades and small crews scheduling, estimates, invoices, card payments and a customer portal from $4.83/mo flat. No per-user fees. No add-ons.",
+  "title": "Housecall Pro Alternative — From $9.83/mo, Whole Crew Included | Ledgerline",
+  "desc": "Looking for a Housecall Pro alternative? Ledgerline gives solo trades and small crews scheduling, estimates, invoices, card payments and a customer portal from $9.83/mo flat. No per-user fees. No add-ons.",
   "name": "Housecall Pro",
   "h1": "Why trades are leaving Housecall Pro",
   "theirPrice": "$219-259/mo",
@@ -62,18 +62,18 @@ window.LL_ALTS = {
     "You need to book the call, show up, get paid. Ledgerline does exactly that — estimates, portal, payments, reminders — and nothing you will never open."
    ]
   ],
-  "math": "A 3-person crew on Housecall Pro Essentials with per-user add-ons runs about $219-259/mo. Ledgerline Command is $46.50/mo, everything on. About $2,490 a year stays in your truck.",
+  "math": "A 3-person crew on Housecall Pro Essentials with per-user add-ons runs about $219-259/mo. Ledgerline Command is $54.50/mo month to month, or $46.50/mo on the 6-month term. Compared month to month, that is roughly $1,975 to $2,455 a year back.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "Housecall Pro, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$1,975-2,455/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
  "servicetitan": {
-  "title": "ServiceTitan Alternative for Small Crews — $46.50/mo Flat | Ledgerline",
+  "title": "ServiceTitan Alternative for Small Crews — From $9.83/mo Flat | Ledgerline",
   "desc": "ServiceTitan is built for 10-truck operations. Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. Whole crew, no per-tech fees.",
   "name": "ServiceTitan",
   "h1": "ServiceTitan power without the ServiceTitan bill",
@@ -97,18 +97,18 @@ window.LL_ALTS = {
     "Ledgerline gives them a link — quotes, invoices and a portal that opens in any browser. Same for yours: no per-customer seats, ever."
    ]
   ],
-  "math": "At the commonly reported ~$238/tech/mo, a 3-tech shop runs $700+/mo on ServiceTitan — $8,500+/yr. Ledgerline Command is $46.50/mo, everything on. That is the truck payment, covered.",
+  "math": "ServiceTitan does not publish pricing; publicly reported figures run roughly $238 per technician per month billed annually, so a 3-person crew is $700-1,000+/mo. Ledgerline Command is $54.50/mo month to month, or $46.50/mo on the 6-month term.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "ServiceTitan, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$7,750-11,350/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
  "workiz": {
-  "title": "Workiz Alternative — $46.50/mo Flat, Whole Crew | Ledgerline",
+  "title": "Workiz Alternative — From $9.83/mo Flat, Whole Crew | Ledgerline",
   "desc": "Looking for a Workiz alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. No per-user fees. No add-ons.",
   "name": "Workiz",
   "h1": "Why small crews outgrow Workiz pricing",
@@ -132,18 +132,18 @@ window.LL_ALTS = {
     "Ledgerline runs 6-month terms with one-click CSV export. If we ever stop earning it, you walk with your data. That is the deal."
    ]
   ],
-  "math": "A small crew on Workiz with the features a real business needs runs about $225-345/mo. Ledgerline Command is $46.50/mo, everything on. Roughly $2,500-3,500 a year back.",
+  "math": "Workiz standard and upper tiers for a small crew run about $225-345/mo. Ledgerline Command is $54.50/mo month to month, or $46.50/mo on the 6-month term. Compared month to month, that is roughly $2,045 to $3,485 a year back.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "Workiz, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$2,045-3,485/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
  "jobnimbus": {
-  "title": "JobNimbus Alternative — From $4.83/mo, No Per-User Fees | Ledgerline",
+  "title": "JobNimbus Alternative — From $9.83/mo, No Per-User Fees | Ledgerline",
   "desc": "Looking for a JobNimbus alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal from $46.50/mo flat. Whole crew included.",
   "name": "JobNimbus",
   "h1": "Why small crews switch from JobNimbus",
@@ -167,18 +167,18 @@ window.LL_ALTS = {
     "Ledgerline runs 6-month terms with one-click CSV export of customers, jobs and invoices. Your data is yours, always."
    ]
   ],
-  "math": "A 3-person crew on JobNimbus per-user plans runs about $150-210/mo. Ledgerline Command is $46.50/mo, everything on. About $1,900-2,900 a year stays in your truck.",
+  "math": "JobNimbus per-user plans for a 3-person crew run about $150-210/mo. Ledgerline Command is $54.50/mo month to month, or $46.50/mo on the 6-month term. Compared month to month, that is roughly $1,145 to $1,865 a year back.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "JobNimbus, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$1,145-1,865/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
  "fieldedge": {
-  "title": "FieldEdge Alternative — $46.50/mo Flat, Whole Crew | Ledgerline",
+  "title": "FieldEdge Alternative — From $9.83/mo Flat, Whole Crew | Ledgerline",
   "desc": "Looking for a FieldEdge alternative? Ledgerline gives small trades crews scheduling, estimates, invoices, card payments and a customer portal for $46.50/mo flat. No per-user fees.",
   "name": "FieldEdge",
   "h1": "Why small crews switch from FieldEdge",
@@ -202,13 +202,13 @@ window.LL_ALTS = {
     "One-click CSV export of every customer, job and invoice. If we stop earning your $46.50, you walk with everything."
    ]
   ],
-  "math": "A small crew on FieldEdge runs roughly $150-250+/mo with per-user fees in. Ledgerline Command is $46.50/mo, everything on. About $2,400+ a year back in your pocket.",
+  "math": "FieldEdge per-user plans for a small crew run about $150-250+/mo. Ledgerline Command is $54.50/mo month to month, or $46.50/mo on the 6-month term. Compared month to month, that is roughly $1,145 to $2,345 a year back.",
   "lede": "Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.",
   "crew": "3-person crew",
   "theirLabel": "FieldEdge, per-user fees in",
-  "ourPrice": "$46.50",
-  "ourLabel": "Ledgerline Command, everything on",
-  "savings": "~$2,400+/yr",
+  "ourPrice": "$54.50",
+  "ourLabel": "Ledgerline Command, monthly, everything on",
+  "savings": "~$1,145-2,345/yr",
   "savingsLabel": "stays with you",
   "noteTail": "Their pricing changes; our $0 per-user fees don't."
  },
@@ -224,7 +224,7 @@ window.LL_ALTS = {
   "crew": "one-truck shop",
   "theirLabel": "Kickserv Start, 5 seats bundled in",
   "ourPrice": "$9.83",
-  "ourLabel": "Ledgerline Starter, month to month",
+  "ourLabel": "Ledgerline Starter, monthly",
   "savings": "~$600/yr",
   "points": [
    [
@@ -259,7 +259,7 @@ window.LL_ALTS = {
   "crew": "busy sweep",
   "theirLabel": "ServiceM8 Growing, 150 jobs a month",
   "ourPrice": "$9.83",
-  "ourLabel": "Ledgerline Starter, month to month",
+  "ourLabel": "Ledgerline Starter, monthly",
   "savings": "~$830/yr",
   "points": [
    [
