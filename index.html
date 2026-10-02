@@ -873,7 +873,11 @@ async function _apiRaw(action,{method='GET',kind,id,t,body}={}){
       }
       if(sent){
         try{ toast(sent+' offline change'+(sent>1?'s':'')+' uploaded.','ok'); }catch(_){}
-        try{ setS(await _apiRaw('state')); try{ localStorage.setItem(SKEY,JSON.stringify({at:Date.now(),state:S})); }catch(_){} render(); }catch(_){}
+        try{ const fresh=await _apiRaw('state'); localStorage.setItem(SKEY,JSON.stringify({at:Date.now(),state:fresh})); }catch(_){}
+        const ae=document.activeElement;
+        const typing=ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
+        if(!typing) setTimeout(()=>location.reload(),700);
+        else { try{ toast('Uploaded. Refresh to see them.','ok'); }catch(_){} }
       }
     } finally { llFlushing=false; llPaintSync(); }
   }
