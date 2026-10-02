@@ -1405,6 +1405,9 @@ async function runApp(){
   const ROLE_LABEL={owner:'Owner',admin:'Admin',dispatcher:'Dispatcher',crew:'Crew',member:'Crew'};
   let tab='dashboard', selectedCustomerId=null, threadData=null, customerSearch='', moreOpen=false;
   let rp={mode:'list', pane:'reports'};
+  const REP_OC={pass:'Pass',attention:'Attention',fail:'Fail'};
+  const Q_TYPE_LABEL={yesno:'Yes / No',text:'Text',number:'Number',photo:'Photo',select:'Pick list'};
+  const repThumbs={};
   const TAB_PATHS = {dashboard:'/', customers:'/customers', estimates:'/estimates', requests:'/requests', jobs:'/jobs', invoices:'/invoices', reports:'/reports', settings:'/settings', customer:'/customers'};
   const PATH_TABS = Object.fromEntries(Object.entries(TAB_PATHS).map(([k,v])=>[v,k]));
   PATH_TABS['/'] = 'dashboard';
@@ -1462,7 +1465,10 @@ async function runApp(){
   }catch(e){
     if(params0.get('reset')) return renderAuth('login');
     if(wantLogin) return renderAuth(needsSetup ? 'setup' : 'login');
-    if(wantSetup || (needsSetup && location.pathname === '/setup')) return renderAuth('setup');
+    // /signup is the address every "create workspace" button points at. It used to fall
+    // through to the "not logged in" branch and land on the LOGIN screen instead, so
+    // signing up looked broken.
+    if(wantSetup || location.pathname === '/setup' || location.pathname === '/signup') return renderAuth('setup');
     if(location.pathname !== '/'){ history.replaceState({},'', '/login?login=1'); return renderAuth(needsSetup?'setup':'login'); }
     return renderLanding(needsSetup);
   }
@@ -2314,12 +2320,9 @@ async function runApp(){
   }
 
   /* =========================== INSPECTION REPORTS =========================== */
-  const REP_OC={pass:'Pass',attention:'Attention',fail:'Fail'};
-  const Q_TYPE_LABEL={yesno:'Yes / No',text:'Text',number:'Number',photo:'Photo',select:'Pick list'};
-  const repThumbs={};
-  const repOk=()=>!!S.billing?.entitlements?.reports;
-  const repClone=o=>JSON.parse(JSON.stringify(o));
-  const repQid=()=>'q'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  function repOk(){ return !!S.billing?.entitlements?.reports; }
+  function repClone(o){ return JSON.parse(JSON.stringify(o)); }
+  function repQid(){ return 'q'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
   function rpReset(){
     const d=rp.mode==='fill'&&rp.draft&&rp.draft.dirty?rp.draft:rp.resume;
     return {mode:'list', pane:rp.pane||'reports', q:rp.q||'', resume:d||null};
