@@ -1,1 +1,8 @@
-[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"net.leonlink.ledgerline","sha256_cert_fingerprints":["PLACEHOLDER_SHA256"]}}]
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "net.leonlink.app.twa",
+        "sha256_cert_fingerprints": ["B5:A3:28:CB:95:82:CC:5B:02:6D:C3:3D:D9:57:94:07:83:01:D4:B7:8F:EB:D3:9A:A0:A9:E2:2B:83:A9:87:7C"]
+      }
+    }]
