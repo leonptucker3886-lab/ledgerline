@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Leon Link — Alternative web apps that work for you, not the other way around</title>
+<link rel="canonical" href="https://www.leonlink.net/">
+<meta name="description" content="Leon Link builds The Line — the first software suite for the truck, not the boardroom: Ledgerline field service software from $9.83/mo — Proofline photo reports from the Growth tier and the Reviewline review funnel from Command.">
+<meta property="og:title" content="Leon Link — The Line: field service software, review funnel, photo proof">
+<meta property="og:description" content="Three products, one suite, honest prices. Ledgerline is live from $9.83/mo — Proofline from the $29.83/mo Growth tier, the Reviewline review funnel from $54.50/mo Command.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.leonlink.net/og.png">
+<meta property="og:url" content="https://www.leonlink.net/">
+<link rel="icon" type="image/png" href="https://www.leonlink.net/favicon.png"><link rel="apple-touch-icon" href="https://www.leonlink.net/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0c0e;--panel:#141417;--panel2:#191a1e;--line:#26262b;--ink:#f2f2f0;--muted:#a3a3ab;--faint:#77777f;--accent:#f2c14e;--accent-ink:#1a1a1a;--green:#183d2a;--green2:#1f4d35;--lime:#d9f16b;--rose:#e07a5f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 "DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+h1,h2{font-family:"Fraunces",Georgia,serif;letter-spacing:-.02em;line-height:1.12}
+header{position:sticky;top:0;z-index:20;background:rgba(13,21,18,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:56px}
+@media(min-width:720px){.nav{height:64px}}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none}
+.brand span{font-size:17px}
+.nav-links{display:flex;gap:14px;align-items:center}
+@media(min-width:720px){.nav-links{gap:22px}}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .cta{background:var(--accent);color:var(--accent-ink);padding:9px 14px;border-radius:99px;font-weight:700;font-size:13.5px}
+@media(min-width:720px){.nav-links .cta{padding:8px 16px;font-size:14.5px}}
+@media(max-width:720px){.nav-links a.hide-m{display:none}}
+.logo-badge{width:clamp(132px,34vw,170px);height:clamp(132px,34vw,170px);border-radius:50%;overflow:hidden;margin:0 auto 26px;border:3px solid rgba(242,193,78,.55);box-shadow:0 12px 44px rgba(242,193,78,.15);background:#0d1512}
+.logo-badge img{width:100%;height:100%;object-fit:cover;display:block}
+.hero{padding:clamp(52px,10vw,84px) 0 56px;text-align:center;background:radial-gradient(1100px 480px at 50% -120px,rgba(242,193,78,.07),transparent)}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(242,193,78,.4);border-radius:99px;padding:6px 14px;margin-bottom:22px}
+.hero h1{font-size:clamp(34px,6vw,56px);margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{color:var(--muted);font-size:clamp(16px,2.4vw,19px);max-width:640px;margin:0 auto 30px}
+.hero-apps{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.hero-app{width:270px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 20px 16px;transition:transform .15s,border-color .15s;display:block;text-decoration:none}
+.hero-app:hover{transform:translateY(-3px);border-color:var(--app-accent)}
+.hero-app .tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--app-accent);margin:0 0 6px}
+.hero-app strong{font-family:Fraunces,Georgia,serif;font-size:20px;color:#fff;display:block;margin-bottom:6px}
+.hero-app p{font-size:13.5px;line-height:1.5;color:var(--muted);margin:0 0 12px}
+.hero-app .open{font-size:13.5px;font-weight:700;color:var(--app-accent)}
+.creed{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:24px 20px;margin:44px auto;display:grid;gap:14px;text-align:left;max-width:1040px}
+@media(min-width:720px){.creed{border-radius:18px;padding:34px 30px;margin:56px auto}}
+.creed h2{font-size:clamp(22px,3.4vw,30px)}
+.creed p{color:var(--muted)}
+.creed .not b{color:var(--rose)}
+.creed .yes b{color:var(--accent)}
+.apps{padding:56px 0 8px}
+.apps>h2,.more>h2,.contact>h2{font-size:clamp(24px,3.6vw,34px);text-align:center;margin-bottom:10px}
+.sub{text-align:center;color:var(--muted);max-width:560px;margin:0 auto 36px;padding:0 22px}
+.spot{display:grid;grid-template-columns:1fr;gap:18px;align-items:stretch;max-width:1040px;margin:0 auto;padding:0 18px}
+@media(min-width:820px){.spot{grid-template-columns:1.15fr .85fr;gap:26px;padding:0 22px}}
+.spot-card{background:linear-gradient(160deg,var(--green),var(--green2));border:1px solid #2c5440;border-radius:16px;padding:26px 22px;display:flex;flex-direction:column;gap:14px}
+.spot-card .flag{align-self:flex-start;background:var(--lime);color:var(--green);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:99px;padding:5px 12px}
+.spot-card h3{font-family:"Fraunces",Georgia,serif;font-size:clamp(24px,3.4vw,32px)}
+.spot-card p{color:#cfe0d3;font-size:15px}
+.spot-card ul{list-style:none;display:grid;gap:8px;font-size:14.5px;color:#dce8df}
+.spot-card li::before{content:"→";color:var(--lime);margin-right:8px;font-weight:700}
+.spot-card .go{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding-top:8px}
+.btn{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;border-radius:12px;padding:13px 22px;cursor:pointer;border:0;text-align:center}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;border:1px solid #3a6a50;color:#dce8df}
+.spot-side{display:grid;gap:14px}
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.mini h4{font-size:16px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini p{color:var(--muted);font-size:14px}
+.mini .tag{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.mini .tag.live{color:var(--accent)}
+.more{padding:64px 0}
+.roadmap{display:grid;grid-template-columns:1fr;gap:12px;max-width:1040px;margin:8px auto 0;padding:0 18px}
+@media(min-width:720px){.roadmap{grid-template-columns:repeat(3,1fr);gap:14px;padding:0 22px}}
+.road{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:20px 18px}
+@media(min-width:720px){.road{border-radius:16px;padding:22px}}
+.road .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:10px}
+.road h4{font-size:15.5px;margin-bottom:4px}
+.road p{color:var(--muted);font-size:13.5px}
+.contact{padding:24px 0 80px}
+.form-card{max-width:620px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
+@media(min-width:720px){.form-card{border-radius:20px;padding:30px}}
+.form-card label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:14px 0 5px}
+.form-card input,.form-card textarea,.form-card select{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font:16px/1.4 "DM Sans",system-ui,sans-serif;padding:13px 14px;min-height:48px}
+.form-card input:focus,.form-card textarea:focus{outline:none;border-color:var(--accent)}
+.form-card .btn{width:100%;margin-top:20px}
+.form-note{text-align:center;color:var(--faint);font-size:12.5px;margin-top:12px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--faint);font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--ink)}
+.sent{display:none;background:rgba(242,193,78,.1);border:1px solid rgba(242,193,78,.4);color:var(--ink);border-radius:10px;padding:12px 14px;margin-top:14px;font-size:14px}
+/* mobile pass: tap targets, legible labels, no input zoom */
+.nav{gap:10px}
+.brand{min-height:44px;flex-shrink:0}
+.nav-links a{white-space:nowrap;display:inline-flex;align-items:center;min-height:44px}
+.nav-links .cta{padding-top:0;padding-bottom:0}
+@media(max-width:420px){.nav-links{gap:12px}.nav-links .cta{padding-left:12px;padding-right:12px}}
+@media(max-width:374px){.brand span{font-size:15.5px}.nav-links{gap:10px}.nav-links a{font-size:13.5px}.nav-links .cta{font-size:13px;padding-left:10px;padding-right:10px}}
+.eyebrow{font-size:12.5px}
+.hero-app .tag,.spot-card .flag,.mini .tag{font-size:12.5px}
+.crumb a,.tools-strip a{display:inline-flex;align-items:center;min-height:44px}
+.tools-strip a{font-size:13.5px}
+footer a[style*="display:block"]{padding:8.5px 0}
+footer a:not([style*="display:block"]){display:inline-flex;align-items:center;min-height:44px}
+input[type=text],input[type=email],input[type=number],input[type=tel],input[type=date],textarea,select{font-size:16px}
+input[type=text],input[type=email],input[type=number],input[type=tel],input[type=date],input[type=color],select{min-height:44px}
+.hero>div{padding:0 22px}
+.nav-links a,footer a:not([style*="display:block"]),.crumb a{min-width:44px;justify-content:center}
+.btn{min-height:44px}
+p a:not(.btn):not([style*="display:inline-block"]){padding:14px 0}
+.mini>a{display:inline-flex;align-items:center;min-height:44px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="https://www.leonlink.net/">
+      <img src="/logo.png" alt="" width="30" height="30" style="border-radius:50%;object-fit:cover">
+      <span>Leon&nbsp;Link</span>
+    </a>
+    <nav class="nav-links"><a data-dl="nav" href="https://app.leonlink.net/login?install=1">Download app</a>
+      <a href="#apps" class="hide-m">Apps</a>
+      <a href="#custom" class="hide-m">Custom apps</a>
+      <a href="#road" class="hide-m">Roadmap</a>
+      <a href="https://www.leonlink.net/affiliates.html" class="hide-m">Affiliates</a>
+      <a href="https://www.leonlink.net/what-is-leonlink.html" class="hide-m">About</a>
+      <a href="https://blog.leonlink.net" class="hide-m">Blog</a>
+      <a class="cta" href="#work">Work together</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="logo-badge"><img src="/logo.png" alt="Leon Link — the boss and the dog"></div>
+    <span class="eyebrow">The Line — a software suite</span>
+    <h1>Software that takes from the rich pricing. And gives to&nbsp;<em>you</em>.</h1>
+    <p class="lead">Leon Link builds honest web tools for working people — the stuff the big SaaS boys charge $200 a month for, priced like it costs to make. No per-user fees. No add-on games. No annual shakedowns. Three products, one suite: <b>The&nbsp;Line</b>.</p>
+    <div class="hero-apps">
+      <a class="hero-app" href="https://app.leonlink.net" style="--app-accent:#d9f16b;--panel:#122419;--line:#2b4a35">
+        <p class="tag">Field service OS</p>
+        <strong>Ledgerline</strong>
+        <p>Jobs, schedules, estimates, invoices and payments for trades crews — one flat price, whole crew included.</p>
+        <span class="open">Open Ledgerline →</span>
+      </a>
+      <a class="hero-app" href="https://review.leonlink.net" style="--app-accent:#f2c14e;--panel:#1a1712;--line:#3d3423">
+        <p class="tag">Review funnel</p>
+        <strong>Reviewline</strong>
+        <p>Closes every job with a review ask — every customer asked for a public review, with private feedback always open too. <b>Included with Ledgerline's Command tier.</b></p>
+        <span class="open">Open Reviewline →</span>
+      </a>
+          <a class="hero-app" href="https://proofline.leonlink.net" style="--app-accent:#e8963c;--panel:#191410;--line:#40311f">
+        <p class="tag">Photo proof reports</p>
+        <strong>Proofline</strong>
+        <p>Before and after photos of every job in a branded report your customer keeps — and shows the neighbors. <b>Included with Ledgerline's Growth tier.</b></p>
+        <span class="open">Open Proofline →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="creed">
+  <h2>The Robin Hood rule</h2>
+  <p class="not">The incumbents charge per user, upsell every feature behind an add-on, and lock you into annual prepay — <b>$167 to $259 a month</b> for a three-person crew.</p>
+  <p class="yes">We build the same core tools, strip the toll booths, and price them flat — <b>starting at $9.83 a month — $29.83 with Proofline, $54.50 for the whole Line</b>. Your data is yours. You leave whenever you want. That should be the industry standard. It isn't, so we're making it ours.</p>
+</section>
+
+<section class="apps" id="apps">
+  <h2>What's live</h2>
+  <p class="sub">Three products, one suite: <b>The Line</b> — Ledgerline, Reviewline, Proofline. Reviewline and Proofline are included benefits of the tier structure — get Proofline from Ledgerline's Growth tier up, and the Reviewline funnel with Command. The first software suite built for the truck, not the boardroom.</p>
+  <div class="spot">
+    <div class="spot-card">
+      <span class="flag">First release — live now</span>
+      <h3>Ledgerline</h3>
+      <p>Field service software for trades and home-services crews. Book the job on the phone, send the estimate before you hang up, get paid by card.</p>
+      <ul>
+        <li>Schedule, estimates &amp; invoices — flat <strong>$9.83/mo</strong> to start</li>
+        <li>Growth ($29.83/mo) includes <strong>Proofline</strong> — photo proof reports for every job</li>
+        <li>Command ($54.50/mo) adds <strong>Reviewline</strong> — the review funnel, plus SMS reminders</li>
+        <li>Customer portal: your clients track jobs and pay online</li>
+        <li>Whole crew included — $0 per-user fees, $0 add-ons</li>
+        <li>Reviews, reminders &amp; one-click data export</li>
+      </ul>
+      <div class="go">
+        <a class="btn primary" href="https://app.leonlink.net" style="background:var(--lime);color:var(--green)">Open Ledgerline</a>
+        <a class="btn ghost" href="https://app.leonlink.net/guide.pdf">Read the guide</a>
+      </div>
+    </div>
+    <div class="spot-side">
+      <div class="mini">
+        <span class="tag live">● Live</span>
+        <h4>Ledgerline — free marketing hub</h4>
+        <p>See exactly what you get on every plan: <a href="https://app.leonlink.net/what-you-get" style="color:var(--accent)">what you get</a></p>
+      </div>
+      <div class="mini">
+        <span class="tag live">● Live</span>
+        <h4>No Sacred Cows — the blog</h4>
+        <p>Essays on work, myth and money. <a href="https://blog.leonlink.net" style="color:var(--accent)">blog.leonlink.net</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="more" id="custom">
+  <h2>Need something that doesn't exist yet?</h2>
+  <p class="sub">I build custom web apps and tools — for one business or for many. If your crew, shop, or side hustle needs software shaped around how <em>you</em> work instead of how a subscription tier works, that's literally what Leon Link is for. Reasonable rates, you own what we build.</p>
+  <p style="text-align:center"><a class="btn primary" href="#work" style="display:inline-block;text-decoration:none">Talk it through with me</a></p>
+</section>
+
+<section class="more" id="road">
+  <h2>More is in the works</h2>
+  <p class="sub">Same rules for everything we ship: flat price, whole team included, your data always walks out the door with you.</p>
+  <div class="roadmap">
+    <div class="road" style="border-color:rgba(242,193,78,.5)"><span class="dot" style="background:#f2c14e"></span><h4>Reviewline &amp; Proofline — live</h4><p>Review funnel and before/after photo reports. <b>Proofline from Growth, the Reviewline funnel from Command — one flat price.</b> <a href="https://review.leonlink.net" style="color:#f2c14e">Reviewline →</a> <a href="https://proofline.leonlink.net" style="color:#e8963c">Proofline →</a></p></div>
+    <div class="road"><span class="dot"></span><h4>Ledgerline growth</h4><p>Invoice PDFs, drag-to-reschedule, deeper portals. Shipping continuously — free updates, no upsell.</p></div>
+    <div class="road"><span class="dot"></span><h4>The next toll to tear down</h4><p>Another category where working people overpay. If you've got a nomination, tell us below.</p></div>
+  </div>
+</section>
+
+<section class="contact" id="work">
+  <h2>Want to work together?</h2>
+  <p class="sub">Building something, hiring, or want a tool that doesn't exist yet — say the word.</p>
+  <form class="form-card" id="c-form">
+    <label for="f-name">Name</label>
+    <input id="f-name" required autocomplete="name" placeholder="Your name">
+    <label for="f-email">Email</label>
+    <input id="f-email" type="email" required autocomplete="email" placeholder="you@example.com">
+    <label for="f-topic">What's this about?</label>
+    <select id="f-topic">
+      <option>Build something with you</option>
+      <option>Work for / with Leon Link</option>
+      <option>Ledgerline question</option>
+      <option>Nominate the next overpriced category</option>
+      <option>Something else</option>
+    </select>
+    <label for="f-msg">Message</label>
+    <textarea id="f-msg" rows="4" required placeholder="Tell me what you're thinking."></textarea>
+    <button class="btn primary" type="submit">Send it</button>
+    <div class="sent" id="f-ok">Your email app is opening with the message ready — just hit send. No data is stored on this site.</div>
+    <p class="form-note">Prefer email? <a href="mailto:info@leonlink.net" style="color:var(--accent)">info@leonlink.net</a></p>
+  </form>
+</section>
+
+
+<section style="padding:30px 18px">
+  <div style="max-width:1020px;margin:0 auto;background:linear-gradient(160deg,#183d2a,#1f4d35);border:1px solid rgba(242,193,78,.35);border-radius:18px;padding:36px 26px;text-align:center">
+    <h2 style="font-family:'Fraunces',Georgia,serif;font-size:30px;margin:0 0 8px;color:#f2f2f0">One workspace. The whole Line.</h2>
+    <p style="color:#d8d6cf;font-size:15.5px;line-height:1.6;margin:0 auto 24px;max-width:640px">Ledgerline runs the business. Reviewline fills it with five stars. Proofline proves the work. From <b style="color:#f2c14e">$9.83/mo</b> — $29.83 with Proofline, $54.50 for the whole Line. Whole crew, no per-user fees, no add-ons.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:26px">
+      <a href="https://app.leonlink.net/signup"><img src="https://app.leonlink.net/og.png" alt="Ledgerline — field service software" loading="lazy" style="width:290px;max-width:100%;border-radius:12px;border:1px solid rgba(242,193,78,.35);display:block"></a>
+      <a href="https://app.leonlink.net/signup"><img src="https://review.leonlink.net/og.png" alt="Reviewline — Google review automation" loading="lazy" style="width:290px;max-width:100%;border-radius:12px;border:1px solid rgba(242,193,78,.35);display:block"></a>
+      <a href="https://app.leonlink.net/signup"><img src="https://proofline.leonlink.net/og.png" alt="Proofline — before and after photo reports" loading="lazy" style="width:290px;max-width:100%;border-radius:12px;border:1px solid rgba(242,193,78,.35);display:block"></a>
+    </div>
+    <a href="https://app.leonlink.net/signup" style="display:inline-block;background:linear-gradient(160deg,#f2c14e,#e6b13e);color:#1a1a1a;font-weight:800;font-size:16px;padding:14px 34px;border-radius:12px;text-decoration:none">Create your workspace — the whole suite →</a>
+    <p style="color:rgba(242,242,240,.55);font-size:12.5px;margin:12px 0 0">Free workspace included · upgrade when it earns its keep</p>
+  </div>
+</section>
+<footer>
+  <div class="wrap" style="display:grid;gap:26px;grid-template-columns:minmax(0,1fr)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px;text-align:center;justify-items:center">
+      <div>
+        <div style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a8578;margin-bottom:10px">Products</div>
+        <a href="https://app.leonlink.net" style="display:block;line-height:2">Ledgerline — field service software</a>
+        <a href="https://review.leonlink.net" style="display:block;line-height:2">Reviewline — Google review requests</a>
+        <a href="https://proofline.leonlink.net" style="display:block;line-height:2">Proofline — before &amp; after photo reports</a>
+        <a href="#custom" style="display:block;line-height:2">Custom web apps</a>
+      </div>
+      <div>
+        <div style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a8578;margin-bottom:10px">Compare</div>
+        <a href="https://app.leonlink.net/#pricing" style="display:block;line-height:2">Flat-rate pricing</a>
+      </div>
+      <div>
+        <div style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a8578;margin-bottom:10px">Free tools</div>
+        <a href="https://www.leonlink.net/free-tools.html" style="display:block;line-height:2">All free tools — no account needed</a>
+        <a href="https://www.leonlink.net/qr-code-generator.html" style="display:block;line-height:2">QR code generator</a>
+        <a href="https://www.leonlink.net/invoice-generator.html" style="display:block;line-height:2">Invoice generator</a>
+        <a href="https://www.leonlink.net/before-after-viewer.html" style="display:block;line-height:2">Before/after photos</a>
+      </div>
+      <div>
+        <div style="font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a8578;margin-bottom:10px">Company</div>
+        <a href="https://www.leonlink.net/affiliates.html" style="display:block;line-height:2">Affiliates — earn 25%</a>
+        <a href="https://www.leonlink.net/what-is-leonlink.html" style="display:block;line-height:2">What is Leon Link?</a>
+        <a href="https://blog.leonlink.net" style="display:block;line-height:2">No Sacred Cows — the blog</a>
+        <a href="#work" style="display:block;line-height:2">Work together</a>
+        <a href="mailto:info@leonlink.net" style="display:block;line-height:2">info@leonlink.net</a>
+      </div>
+    </div>
+    <div style="text-align:center;color:#8a8578;font-size:12.5px;line-height:1.7;max-width:720px;margin:0 auto">Leon Link builds The Line — the first software suite for the truck, not the boardroom: flat-price field service software with scheduling, invoicing, card payments and customer portals, a review funnel that turns finished jobs into Google reviews, and before/after photo proof reports. Ledgerline from $9.83/mo, Proofline photo reports from the Growth tier and the Reviewline review funnel from Command. No per-user fees, no add-ons, no lock-in.</div>
+    <div style="display:grid;gap:14px;justify-items:center;text-align:center">
+      <img src="/mascot.png" alt="Leon Link — the boss and the dog" style="width:64px;height:64px;border-radius:50%;border:2px solid rgba(242,193,78,.5)">
+      <div>© 2026 Leon Link — every creation stars the same two, chained to whatever system they run next</div>
+    </div>
+  </div>
+<p style="text-align:center;margin:18px 0 0"><a data-dl="foot" href="https://app.leonlink.net/login?install=1" style="font-weight:700">Download the app</a></p>
+</footer>
+
+<script>
+document.getElementById('c-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var g=function(id){return document.getElementById(id).value.trim()};
+  var s='['+g('f-topic')+'] from '+g('f-name');
+  var b=g('f-msg')+'\n\n— '+g('f-name')+' ('+g('f-email')+')';
+  location.href='mailto:info@leonlink.net?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(b);
+  document.getElementById('f-ok').style.display='block';
+});
+</script>
+</body>
+</html>

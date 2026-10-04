@@ -9,6 +9,10 @@
       "destination": "/press.html"
     },
     {
+      "source": "/hub",
+      "destination": "/hub.html"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     },
