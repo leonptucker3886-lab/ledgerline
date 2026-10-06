@@ -1648,6 +1648,7 @@ async function runApp(){
             <div class="field"><label>Password</label><input id="su-pw" type="password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters"></div>
             <div id="su-err"></div>
             <button class="btn primary" type="submit" style="width:100%;justify-content:center">Create workspace</button>
+            <p class="faint" style="font-size:12px;text-align:center;margin:10px 0 0;line-height:1.5">By creating a workspace you agree to the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Cancel any time — see the <a href="/refunds" target="_blank" rel="noopener">refund policy</a>.</p>
           </form>
         </div>
       </section>
@@ -1671,7 +1672,11 @@ async function runApp(){
           </div>
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:10px">Leon Link</div>
-            <a href="https://www.leonlink.net" target="_blank" rel="noopener">Leon Link — home</a><br><a href="https://review.leonlink.net" target="_blank" rel="noopener">Reviewline — review requests</a><br><a href="https://proofline.leonlink.net" target="_blank" rel="noopener">Proofline — photo proof reports</a><br><a href="https://blog.leonlink.net" target="_blank" rel="noopener">No Sacred Cows — the blog</a>
+            <a href="https://www.leonlink.net" target="_blank" rel="noopener">Leon Link — home</a><br><a href="https://www.leonlink.net/#journal" target="_blank" rel="noopener">The journal</a>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:10px">Legal</div>
+            <a href="/terms">Terms of Service</a><br><a href="/privacy">Privacy Policy</a><br><a href="/refunds">Refund &amp; cancellation</a><br><a href="/terms#sms">SMS terms</a>
           </div>
         </div>
         <div style="max-width:760px;margin:6px auto;text-align:center;color:var(--faint);font-size:12.5px;line-height:1.6">Ledgerline is flat-rate field service software for small crews — scheduling, estimates, invoicing, card payments, a customer portal and Google review requests for chimney sweeps, HVAC, plumbing, electrical, lawn care, cleaning and home-service businesses. One price, whole crew, no per-user fees, no add-ons.</div>
@@ -1681,7 +1686,7 @@ async function runApp(){
           <span>📄 6-month terms — no annual lock-in</span>
           <span>🇺🇸 Built for American trades</span>
         </div>
-        <div class="foot-copy">© ${new Date().getFullYear()} Ledgerline · A Leon Link product</div>
+        <div class="foot-copy">© ${new Date().getFullYear()} Ledgerline · A Leon Link product · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="/refunds">Refunds</a></div>
       </footer>
     </div>`;
     const goDemo = ()=>{ location.href='https://demo.leonlink.net'; };
@@ -1794,6 +1799,7 @@ async function runApp(){
       ${mode==='login'?`<div class="field"><label>Email <span class="faint">(optional for owner password)</span></label><input type="email" id="em" autocomplete="username" placeholder="you@company.com"></div>`:''}
       <div class="field"><label>Password</label><input type="password" id="pw" autofocus minlength="6" autocomplete="${mode==='setup'?'new-password':'current-password'}"></div>
       <button class="btn primary" id="go" style="width:100%;justify-content:center">${mode==='setup'?'Create workspace':'Log in'}</button>
+      ${mode==='setup'?`<p class="faint" style="font-size:12px;text-align:center;margin:10px 0 0;line-height:1.5">By creating a workspace you agree to the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a> and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>. Cancel any time — see the <a href="/refunds" target="_blank" rel="noopener">refund policy</a>.</p>`:''}
       ${mode==='login'?`<button class="btn" id="demo" style="width:100%;justify-content:center;margin-top:8px">Try demo account</button>
       <button class="btn ghost" id="forgot" style="width:100%;justify-content:center;margin-top:8px">Forgot password?</button>
       <button class="btn ghost" id="back-home" style="width:100%;justify-content:center;margin-top:4px">← Home</button>`:''}
