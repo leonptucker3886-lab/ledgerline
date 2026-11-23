@@ -150,6 +150,72 @@ async function tenantEntitlements(tenantId) {
   return ENTITLEMENTS(billing.plan);
 }
 
+/* ---------------- billing switch, trial and free limits ----------------
+   Billing stays off unless BILLING_ENABLED=true, so the app ships with every
+   feature on while pricing is being decided. Set BILLING_ENABLED, TRIAL_DAYS,
+   FREE_CUSTOMERS and FREE_DOCS_MONTH when plans go live. */
+const BILLING_ENABLED = /^(1|true|yes|on)$/i.test(String(process.env.BILLING_ENABLED || ""));
+const TRIAL_DAYS = Number(process.env.TRIAL_DAYS || 14);
+const FREE_LIMITS = {
+  customers: Number(process.env.FREE_CUSTOMERS || 10),
+  docsPerMonth: Number(process.env.FREE_DOCS_MONTH || 5),
+};
+async function tenantBilling(tenantId) {
+  const v = await getSetting(`t:${tenantId}:billing`);
+  return v ? JSON.parse(v) : (isDemoTenant(tenantId) ? { status: "active", plan: "best" } : { status: "free", plan: "free" });
+}
+async function tenantTrial(tenantId) {
+  const v = await getSetting(`t:${tenantId}:trial`);
+  return v ? JSON.parse(v) : null;
+}
+const trialActive = tr => !!(tr && tr.endsAt && Date.now() < Number(tr.endsAt));
+const isPaidPlan = b => !!(b && ["good", "better", "best"].includes(b.plan) && b.status === "active");
+const thisMonthStart = () => { const d = new Date(); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1); };
+
+/* Returns a message when the workspace has outgrown the free plan, else null. */
+async function freeLimitError(tenantId, kind, isNew) {
+  if (!BILLING_ENABLED || isDemoTenant(tenantId) || !isNew) return null;
+  if (isPaidPlan(await tenantBilling(tenantId))) return null;
+  if (trialActive(await tenantTrial(tenantId))) return null;
+  if (kind === "customer") {
+    const rows = await listRecords("customer", tenantId);
+    if (rows.length >= FREE_LIMITS.customers) return `You have reached ${FREE_LIMITS.customers} customers on the free plan. Subscribe to add more.`;
+  }
+  if (kind === "estimate" || kind === "invoice") {
+    const rows = await listRecords(kind, tenantId);
+    const start = thisMonthStart();
+    const made = rows.filter(r => Number((r.data || {}).createdAt || 0) >= start).length;
+    if (made >= FREE_LIMITS.docsPerMonth) return `That is ${FREE_LIMITS.docsPerMonth} documents this month on the free plan. Subscribe to keep sending.`;
+  }
+  return null;
+}
+
+/* Daily job (Vercel cron): nudge before a trial ends, then once when it does. */
+async function sendTrialEmails() {
+  if (!BILLING_ENABLED) return 0;
+  let sent = 0;
+  const now = Date.now();
+  for (const tid of await tenants()) {
+    if (isDemoTenant(tid)) continue;
+    const tr = await tenantTrial(tid);
+    if (!tr || !tr.endsAt) continue;
+    const to = String((await tenantBusiness(tid)).email || "").trim();
+    if (!to) continue;
+    const left = Number(tr.endsAt) - now;
+    const link = `<p><a href="https://app.leonlink.net/settings">Open Ledgerline</a></p>`;
+    if (!tr.reminded3 && left > 0 && left <= 3 * 86400000) {
+      if (await sendEmail(to, "Your Ledgerline trial ends in a few days", `<p>Your trial ends in ${Math.max(1, Math.ceil(left / 86400000))} day(s). Everything stays where it is — after the trial this workspace keeps its data and moves to the free plan (${FREE_LIMITS.customers} customers, ${FREE_LIMITS.docsPerMonth} documents a month).</p>${link}`)) {
+        tr.reminded3 = now; await setSetting(`t:${tid}:trial`, JSON.stringify(tr)); sent++;
+      }
+    } else if (!tr.remindedEnd && left <= 0) {
+      if (await sendEmail(to, "Your Ledgerline trial has ended", `<p>Your trial has ended and this workspace is on the free plan: up to ${FREE_LIMITS.customers} customers and ${FREE_LIMITS.docsPerMonth} documents a month. Nothing you made has been deleted.</p>${link}`)) {
+        tr.remindedEnd = now; await setSetting(`t:${tid}:trial`, JSON.stringify(tr)); sent++;
+      }
+    }
+  }
+  return sent;
+}
+
 /* ---------------- inspection reports ---------------- */
 const Q_TYPES = ["yesno", "text", "number", "photo", "select"];
 const OUTCOMES = ["pass", "attention", "fail"];
@@ -219,6 +285,13 @@ module.exports = async (req, res) => {
   }
 
   try {
+    /* Vercel cron hits /api with a bearer CRON_SECRET and a vercel-cron user agent. */
+    if (a === "cron" || /^vercel-cron/i.test(String(req.headers["user-agent"] || ""))) {
+      const secret = process.env.CRON_SECRET || "";
+      if (!secret || String(req.headers["authorization"] || "") !== "Bearer " + secret) return err(res, 403, "Forbidden");
+      return json(res, 200, { ok: true, sent: await sendTrialEmails() });
+    }
+
     switch (a) {
 
       /* ---------- public ---------- */
@@ -290,6 +363,7 @@ module.exports = async (req, res) => {
         await setSetting(`t:${tid}:docstyle`, JSON.stringify({ template: "classic", accent: "" }));
         await setSetting(`t:${tid}:reminders`, JSON.stringify({ email24h: true, email2h: false }));
         await setSetting(`t:${tid}:reviews`, JSON.stringify({ link: "" }));
+        if (BILLING_ENABLED) await setSetting(`t:${tid}:trial`, JSON.stringify({ startedAt: Date.now(), endsAt: Date.now() + TRIAL_DAYS * 86400000 }));
         list.push(tid);
         await setSetting("tenants", JSON.stringify(list));
         const ts = String(Date.now());
@@ -570,6 +644,9 @@ module.exports = async (req, res) => {
             const business = businessV ? JSON.parse(businessV) : {};
             const billing = billingV ? JSON.parse(billingV) : (isDemoTenant(tenantId) ? { status: "active", plan: "best" } : { status: "free", plan: "free" });
             billing.entitlements = ENTITLEMENTS(billing.plan);
+            billing.billingEnabled = BILLING_ENABLED;
+            const trial = await tenantTrial(tenantId);
+            if (trial) billing.trial = { endsAt: trial.endsAt, active: trialActive(trial) };
             const [customers, jobs, estimates, invoices, requests, reports, templates] = await Promise.all([
               listRecords("customer", tenantId), listRecords("job", tenantId), listRecords("estimate", tenantId), listRecords("invoice", tenantId), listRecords("request", tenantId),
               listRecords("report", tenantId), listRecords("template", tenantId),
@@ -581,6 +658,8 @@ module.exports = async (req, res) => {
               docstyle: docstyleV ? JSON.parse(docstyleV) : { template: "classic", accent: "" },
               reminders: remindersV ? JSON.parse(remindersV) : {},
               reviews: reviewsV ? JSON.parse(reviewsV) : {},
+              usage: { customers: customers.length, docsThisMonth: [...estimates, ...invoices].filter(r => Number((r.data || {}).createdAt || 0) >= thisMonthStart()).length },
+              limits: BILLING_ENABLED && !isPaidPlan(billing) ? FREE_LIMITS : null,
               customers: customers.map(withId).sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""))),
               jobs: jobs.map(withId).sort((a, b) => String(a.date || "").localeCompare(String(b.date || ""))),
               estimates: estimates.map(withId),
@@ -598,6 +677,8 @@ module.exports = async (req, res) => {
             const b = body || {};
             const now = Date.now();
             if (kind === "customer") {
+              const tooMany = await freeLimitError(tenantId, "customer", !b.id);
+              if (tooMany) return err(res, 402, tooMany);
               const cust = b.id ? (await getRecord("customer", b.id) || { tenantId }) : { tenantId, createdAt: now, portalToken: crypto.randomBytes(12).toString("hex") };
               if (cust.tenantId !== tenantId) return err(res, 404, "Customer not found.");
               Object.assign(cust, { name: String(b.name || "").trim(), phone: String(b.phone || "").trim(), email: String(b.email || "").trim(), address: String(b.address || "").trim() });
@@ -614,6 +695,8 @@ module.exports = async (req, res) => {
               return json(res, 200, { ok: true });
             }
             if (kind === "estimate") {
+              const tooMany = await freeLimitError(tenantId, "estimate", !b.id);
+              if (tooMany) return err(res, 402, tooMany);
               let customerId = b.customerId ? String(b.customerId) : null;
               if (!customerId && b.customer && b.customer.name) {
                 customerId = uid();
@@ -649,6 +732,8 @@ module.exports = async (req, res) => {
               return json(res, 200, { ok: true });
             }
             if (kind === "invoice") {
+              const tooMany = await freeLimitError(tenantId, "invoice", !b.id);
+              if (tooMany) return err(res, 402, tooMany);
               const inv = b.id ? (await getRecord("invoice", b.id) || { tenantId, createdAt: now }) : { tenantId, createdAt: now };
               if (inv.tenantId !== tenantId) return err(res, 404, "Invoice not found.");
               for (const f of ["customerId", "title", "total", "status", "due", "items", "notes", "estimateId", "jobId", "paidAt", "paidMethod"]) {

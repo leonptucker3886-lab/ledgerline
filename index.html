@@ -3201,6 +3201,15 @@ async function runApp(){
         window.__dsAccent=b.dataset.swatch;
         document.querySelectorAll('[data-swatch]').forEach(x=>x.style.borderColor=x.dataset.swatch===window.__dsAccent?'var(--accent)':'var(--line)');
       }));
+      const startCheckout=async(period)=>{
+        try{
+          const plan=$('#plan-pick')?.value||'better';
+          const r=await api('subscribe',{body:{plan,period}});
+          if(r.url) location.href=r.url;
+        }catch(e){ toastErr(e.message); }
+      };
+      $('#plan-go')?.addEventListener('click',()=>startCheckout('month'));
+      $('#plan-go-6')?.addEventListener('click',()=>startCheckout('6mo'));
       $('#billing-portal')?.addEventListener('click', async()=>{
         try{ const r=await api('billing-portal'); if(r.url) location.href=r.url; }
         catch(e){ toastErr(e.message); }
@@ -3315,8 +3324,29 @@ async function runApp(){
 
       <div class="settings-card">
         <h3>Subscription</h3>
-        <p class="faint" style="margin-top:0">${S.billing?.status==='active'?'This workspace has an active subscription. Your card and receipts live in the billing portal.':'No subscription — every feature is switched on for this workspace while plans are being finalised.'}</p>
-        ${S.billing?.status==='active'?`<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`:''}
+        <p class="faint" style="margin-top:0">${(() => {
+          const b=S.billing||{};
+          if(b.status==='active'&&['good','better','best'].includes(b.plan)) return 'This workspace has an active subscription. Your card and receipts live in the billing portal.';
+          if(b.trial&&b.trial.active){ const d=Math.max(1,Math.ceil((b.trial.endsAt-Date.now())/86400000)); return `Free trial — ${d} day${d===1?'':'s'} left. Every feature is on.`; }
+          if(!b.billingEnabled) return 'No subscription — every feature is switched on for this workspace while plans are being finalised.';
+          const u=S.usage||{}, l=S.limits||{};
+          return `Free plan — ${u.customers||0} of ${l.customers||0} customers and ${u.docsThisMonth||0} of ${l.docsPerMonth||0} documents this month.`;
+        })()}</p>
+        ${S.billing?.status==='active'
+          ? `<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`
+          : (S.billing?.billingEnabled
+            ? `<div class="field" style="max-width:280px"><label>Plan</label>
+                 <select id="plan-pick">
+                   <option value="good">Starter</option>
+                   <option value="better" selected>Growth</option>
+                   <option value="best">Command</option>
+                 </select>
+               </div>
+               <div style="display:flex;gap:8px;flex-wrap:wrap">
+                 <button class="btn primary" type="button" id="plan-go">Subscribe</button>
+                 <button class="btn" type="button" id="plan-go-6">Subscribe, prepaid 6 months</button>
+               </div>`
+            : '')}
       </div>
 
       <div class="settings-card">

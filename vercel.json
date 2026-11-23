@@ -91,5 +91,11 @@
       "destination": "/what-you-get",
       "permanent": true
     }
+  ],
+  "crons": [
+    {
+      "path": "/api",
+      "schedule": "0 14 * * *"
+    }
   ]
 }
