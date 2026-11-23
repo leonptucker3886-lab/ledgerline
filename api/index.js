@@ -967,14 +967,22 @@ module.exports = async (req, res) => {
             const period = ["year", "6mo"].includes(String(body.period || "")) ? "year" : "month";
             const cents = period === "year" ? Number(process.env.PLAN_PRICE_YEAR_CENTS || 39000) : Number(process.env.PLAN_PRICE_CENTS || 3900);
             const origin = baseUrl(req);
+            /* If a real Stripe price exists, use it. Otherwise build the price inline,
+               which works immediately but makes Stripe create a product per checkout. */
+            const priceId = String(process.env[period === "year" ? "STRIPE_PRICE_YEAR" : "STRIPE_PRICE_MONTH"] || "").trim();
+            const line = priceId
+              ? { "line_items[0][price]": priceId }
+              : {
+                "line_items[0][price_data][currency]": "usd",
+                "line_items[0][price_data][unit_amount]": String(cents),
+                "line_items[0][price_data][recurring][interval]": period,
+                "line_items[0][price_data][product_data][name]": "Ledgerline",
+                "line_items[0][price_data][product_data][description]": "White-label estimates, invoices and a customer portal. Whole crew, one price.",
+              };
             const form = new URLSearchParams({
               mode: "subscription",
               "line_items[0][quantity]": "1",
-              "line_items[0][price_data][currency]": "usd",
-              "line_items[0][price_data][unit_amount]": String(cents),
-              "line_items[0][price_data][recurring][interval]": period,
-              "line_items[0][price_data][product_data][name]": "Ledgerline",
-              "line_items[0][price_data][product_data][description]": "White-label estimates, invoices and a customer portal. Whole crew, one price.",
+              ...line,
               success_url: `${origin}/settings?session_id={CHECKOUT_SESSION_ID}&sub=ok`,
               cancel_url: `${origin}/settings?canceled=1`,
               "metadata[tenantId]": tenantId,
