@@ -984,11 +984,6 @@ function authBrand(){
 function planState(){
   try{ return (typeof window!=='undefined' && window.__LL_S) || null; }catch(_){ return null; }
 }
-function planLabel(key){
-  const st=planState();
-  const p=(st&&st.plans&&st.plans[key])||{};
-  return p.label||({good:'Starter',better:'Growth',best:'Command',free:'Free'}[key]||key||'None');
-}
 function sparklineSVG(vals, color){
   const w=320,h=90,pad=6;
   const max=Math.max(...vals,1), min=Math.min(...vals,0);
@@ -1662,7 +1657,7 @@ async function runApp(){
       try{
         await api('signup',{method:'POST',body:{email,password,businessName}});
         setS(await api('state'));
-        toast(S.billing?.plan==='best'?'Welcome — Command plan unlocked':'Workspace created — you\u2019re on Free. Card payments and the customer portal unlock in Settings \u2192 Subscription','ok');
+        toast('Workspace created — you\u2019re in.','ok');
         navigate('dashboard',{replace:true});
       }catch(e){
         const box=$('#su-err');
@@ -1922,7 +1917,6 @@ async function runApp(){
     const doneMonth=S.jobs.filter(j=>j.status==='done' && j.date && j.date.startsWith(monthPrefix)).length;
     setTimeout(()=>{
       document.querySelectorAll('#dash-book').forEach(el=>el.addEventListener('click',()=>{ navigate('jobs'); setTimeout(()=>openJob(null),50); }));
-      $('#dash-upgrade')?.addEventListener('click',()=>navigate('settings'));
       $('#dash-week')?.addEventListener('click',()=>{ window._calMode='week'; navigate('jobs'); });
       $('#dash-cta-req')?.addEventListener('click',()=>navigate('requests'));
       $('#dash-cta-inv')?.addEventListener('click',()=>navigate('invoices'));
@@ -2006,11 +2000,6 @@ async function runApp(){
     const winRate=estCounts.sent+estCounts.accepted>0?Math.round((estCounts.accepted/(estCounts.sent+estCounts.accepted))*100):0;
 
     return `
-      ${(S.role||'owner')!=='crew' && S.billing?.plan==='free'?`
-      <div class="notice" style="background:linear-gradient(160deg,var(--green),var(--green2));border:1px solid rgba(242,193,78,.4);display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px">
-        <div style="min-width:220px"><strong>You're on Free.</strong> <span style="color:var(--muted)">Card payments and the customer portal unlock on a paid plan — see Settings → Subscription.</span></div>
-        <button class="btn primary" id="dash-upgrade" style="flex-shrink:0">Choose your plan</button>
-      </div>`:''}
       <div class="dash-hero">
         <div class="row-between" style="align-items:flex-start">
           <div>
@@ -2182,17 +2171,15 @@ async function runApp(){
       <button class="btn ghost small" id="back">← Customers</button>
       <div class="row-between" style="margin-top:14px"><h2>${esc(c.name)}</h2><button class="btn small" id="edit-cust">Edit</button></div>
       <div class="faint" style="margin-bottom:6px">${[c.phone,c.email,c.address].filter(Boolean).map(esc).join(' · ')}</div>
-      ${!S.billing?.entitlements?.portal?`<div class="notice err" style="margin-top:10px">The customer portal is on the <strong>Growth</strong> plan. Upgrade in Settings → Subscription to share portal links.</div>`
-        :`<div class="btnrow" style="margin-bottom:10px">
+      <div class="btnrow" style="margin-bottom:10px">
         <button class="btn small" id="copy-link">${ICON.copy}Copy portal link</button>
         <button class="btn small" id="email-link">Email portal link</button>
-        ${S.billing?.entitlements?.emailReminders?`<button class="btn small" id="review-req">Request review</button>`:''}
-      </div>`}
+        <button class="btn small" id="review-req">Request review</button>
+      </div>
 
       <h3 class="section">Inspection reports</h3>
-      ${repOk()?`${repRows((S.reports||[]).filter(r=>r.customerId===c.id),{showCustomer:false})||'<div class="empty" style="padding:18px 4px">No reports for this customer yet.</div>'}
-      <div class="btnrow" style="margin-top:10px"><button class="btn small" id="cust-rep">+ New report</button></div>`
-      :`${repRows((S.reports||[]).filter(r=>r.customerId===c.id),{showCustomer:false})}<p class="faint">Inspection reports and custom checklists are on the <strong>Growth</strong> plan.</p>`}
+      ${repRows((S.reports||[]).filter(r=>r.customerId===c.id),{showCustomer:false})||'<div class="empty" style="padding:18px 4px">No reports for this customer yet.</div>'}
+      <div class="btnrow" style="margin-top:10px"><button class="btn small" id="cust-rep">+ New report</button></div>
 
       <h3 class="section">Documents &amp; photos</h3>
       ${t?fileSection(t.files):skel(2)}
@@ -2280,7 +2267,7 @@ async function runApp(){
   }
 
   /* =========================== INSPECTION REPORTS =========================== */
-  function repOk(){ return !!S.billing?.entitlements?.reports; }
+  function repOk(){ return true; }
   function repClone(o){ return JSON.parse(JSON.stringify(o)); }
   function repQid(){ return 'q'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
   function rpReset(){
@@ -2343,12 +2330,6 @@ async function runApp(){
   function bindRepRows(root){
     (root||document).querySelectorAll('[data-openrep]').forEach(el=>el.onclick=()=>{ closeModal(); goRp({mode:'view', id:el.dataset.openrep, pane:rp.pane}); });
   }
-  function repLockedNotice(){
-    const canBill=['owner','admin'].includes(S.role||'owner');
-    return `<div class="notice err">Inspection reports and custom checklists are on the <strong>Growth</strong> plan.${canBill?' Upgrade in Settings → Subscription.':' Ask the account owner to upgrade.'}</div>
-      ${canBill?`<button class="btn primary" id="rep-upgrade">See plans</button>`:''}`;
-  }
-
   /* ---- list screen: reports + templates ---- */
   function viewReports(){
     if(rp.mode==='fill' && rp.draft) return viewReportFill();
@@ -2360,7 +2341,6 @@ async function runApp(){
     let list=(S.reports||[]).slice();
     if(q) list=list.filter(r=>(customerName(r.customerId)+' '+(r.title||'')).toLowerCase().includes(q));
     setTimeout(()=>{
-      $('#rep-upgrade')?.addEventListener('click',()=>navigate('settings'));
       $('#rep-new')?.addEventListener('click',()=>openTemplatePicker({}));
       $('#tpl-new')?.addEventListener('click',()=>goRp({mode:'tpl', pane:'templates', tpl:{name:'',questions:[{id:repQid(),label:'',type:'yesno',required:false,rate:true,good:'yes'}]}}));
       document.querySelectorAll('[data-pane]').forEach(b=>b.onclick=()=>{ rp.pane=b.dataset.pane; render(); });
@@ -2390,7 +2370,6 @@ async function runApp(){
           </div>`).join('')}</div>`;
     }
     return `<div class="row-between"><h2>Reports</h2>${ok?`<button class="btn primary" id="rep-new">New report</button>`:''}</div>
-      ${ok?'':repLockedNotice()}
       ${resume}${tabs}
       ${(S.reports||[]).length?`<div class="search-wrap"><span class="search-ic">${ICON.estimate}</span><input type="search" id="rep-search" placeholder="Search by customer or report" value="${esc(rp.q||'')}" aria-label="Search reports"></div>`:''}
       ${!ok&&!(S.reports||[]).length?'':`<div id="rep-list">${repRows(list)||`<div class="empty">${ICON.reports.replace('class="ic"','class="ic" style="width:26px;height:26px"')}<div>${q?'No reports match.':'No reports yet.'}</div>${ok&&!q?'<p class="faint" style="margin-top:8px">Pick a checklist, answer it on site, print or save it to the customer.</p>':''}</div>`}</div>`}`;
@@ -3178,7 +3157,7 @@ async function runApp(){
             setS(await api('state')); closeModal(); render(); toast('Marked paid','ok');
           }catch(e){ toastErr(e.message); }
         }}] : []),
-        ...(inv && inv.status!=='paid' && S.stripe?.configured && S.billing?.entitlements?.cardPayments ? [{label:'Charge card', fn: async()=>{
+        ...(inv && inv.status!=='paid' && S.stripe?.configured ? [{label:'Charge card', fn: async()=>{
           try{
             const r=await api('pay-invoice',{body:{invoiceId:inv.id}});
             if(r.url) location.href=r.url;
@@ -3222,15 +3201,6 @@ async function runApp(){
         window.__dsAccent=b.dataset.swatch;
         document.querySelectorAll('[data-swatch]').forEach(x=>x.style.borderColor=x.dataset.swatch===window.__dsAccent?'var(--accent)':'var(--line)');
       }));
-      const startCheckout=async(period)=>{
-        try{
-          const plan=$('#plan-pick')?.value||'better';
-          const r=await api('subscribe',{body:{plan,period}});
-          if(r.url) location.href=r.url;
-        }catch(e){ toastErr(e.message); }
-      };
-      $('#plan-go')?.addEventListener('click',()=>startCheckout('month'));
-      $('#plan-go-6')?.addEventListener('click',()=>startCheckout('6mo'));
       $('#billing-portal')?.addEventListener('click', async()=>{
         try{ const r=await api('billing-portal'); if(r.url) location.href=r.url; }
         catch(e){ toastErr(e.message); }
@@ -3315,8 +3285,8 @@ async function runApp(){
       <div class="settings-card">
         <h3>Reminders</h3>
         <p class="faint">Automatic email notices before each job.${mailOk?'': ' Email is not connected yet.'}</p>
-        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;min-height:44px"><input type="checkbox" id="r-e24" ${r.email24h!==false?'checked':''} ${S.billing?.entitlements?.emailReminders?'':'disabled'}> Email ~24 hours before</label>
-        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;min-height:44px"><input type="checkbox" id="r-e2" ${r.email2h!==false?'checked':''} ${S.billing?.entitlements?.emailReminders?'':'disabled'}> Email ~2 hours before</label>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;min-height:44px"><input type="checkbox" id="r-e24" ${r.email24h!==false?'checked':''}> Email ~24 hours before</label>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;min-height:44px"><input type="checkbox" id="r-e2" ${r.email2h!==false?'checked':''}> Email ~2 hours before</label>
 
       </div>
 
@@ -3345,25 +3315,8 @@ async function runApp(){
 
       <div class="settings-card">
         <h3>Subscription</h3>
-        <p class="faint">Current: <strong>${esc(planLabel(S.billing?.plan))}</strong>
-          ${S.billing?.status==='active'?' · Active':' · Not subscribed'}
-          ${S.billing?.source==='founder'?' · Founder Command':''}</p>
-        <p class="faint" style="margin-top:0">${!S.billing?.entitlements?.cardPayments?'Card payments are off until this workspace has a subscription.':!S.billing?.entitlements?.portal?'The customer portal is off until this workspace has a subscription.':'Everything is switched on for this workspace.'}</p>
-        ${S.billing?.status==='active'
-          ? `<p class="faint" style="margin-top:0">Changing or cancelling happens in the billing portal — your card and receipts live there.</p>
-             <button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`
-          : `<div class="field" style="max-width:280px"><label>Plan</label>
-               <select id="plan-pick">
-                 <option value="good">Starter</option>
-                 <option value="better" selected>Growth</option>
-                 <option value="best">Command</option>
-               </select>
-             </div>
-             <p class="faint" style="margin-top:0">Continue to checkout to see the amount and confirm.</p>
-             <div style="display:flex;gap:8px;flex-wrap:wrap">
-               <button class="btn primary" type="button" id="plan-go">Continue</button>
-               <button class="btn" type="button" id="plan-go-6">Continue, prepaid 6 months</button>
-             </div>`}
+        <p class="faint" style="margin-top:0">${S.billing?.status==='active'?'This workspace has an active subscription. Your card and receipts live in the billing portal.':'No subscription — every feature is switched on for this workspace while plans are being finalised.'}</p>
+        ${S.billing?.status==='active'?`<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`:''}
       </div>
 
       <div class="settings-card">
