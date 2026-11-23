@@ -1,8 +1,8 @@
 // Ledgerline service worker: caches the app shell so the app opens with no signal.
 // It never caches /api (cookie-authed, must stay live). Writes made offline are
 // queued in localStorage by the app and uploaded when the connection returns.
-const V = 'll-shell-v6';
-const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/mascot.png', '/favicon.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og.png'];
+const V = 'll-shell-v7';
+const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/leonlink-mark.png', '/favicon.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/og.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(V).then(c => Promise.all(SHELL.map(u => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));

@@ -8,7 +8,7 @@ const crypto = require("crypto");
 
 /* ---------------- demo-tenant guard (production defense-in-depth) ----------------
    The demo tenant (marked t:<id>:demo) is publicly logged into. These guards make sure
-   nothing on it can reach real Stripe / Twilio / Resend. The dedicated sandboxed demo
+   nothing on it can reach real Stripe / Resend. The dedicated sandboxed demo
    lives at ledgerline-demo-chi.vercel.app (DEMO_MODE build). */
 const DEMO_TENANT = "e1360f77-d688-4e73-bcde-5fbf680117d8";
 const isDemoTenant = tid => tid === DEMO_TENANT;
@@ -139,10 +139,7 @@ function csv(rows, cols) {
 const ENTITLEMENTS = plan => ({
   cardPayments: plan === "good" || plan === "better" || plan === "best",
   emailReminders: plan === "good" || plan === "better" || plan === "best",
-  smsReminders: plan === "best",
   reviewRequests: plan === "good" || plan === "better" || plan === "best",
-  proofline: plan === "better" || plan === "best",
-  reviewline: plan === "best",
   portal: plan === "better" || plan === "best",
   api: plan !== "good" && plan !== "free",
   reports: plan === "better" || plan === "best",
@@ -199,18 +196,6 @@ async function sendEmail(to, subject, html) {
       method: "POST",
       headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
       body: JSON.stringify({ from: process.env.RESEND_FROM || "Ledgerline <onboarding@resend.dev>", to: [to], subject, html }),
-    });
-    return r.ok;
-  } catch (e) { return false; }
-}
-async function sendSms(to, body) {
-  const sid = process.env.TWILIO_ACCOUNT_SID, tok = process.env.TWILIO_AUTH_TOKEN, from = process.env.TWILIO_FROM;
-  if (!sid || !tok || !from || !to) return false;
-  try {
-    const r = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
-      method: "POST",
-      headers: { Authorization: "Basic " + Buffer.from(sid + ":" + tok).toString("base64"), "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ From: from, To: to, Body: body }).toString(),
     });
     return r.ok;
   } catch (e) { return false; }
@@ -303,7 +288,7 @@ module.exports = async (req, res) => {
         await setSetting(`t:${tid}:billing`, JSON.stringify({ status: "free", plan: "free" }));
         await setSetting(`t:${tid}:users`, "[]");
         await setSetting(`t:${tid}:docstyle`, JSON.stringify({ template: "classic", accent: "" }));
-        await setSetting(`t:${tid}:reminders`, JSON.stringify({ email24h: true, email2h: false, sms24h: false, sms2h: false }));
+        await setSetting(`t:${tid}:reminders`, JSON.stringify({ email24h: true, email2h: false }));
         await setSetting(`t:${tid}:reviews`, JSON.stringify({ link: "" }));
         list.push(tid);
         await setSetting("tenants", JSON.stringify(list));
@@ -605,7 +590,6 @@ module.exports = async (req, res) => {
               templates: templates.map(withId).sort((a, b) => String(a.name || "").localeCompare(String(b.name || ""))),
               storage: { used, limit: 1_000_000_000 },
               mail: !!process.env.RESEND_API_KEY,
-              sms: !!(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM),
               stripe: { configured: !!process.env.STRIPE_SECRET_KEY },
             });
           }
@@ -788,11 +772,7 @@ module.exports = async (req, res) => {
               const ok = await sendEmail(cust.email, `How did we do, ${cust.name}?`, link ? `<p>Thanks for choosing ${business.name || "us"}! Would you leave us a quick review?</p><p><a href="${link}">${link}</a></p>` : `<p>Thanks for choosing ${business.name || "us"}!</p>`);
               if (ok) via.push("email");
             }
-            if (cust.phone && process.env.TWILIO_ACCOUNT_SID) {
-              const ok = await sendSms(cust.phone, `Thanks for choosing ${business.name || "us"}! ${link ? "Review us: " + link : "We'd love your feedback!"}`);
-              if (ok) via.push("sms");
-            }
-            if (!via.length) return err(res, 500, "No way to reach this customer — add an email or phone, and connect email/SMS in Settings.", { contact: business });
+            if (!via.length) return err(res, 500, "No way to reach this customer — add an email address and connect email in Settings.", { contact: business });
             return json(res, 200, { ok: true, via });
           }
 
@@ -850,7 +830,7 @@ module.exports = async (req, res) => {
               await setSetting(`t:${tenantId}:reviews`, JSON.stringify(Object.assign(cur ? JSON.parse(cur) : {}, { link: String(b.reviews.link || "").trim() })));
             }
             if (b.reminders) await setSetting(`t:${tenantId}:reminders`, JSON.stringify({
-              email24h: !!b.reminders.email24h, email2h: !!b.reminders.email2h, sms24h: !!b.reminders.sms24h, sms2h: !!b.reminders.sms2h,
+              email24h: !!b.reminders.email24h, email2h: !!b.reminders.email2h,
             }));
             if (b.stripe) await setSetting(`t:${tenantId}:stripe`, JSON.stringify({ publicKey: String(b.stripe.publicKey || "").trim(), secretKey: String(b.stripe.secretKey || "").trim() }));
             return json(res, 200, { ok: true });

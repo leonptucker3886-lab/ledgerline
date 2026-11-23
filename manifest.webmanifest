@@ -1,7 +1,7 @@
 {
   "name": "Ledgerline",
   "short_name": "Ledgerline",
-  "description": "Upfront pricing, scheduling, estimates and invoices for small service businesses.",
+  "description": "White-label estimates, invoices and a customer portal for service businesses.",
   "start_url": "/login",
   "scope": "/",
   "display": "standalone",
