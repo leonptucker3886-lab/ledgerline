@@ -972,6 +972,12 @@ function logoMark(size){
   try{ initial = ((window.__LL_S && window.__LL_S.business && window.__LL_S.business.name) || 'L').trim().charAt(0).toUpperCase() || 'L'; }catch(_){}
   return `<span class="logo-mark" style="width:${s}px;height:${s}px;border-radius:50%;background:#183d2a;color:#d9f16b;display:inline-flex;align-items:center;justify-content:center;font-family:Fraunces,Georgia,serif;font-weight:700;font-size:${Math.round(s*.44)}px" aria-hidden="true">${esc(initial)}</span>`;
 }
+function authBrand(){
+  return `<div class="brand" style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+    <img src="/leonlink-mark.png" alt="" style="width:30px;height:30px;object-fit:contain">
+    <h1 style="margin:0;font-family:Fraunces,Georgia,serif;font-size:19px;letter-spacing:.1em;color:#f5f2e9">LEDGER<span style="color:#22f0ff">LINE</span></h1>
+  </div>`;
+}
 function planState(){
   try{ return (typeof window!=='undefined' && window.__LL_S) || null; }catch(_){ return null; }
 }
@@ -1709,7 +1715,7 @@ async function runApp(){
     if(params.get('reset') && !resetToken && mode!=='setup'){ renderAuth('forgot'); return; }
     if(resetToken && mode!=='setup'){
       app.innerHTML=`<div class="center-screen"><div class="authbox">
-        <div class="brand">${ICON.mark}<h1>Ledgerline</h1></div>
+        ${authBrand()}
         <p class="muted">Choose a new password.</p>
         <div id="err"></div>
         <div class="field"><label>New password</label><input type="password" id="pw" autofocus minlength="6"></div>
@@ -1728,7 +1734,7 @@ async function runApp(){
     }
     if(mode==='forgot'){
       app.innerHTML=`<div class="center-screen"><div class="authbox">
-        <div class="brand">${ICON.mark}<h1>Ledgerline</h1></div>
+        ${authBrand()}
         <p class="muted">Enter the business email from Settings. We'll send a reset link if it matches an account.</p>
         <div id="err"></div>
         <div class="field"><label>Business email</label><input type="email" id="em" autofocus></div>
@@ -1745,7 +1751,7 @@ async function runApp(){
       return;
     }
     app.innerHTML=`<div class="center-screen"><div class="authbox">
-      <div class="brand" style="display:flex;align-items:center;gap:10px;margin-bottom:8px">${logoMark(40)}<h1 style="margin:0;font-family:Fraunces,Georgia,serif">Ledgerline</h1></div>
+      ${authBrand()}
       <p class="muted">${mode==='setup'?'Create your workspace — email unlocks reset &amp; billing.':'Sign in to your workspace.'}</p>
       <div id="err"></div>
       ${mode==='setup'?`<div class="field"><label>Business name</label><input id="biz" placeholder="e.g. Acme Fencing" autocomplete="organization"></div>
