@@ -962,17 +962,25 @@ module.exports = async (req, res) => {
             if (isDemoTenant(tenantId)) return err(res, 400, "Billing is disabled in the demo — every plan is already unlocked.");
             const sk = process.env.STRIPE_SECRET_KEY;
             if (!sk) return err(res, 500, "Billing is not connected yet.");
-            const planBase = { good: "STRIPE_PRICE_ID_GOOD", better: "STRIPE_PRICE_ID_BETTER", best: "STRIPE_PRICE_ID_BEST" }[String(body.plan || "")];
-            const prepaid = String(body.period || "") === "6mo";
-            const price = planBase ? process.env[prepaid ? planBase : planBase + "_MONTHLY"] : null;
+            /* One plan, priced here rather than in a Stripe price ID, so the amount
+               can never drift from what the app says. 39/mo or 390/yr by default. */
+            const period = ["year", "6mo"].includes(String(body.period || "")) ? "year" : "month";
+            const cents = period === "year" ? Number(process.env.PLAN_PRICE_YEAR_CENTS || 39000) : Number(process.env.PLAN_PRICE_CENTS || 3900);
             const origin = baseUrl(req);
             const form = new URLSearchParams({
               mode: "subscription",
-              "line_items[0][price]": price,
               "line_items[0][quantity]": "1",
+              "line_items[0][price_data][currency]": "usd",
+              "line_items[0][price_data][unit_amount]": String(cents),
+              "line_items[0][price_data][recurring][interval]": period,
+              "line_items[0][price_data][product_data][name]": "Ledgerline",
+              "line_items[0][price_data][product_data][description]": "White-label estimates, invoices and a customer portal. Whole crew, one price.",
               success_url: `${origin}/settings?session_id={CHECKOUT_SESSION_ID}&sub=ok`,
               cancel_url: `${origin}/settings?canceled=1`,
               "metadata[tenantId]": tenantId,
+              "metadata[plan]": "best",
+              "metadata[period]": period,
+              "subscription_data[metadata][tenantId]": tenantId,
             });
             const r = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers: { Authorization: "Bearer " + sk, "Content-Type": "application/x-www-form-urlencoded" }, body: form.toString() });
             const d = await r.json();

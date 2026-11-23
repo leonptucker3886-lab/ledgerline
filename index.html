@@ -3203,13 +3203,12 @@ async function runApp(){
       }));
       const startCheckout=async(period)=>{
         try{
-          const plan=$('#plan-pick')?.value||'better';
-          const r=await api('subscribe',{body:{plan,period}});
+          const r=await api('subscribe',{body:{period}});
           if(r.url) location.href=r.url;
         }catch(e){ toastErr(e.message); }
       };
       $('#plan-go')?.addEventListener('click',()=>startCheckout('month'));
-      $('#plan-go-6')?.addEventListener('click',()=>startCheckout('6mo'));
+      $('#plan-go-6')?.addEventListener('click',()=>startCheckout('year'));
       $('#billing-portal')?.addEventListener('click', async()=>{
         try{ const r=await api('billing-portal'); if(r.url) location.href=r.url; }
         catch(e){ toastErr(e.message); }
@@ -3335,17 +3334,11 @@ async function runApp(){
         ${S.billing?.status==='active'
           ? `<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`
           : (S.billing?.billingEnabled
-            ? `<div class="field" style="max-width:280px"><label>Plan</label>
-                 <select id="plan-pick">
-                   <option value="good">Starter</option>
-                   <option value="better" selected>Growth</option>
-                   <option value="best">Command</option>
-                 </select>
+            ? `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+                 <button class="btn primary" type="button" id="plan-go">Subscribe — $39 a month</button>
+                 <button class="btn" type="button" id="plan-go-6">Prepay — $390 a year</button>
                </div>
-               <div style="display:flex;gap:8px;flex-wrap:wrap">
-                 <button class="btn primary" type="button" id="plan-go">Subscribe</button>
-                 <button class="btn" type="button" id="plan-go-6">Subscribe, prepaid 6 months</button>
-               </div>`
+               <p class="faint" style="margin-top:8px;font-size:12px">Whole crew, unlimited customers and documents. Cancel any time from the billing portal.</p>`
             : '')}
       </div>
 
