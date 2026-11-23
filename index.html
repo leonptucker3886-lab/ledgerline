@@ -107,7 +107,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 html[data-theme="light"] .logo-mark{width:36px;height:36px;border-radius:12px;background:var(--accent);color:var(--accent-lime,#d9f16b);display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(24,61,42,.18)}
 html[data-theme="light"] .logo-mark svg{stroke:var(--accent-ink)}
-.settings-card,.plan-card,.feature,.hero-card,.dash-stat{box-shadow:var(--card-shadow);border-radius:var(--radius)}
+.settings-card,.feature,.hero-card,.dash-stat{box-shadow:var(--card-shadow);border-radius:var(--radius)}
 .ledger .line{border-radius:10px;margin-bottom:4px}
 
 header{padding:16px 20px 14px;border-bottom:1px solid var(--line)}
@@ -350,14 +350,6 @@ html[data-theme="light"] .toast{box-shadow:0 10px 30px rgba(0,0,0,.08)}
   outline:2px solid var(--accent);outline-offset:2px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
-.plan-card{background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
-.plan-card.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.plan-name{font-weight:600;font-size:15px}
-.plan-price{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-.plan-price span{font-size:12px;font-weight:500;color:var(--muted);margin-left:2px}
-.plan-desc{font-size:12.5px;color:var(--muted);line-height:1.4;flex:1;margin:0 0 8px}
-.plan-card .btn{width:100%;justify-content:center}
 
 .landing{min-height:100%;background:var(--bg);color:var(--ink)}
 .landing-nav{position:sticky;top:0;z-index:6;display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;max-width:1120px;margin:0 auto;padding:0 18px;background:rgba(8,13,9,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -448,21 +440,6 @@ html[data-theme="dark"]{
 .donut-legend{font-size:12px;color:var(--muted);display:grid;gap:6px}
 .donut-legend b{color:var(--ink);font-weight:600}
 .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.plan-grid{gap:14px}
-.plan-card{border:0;padding:18px;background:linear-gradient(165deg,var(--panel),var(--c-ink-soft));position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease}
-.plan-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(23,33,28,.12)}
-.plan-card.tone-good{background:linear-gradient(165deg,var(--panel),var(--c-moss-soft));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-moss) 35%,transparent)}
-.plan-card.tone-better{background:linear-gradient(165deg,var(--panel),var(--c-sky-soft));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-sky) 35%,transparent)}
-.plan-card.tone-best{background:linear-gradient(165deg,var(--panel),var(--c-amber-soft));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c-amber) 40%,transparent)}
-.plan-card.on{outline:2px solid var(--accent);outline-offset:2px}
-.plan-card .plan-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-teal);margin-bottom:2px}
-.plan-card.tone-better .plan-tag{color:var(--c-sky)}
-.plan-card.tone-best .plan-tag{color:var(--c-amber)}
-.plan-perks{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:5px}
-.plan-perks li{font-size:12.5px;color:var(--ink);padding-left:18px;position:relative}
-.plan-perks li::before{content:"";position:absolute;left:0;top:6px;width:8px;height:8px;border-radius:50%;background:var(--accent-lime,#d9f16b);box-shadow:0 0 0 2px var(--accent)}
-.plan-value{font-size:12px;color:var(--muted);font-style:italic;margin:0 0 8px;line-height:1.4}
-.plan-month{font-size:12px;color:var(--muted);margin-top:-4px}
 
 /* Landing — full-bleed brand plane */
 .landing{min-height:100%;background:var(--bg);color:var(--ink);overflow-x:hidden}
@@ -538,7 +515,6 @@ html[data-theme="dark"]{
 .signup-form .field{margin:0}
 .logo-mark{transition:transform .25s ease}
 .logo-mark:hover{transform:rotate(-6deg) scale(1.05)}
-.plan-badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:4px 8px;border-radius:999px}
 .trend-foot{display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;font-size:12px;color:var(--muted)}
 .trend-foot .num{font-weight:600;color:var(--ink)}
 .funnel{display:grid;gap:8px;padding-top:6px}
@@ -568,18 +544,6 @@ html[data-theme="dark"]{
 @media(prefers-reduced-motion:reduce){.hero-viz-inner{animation:none}.hero-plane h1,.hero-plane .lede,.hero-actions,.brand-lockup{animation:none}}
 /* Landing — sales sections */
 .hero-plane h1 .lime{color:#d9f16b}
-.sales-rant{max-width:1100px;margin:0 auto;padding:8px 24px 56px}
-.rant-head{max-width:760px;margin:0 auto 20px;text-align:center}
-.rant-head .kicker{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--danger)}
-.rant-head h2{font-family:Fraunces,Georgia,serif;font-size:clamp(26px,4vw,34px);margin:6px 0 8px}
-.rant-head p{color:var(--muted);margin:0;font-size:15px}
-.rant-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.rant-card{background:var(--panel);border:0;border-radius:var(--radius);padding:20px;box-shadow:var(--card-shadow);position:relative;overflow:hidden}
-.rant-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--danger)}
-.rant-card .strike{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--danger);margin-bottom:6px}
-.rant-card h3{margin:0 0 6px;font-size:17px}
-.rant-card p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55}
-.rant-card .ours{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line2);font-size:13px;font-weight:700;color:var(--ok)}
 .vs-sec{background:linear-gradient(150deg,#0d291c,#1f4d35);color:#eef6e8;padding:56px 24px;margin:8px 0 0}
 .vs-wrap{max-width:1000px;margin:0 auto}
 .vs-wrap h2{font-family:Fraunces,Georgia,serif;font-size:clamp(24px,3.6vw,32px);color:#f4f7f1;margin:0 0 6px;text-align:center}
@@ -1022,40 +986,6 @@ function planLabel(key){
   const p=(st&&st.plans&&st.plans[key])||{};
   return p.label||({good:'Starter',better:'Growth',best:'Command',free:'Free'}[key]||key||'None');
 }
-function planCardHTML(key, opts={}){
-  const st=planState();
-  const cat=(st&&st.plans&&st.plans[key])||{};
-  const names={good:{label:'Starter',tagline:'Stop paying per user',price:'$29',period:'/6 mo',perMonth:'$4.83/mo',priceMonthly:'$9.83',moAmount:9.83,value:'Run the whole business from your phone — quotes, schedule, invoices, and get paid by card. Whole crew, unlimited jobs, one flat price.',perks:['Quotes, schedule & invoices','Get paid by card on every job','One-tap review request after a job','Unlimited crew — no per-user fees','Unlimited customers & jobs']},
-
-better:{label:'Growth',tagline:'Get paid faster',price:'$149',period:'/6 mo',perMonth:'$24.83/mo',priceMonthly:'$29.83',moAmount:29.83,value:'Everything in Starter, plus a customer portal where clients approve quotes and pay online, and automatic reminders that chase late invoices.',perks:['Everything in Starter','Customer portal — approve & pay online','Automatic payment reminders','Shareable job reports for customers','Inspection reports & custom checklists']},
-
-best:{label:'Command',tagline:'Get more jobs',price:'$279',period:'/6 mo',perMonth:'$46.50/mo',priceMonthly:'$54.50',moAmount:54.5,value:'Everything in Growth, plus the full document set, custom checklists and first look at new features for crews running the whole business on it.',perks:['Everything in Growth','Inspection reports & custom checklists','Priority on new features']}};
-  const d={...names[key],...Object.fromEntries(Object.entries(cat).filter(([k,v])=>v!=null && k!=='priceId'))};
-  // Keep display price from catalog names when API only has priceId
-  if(!d.price) d.price = names[key]?.price;
-  if(!d.period) d.period = names[key]?.period;
-  if(!Array.isArray(d.perks) || !d.perks.length) d.perks = names[key]?.perks || [];
-  const on=opts.on||(st&&st.billing&&st.billing.plan===key);
-  const tone={good:'tone-good',better:'tone-better',best:'tone-best'}[key];
-  const perks=(d.perks||[]).map(x=>`<li>${esc(x)}</li>`).join('');
-  const btn=opts.button?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn small ${key!=='good'?'primary':''}" type="button" data-plan="${key}" data-period="month">Start monthly</button><button class="btn small" type="button" data-plan="${key}" data-period="6mo">Prepay ${esc(d.price||'')}</button></div>`:'';
-  const badge=key==='best'?`<span class="plan-badge">Best value</span>`:(key==='better'&&opts.featured?`<span class="plan-badge">Popular</span>`:'');
-  const moAmt=Number(d.moAmount||0);
-  const p6=Number(String(d.price||'').replace(/[^0-9.]/g,''));
-  const save=(moAmt>0&&p6>0)?(moAmt*6-p6):0;
-  const head=String(d.priceMonthly||d.perMonth||d.price||'').replace(/\/mo$/,'');
-  const sub=(d.priceMonthly||d.perMonth)?'/mo':(d.period||'');
-  const line2=d.priceMonthly?`or prepay ${d.price} every 6 months${save>0?` — save $${save.toFixed(2)}`:''}`:(d.perMonth||'');
-  return `<div class="plan-card ${tone} ${on?'on':''}">${badge}
-    <div class="plan-tag">${esc(d.tagline||'')}</div>
-    <div class="plan-name">${esc(d.label||key)}</div>
-    <div class="plan-price">${esc(head)}<span>${sub}</span></div>
-    <div class="plan-month">${esc(line2)}</div>
-    <p class="plan-value">${esc(d.value||d.desc||'')}</p>
-    <ul class="plan-perks">${perks}</ul>
-    ${btn}
-  </div>`;
-}
 function sparklineSVG(vals, color){
   const w=320,h=90,pad=6;
   const max=Math.max(...vals,1), min=Math.min(...vals,0);
@@ -1327,84 +1257,8 @@ const skel=(n=2)=>Array.from({length:n}).map((_,i)=>`<div class="skel" style="wi
 const portalMatch=location.pathname.match(/^\/p\/(.+)/);
 /* the API used to email /portal?t=<token>; accept both forms so every link already sent still opens */
 const portalParam=/^\/portal\/?$/.test(location.pathname)?new URLSearchParams(location.search).get('t'):null;
-const altMatch=location.pathname.match(/^\/alternatives\/([a-z-]+)\/?$/);
 if(portalMatch||portalParam) runPortal(portalMatch?portalMatch[1]:portalParam);
-else if(altMatch) renderAlternativePage(altMatch[1]);
 else runApp();
-
-/* =========================== ALTERNATIVES SEO PAGES =========================== */
-function renderAlternativePage(competitor){
-  const pages=(window.LL_ALTS||{});
-  const p=pages[competitor];
-  if(!p) return runApp();
-  document.title=p.title;
-  app.innerHTML=`<div class="landing">
-    <div class="landing-hero" style="min-height:0">
-      <nav class="landing-nav">
-        <div class="brand" style="display:flex;align-items:center;gap:10px">${logoMark(36)}<strong style="font-family:Fraunces,Georgia,serif">Ledgerline</strong></div>
-        <div class="links">
-          <button class="btn ghost" id="alt-login">Log in</button>
-          <button class="btn ghost" data-install="1" type="button">Download</button>
-          <button class="btn primary" id="alt-signup">Create workspace</button>
-        </div>
-      </nav>
-      <section class="hero-plane" style="padding-top:16px">
-        <div>
-          <h1 style="max-width:22ch">${p.h1}</h1>
-          <p class="lede">Same core loop — scheduling, estimates, invoices, card payments, customer portal. One flat price. Your whole crew included. No per-user fees, no add-ons, no annual prepay.</p>
-          <div class="hero-actions">
-            <button class="btn primary" id="alt-signup2">Create your workspace</button>
-            <a class="btn" href="/" style="display:inline-flex;align-items:center">See the full product</a>
-          </div>
-        </div>
-        <div class="hero-viz" aria-hidden="true">
-          <div class="hero-viz-inner">
-            <div class="viz-title"><strong>${p.name} vs Ledgerline</strong><span>3-person crew</span></div>
-            <div class="hero-kpis" style="grid-template-columns:1fr 1fr">
-              <div><div class="v">${p.theirPrice}</div><div class="l">${p.name}, per-user fees in</div></div>
-              <div><div class="v">${p.ourPrice}</div><div class="l">${p.ourLabel}</div></div>
-            </div>
-            <div class="viz-title" style="margin-top:12px"><strong>${p.savings}</strong><span>${p.savingsLabel||"stays with you"}</span></div>
-          </div>
-        </div>
-      </section>
-    </div>
-    <section class="sales-rant">
-      <div class="rant-grid" style="grid-template-columns:1fr;max-width:760px;margin:0 auto">
-        ${p.points.map(([h,b])=>`<div class="rant-card"><h3 style="font-size:19px">${h}</h3><p style="font-size:14.5px">${b}</p></div>`).join('')}
-      </div>
-      <div class="rant-head" style="margin-top:34px">
-        <h2 style="font-size:22px">The math, plainly</h2>
-        <p>${p.math}</p>
-        <p style="margin-top:6px;font-size:12.5px;color:var(--faint)">${p.theirPriceNote}. Their pricing changes; our $0 per-user fees don't.</p>
-      </div>
-    </section>
-    <section class="signup-box" id="signup">
-      <div class="signup-panel">
-        <div>
-          <h2>Try the demo. Then decide.</h2>
-          <p>Open the live demo (password <b>demo</b>) or create a workspace in under a minute. No card to look around.</p>
-        </div>
-        <div style="display:grid;gap:10px">
-          <button class="btn primary" id="alt-signup3" style="width:100%;justify-content:center">Create your workspace</button>
-          <button class="btn" id="alt-demo" style="width:100%;justify-content:center">Open live demo</button>
-          <button class="btn ghost" data-install="1" type="button" style="width:100%;justify-content:center">Download the app</button><a class="btn ghost" href="/ledgerline.apk" download style="width:100%;justify-content:center">Android app (.apk)</a>
-        </div>
-      </div>
-    </section>
-    <footer class="landing-foot">
-      <div style="display:flex;align-items:center;gap:8px;justify-content:center"><img src="/leonlink-mark.png" alt="" style="width:40px;height:40px;object-fit:contain"><span><span style="color:var(--faint)">Leon Link presents</span> <strong>Ledgerline</strong></span></div>
-      <div class="foot-copy">${p.name} is a trademark of its respective owner, used for comparison only. Prices are published 2026 figures.</div>
-    </footer>
-  </div>`;
-  const goDemo=()=>{ location.href='https://demo.leonlink.net'; };
-  const goSignup=()=>{ location.href='/signup'; };
-  $('#alt-login').onclick=()=>{ location.href='/login?login=1'; };
-  $('#alt-signup').onclick=goSignup;
-  $('#alt-signup2').onclick=goSignup;
-  $('#alt-signup3').onclick=goSignup;
-  $('#alt-demo').onclick=goDemo;
-}
 
 /* =========================== CUSTOMER PORTAL =========================== */
 async function runPortal(token){
@@ -3390,14 +3244,15 @@ async function runApp(){
         window.__dsAccent=b.dataset.swatch;
         document.querySelectorAll('[data-swatch]').forEach(x=>x.style.borderColor=x.dataset.swatch===window.__dsAccent?'var(--accent)':'var(--line)');
       }));
-      document.querySelectorAll('[data-plan]').forEach(btn=>{
-        btn.addEventListener('click', async()=>{
-          try{
-            const r=await api('subscribe',{body:{plan:btn.dataset.plan,period:btn.dataset.period||'month'}});
-            if(r.url) location.href=r.url;
-          }catch(e){ toastErr(e.message); }
-        });
-      });
+      const startCheckout=async(period)=>{
+        try{
+          const plan=$('#plan-pick')?.value||'better';
+          const r=await api('subscribe',{body:{plan,period}});
+          if(r.url) location.href=r.url;
+        }catch(e){ toastErr(e.message); }
+      };
+      $('#plan-go')?.addEventListener('click',()=>startCheckout('month'));
+      $('#plan-go-6')?.addEventListener('click',()=>startCheckout('6mo'));
       $('#billing-portal')?.addEventListener('click', async()=>{
         try{ const r=await api('billing-portal'); if(r.url) location.href=r.url; }
         catch(e){ toastErr(e.message); }
@@ -3515,17 +3370,22 @@ async function runApp(){
         <p class="faint">Current: <strong>${esc(planLabel(S.billing?.plan))}</strong>
           ${S.billing?.status==='active'?' · Active':' · Not subscribed'}
           ${S.billing?.source==='founder'?' · Founder Command':''}</p>
-        <p class="faint" style="margin-top:0">${!S.billing?.entitlements?.cardPayments?'Starter unlocks card payments.':!S.billing?.entitlements?.portal?'Growth unlocks the customer portal.':'You are on the top plan.'}</p>
+        <p class="faint" style="margin-top:0">${!S.billing?.entitlements?.cardPayments?'Card payments are off until this workspace has a subscription.':!S.billing?.entitlements?.portal?'The customer portal is off until this workspace has a subscription.':'Everything is switched on for this workspace.'}</p>
         ${S.billing?.status==='active'
-          ? (['good','better','best'].includes(S.billing?.plan)
-              ? `<div class="plan-grid">${planCardHTML(S.billing.plan,{})}</div><p class="faint" style="margin-top:8px">Your current plan. Switch or cancel any time from Manage billing.</p>`
-              : `<p class="faint">Your workspace is on <strong>${esc(planLabel(S.billing?.plan))}</strong>. Manage it from billing below.</p>`)
-          : `<div class="plan-grid">
-          ${planCardHTML('good',{button:'Choose Starter'})}
-          ${planCardHTML('better',{button:'Choose Growth',featured:true})}
-          ${planCardHTML('best',{button:'Choose Command'})}
-        </div>`}
-        ${S.billing?.status==='active'?`<button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`:''}
+          ? `<p class="faint" style="margin-top:0">Changing or cancelling happens in the billing portal — your card and receipts live there.</p>
+             <button class="btn ghost" type="button" id="billing-portal" style="margin-top:12px">Manage billing</button>`
+          : `<div class="field" style="max-width:280px"><label>Plan</label>
+               <select id="plan-pick">
+                 <option value="good">Starter</option>
+                 <option value="better" selected>Growth</option>
+                 <option value="best">Command</option>
+               </select>
+             </div>
+             <p class="faint" style="margin-top:0">Continue to checkout to see the amount and confirm.</p>
+             <div style="display:flex;gap:8px;flex-wrap:wrap">
+               <button class="btn primary" type="button" id="plan-go">Continue</button>
+               <button class="btn" type="button" id="plan-go-6">Continue, prepaid 6 months</button>
+             </div>`}
       </div>
 
       <div class="settings-card">
