@@ -496,6 +496,13 @@ module.exports = async (req, res) => {
         const sk = process.env.STRIPE_SECRET_KEY;
         if (!sk) return err(res, 500, "Card payments are not connected yet. Ask us for other ways to pay.", { contact: await tenantBusiness(tenantId) });
         const origin = baseUrl(req);
+        /* `prepaid` used to be defined here (old 6-month prepay terms) and was
+           lost in a refactor — referencing it threw ReferenceError, so every
+           real invoice card payment 500'd. Invoice checkouts are one-off
+           payments; derive the period from the request the same way
+           `subscribe` does. No caller sends a period today, so this is
+           "month" in practice. */
+        const period = ["year", "6mo"].includes(String(body.period || "")) ? "year" : "month";
         const form = new URLSearchParams({
           mode: "payment",
           "line_items[0][price_data][currency]": "usd",
@@ -507,7 +514,7 @@ module.exports = async (req, res) => {
           "metadata[invoiceId]": invoiceId,
           "metadata[tenantId]": tenantId,
           "metadata[plan]": String(body.plan || ""),
-          "metadata[period]": prepaid ? "6mo" : "month",
+          "metadata[period]": period,
           "subscription_data[metadata][tenantId]": tenantId,
         });
         const r = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers: { Authorization: "Bearer " + sk, "Content-Type": "application/x-www-form-urlencoded" }, body: form.toString() });
