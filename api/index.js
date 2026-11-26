@@ -515,7 +515,12 @@ module.exports = async (req, res) => {
           "metadata[tenantId]": tenantId,
           "metadata[plan]": String(body.plan || ""),
           "metadata[period]": period,
-          "subscription_data[metadata][tenantId]": tenantId,
+          /* NOTE: do NOT add subscription_data here. This session is
+             mode=payment (one-off); Stripe rejects subscription_data on
+             payment-mode sessions. The tenantId is already in top-level
+             metadata, which stripe-confirm reads. (Found 2026-11-25 during
+             live verification: with subscription_data present, Stripe
+             returned 400 and every payment still 500'd.) */
         });
         const r = await fetch("https://api.stripe.com/v1/checkout/sessions", { method: "POST", headers: { Authorization: "Bearer " + sk, "Content-Type": "application/x-www-form-urlencoded" }, body: form.toString() });
         const d = await r.json();
