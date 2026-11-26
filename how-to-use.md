@@ -1,7 +1,7 @@
 # Ledgerline — How to Use
 
 White-label estimates, invoices, a job dashboard and a customer portal.
-**Live app:** https://app.leonlink.net · **Full guide (PDF):** https://app.leonlink.net/guide.pdf
+**Live app:** https://app.leonlink.net
 
 ---
 

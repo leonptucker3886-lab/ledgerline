@@ -3310,7 +3310,7 @@ async function runApp(){
             <li>Next to <strong>Secret key</strong>, click <strong>Reveal</strong>, copy it (starts with <code>sk_live_</code>) and paste it below. Stripe only shows it once — that's normal, and we encrypt it before storing.</li>
             <li>Scroll down and click <strong>Save settings</strong>. Done — the <em>Pay now</em> button on every invoice goes live immediately.</li>
           </ol>
-          <p class="faint" style="margin:8px 0 0">Want to practice first? Flip the <strong>Test mode</strong> toggle in Stripe and use the <code>pk_test_</code>/<code>sk_test_</code> keys — test cards, no real money. Stripe charges its standard processing fee (~2.9% + 30¢) on real payments; Ledgerline adds nothing on top. Full walkthrough with screenshots in the <a href="/guide.pdf" target="_blank" rel="noopener">user guide (PDF)</a>.</p>
+          <p class="faint" style="margin:8px 0 0">Want to practice first? Flip the <strong>Test mode</strong> toggle in Stripe and use the <code>pk_test_</code>/<code>sk_test_</code> keys — test cards, no real money. Stripe charges its standard processing fee (~2.9% + 30¢) on real payments; Ledgerline adds nothing on top.</p>
         </details>
         <div class="field"><label>Publishable key</label><input id="st-pk" value="${esc(S.stripe?.publishableKey||'')}" placeholder="pk_live_… or pk_test_…" autocomplete="off"></div>
         <div class="field"><label>Secret key</label><input id="st-sk" type="password" value="" placeholder="${S.stripe?.hasOwnKeys?'Saved — paste a new key to replace':'sk_live_… or sk_test_…'}" autocomplete="off"></div>
